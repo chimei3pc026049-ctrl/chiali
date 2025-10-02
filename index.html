@@ -180,7 +180,7 @@
         /* 表單樣式 */
         .tech-form .form-group { margin-bottom: 1.5rem; }
         .tech-form label { display: block; margin-bottom: 0.5rem; color: var(--primary-color); }
-        .tech-form input, .tech-form select {
+        .tech-form input, .tech-form select, .tech-form textarea {
             width: 100%;
             background: #FFFFFF;
             border: 1px solid #CED4DA;
@@ -189,7 +189,7 @@
             color: var(--text-dark);
             transition: border-color 0.3s, box-shadow 0.3s;
         }
-        .tech-form input:focus, .tech-form select:focus {
+        .tech-form input:focus, .tech-form select:focus, .tech-form textarea:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
@@ -399,6 +399,17 @@
             padding-left: 0.5rem;
         }
         
+        /* 留言板樣式 */
+        #message-board-modal .modal-container { max-width: 800px; }
+        #messages-container { max-height: 40vh; overflow-y: auto; padding-right: 1rem; margin-bottom: 1.5rem; }
+        .message-item { background: #F8F9FA; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border-left: 4px solid var(--primary-color); }
+        .message-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .message-author { font-weight: bold; color: var(--primary-dark); }
+        .message-time { font-size: 0.8rem; color: #6C757D; }
+        .message-content { margin-bottom: 0.75rem; }
+        .message-reply { background: #FFF; border: 1px solid #E9ECEF; padding: 0.75rem; border-radius: 6px; margin-top: 0.75rem; margin-left: 1.5rem; }
+        .reply-author { font-weight: bold; color: #15803D; }
+
         /* 手機版樣式 */
         .mobile-view nav a {
             padding: 1rem 0.5rem;
@@ -454,7 +465,7 @@
         </nav>
     </header>
 
-       <!-- 首頁 -->
+        <!-- 首頁 -->
 <section id="home" class="page active">
     <main class="content-container">
         <img src="logo-green.png" alt="奇美醫院 Logo" class="logo mx-auto">
@@ -480,7 +491,7 @@
                     <i class="fas fa-file-alt mr-2"></i> 前往填寫調查
                 </a>
             </div>
-            <div class="countdown-wrapper" data-target-date="2025-10-13 T 23:59:59" data-end-text="調查已截止">
+            <div class="countdown-wrapper" data-target-date="2025-10-13T23:59:59" data-end-text="調查已截止">
                 <p class="text-lg text-gray-600 mb-4">填覆調查剩餘時間</p>
                 <div class="flex justify-center items-center gap-4 md:gap-8 text-gray-800">
                     <div class="text-center">
@@ -824,6 +835,9 @@
     <section id="notice" class="page hidden">
         <div class="page-content-wrapper">
             <h2 class="page-title text-3xl md:text-4xl text-center mb-8 flex items-center justify-center"><i class="fas fa-exclamation-circle mr-4"></i>注意事項</h2>
+            <div class="text-center my-8">
+                <button id="open-message-board-btn" class="tech-button !border-teal-700 !text-teal-700 hover:!bg-teal-700 hover:!text-white">開啟留言板</button>
+            </div>
             <div class="text-red-800 space-y-4 notes-section">
                 <p>活動細節將於活動前一週公告</p>
                 
@@ -837,9 +851,9 @@
                 </div>
 
                 <div>
-                                       <h4>二、聯絡窗口</h4>
+                    <h4>二、聯絡窗口</h4>
                     <p class="mb-6 text-lg font-bold text-gray-800 mt-1 "> 佳里院區 企劃組 黃秀玲 組長 | 分機32005 | mail: a00535@mail.chimei.org.tw</p>
-                    <p class="mb-6 text-lg font-bold text-gray-800 mt-1 "> 佳里院區 企劃組 紀宗瀚 專員 | 分機32911   | mail: a003c1@mail.chimei.org.tw</p>
+                    <p class="mb-6 text-lg font-bold text-gray-800 mt-1 "> 佳里院區 企劃組 紀宗瀚 專員 | 分機32911    | mail: a003c1@mail.chimei.org.tw</p>
                     <!-- Main Roles -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-center mb-6 bg-slate-100 p-4 rounded-lg">
                         <div>
@@ -859,7 +873,7 @@
                             <p class="text-lg font-bold text-slate-700 mt-1">總務室 陳佳銘 組長</p>
                         </div> 
                     </div>
-                     <!-- Group Roles -->
+                      <!-- Group Roles -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div class="bg-slate-50 p-4 rounded-lg shadow-sm border-l-4 border-indigo-500">
                             <h3 class="text-md font-bold text-gray-800 mb-2">事務組</h3>
@@ -918,6 +932,62 @@
             </div>
         </div>
     </div>
+
+    <!-- Message Board Modal -->
+    <div id="message-board-modal" class="modal-overlay" style="z-index: 1001;">
+        <div class="modal-container" onclick="event.stopPropagation()">
+            <div class="modal-header flex justify-between items-center">
+                <h3 class="font-bold text-xl text-blue-600">留言板</h3>
+                <button id="close-message-board-btn" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="messages-container" class="space-y-4">
+                    <!-- Messages will be loaded here -->
+                </div>
+                <form id="new-message-form" class="mt-6 tech-form border-t pt-6">
+                    <h4 class="text-lg font-bold mb-4 text-gray-700">新增留言</h4>
+                    <div class="form-group">
+                        <label for="new-message-name">您的姓名</label>
+                        <input type="text" id="new-message-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="new-message-content">留言內容</label>
+                        <textarea id="new-message-content" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="tech-button">送出留言</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Reply Modal -->
+    <div id="reply-modal" class="modal-overlay" style="z-index: 1002;">
+        <div class="modal-container" style="max-width: 500px;" onclick="event.stopPropagation()">
+            <div class="modal-header flex justify-between items-center">
+                <h3 class="font-bold text-xl text-blue-600">回覆留言</h3>
+                <button id="close-reply-modal-btn" class="modal-close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-4">
+                    <p class="text-sm text-gray-500">正在回覆：</p>
+                    <p id="original-message-text" class="p-2 bg-gray-100 rounded"></p>
+                </div>
+                <form id="reply-form" class="tech-form">
+                    <input type="hidden" id="reply-message-id">
+                    <div class="form-group">
+                        <label for="reply-name-select">回覆人員 (工作人員)</label>
+                        <select id="reply-name-select" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reply-content">回覆內容</label>
+                        <textarea id="reply-content" rows="3" required></textarea>
+                    </div>
+                    <button type="submit" class="tech-button">送出回覆</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1313,10 +1383,14 @@
             // --- Countdown Timer Logic ---
             function initializeCountdowns() {
                 const countdownWrappers = document.querySelectorAll('.countdown-wrapper');
-                const eventDate = new Date("2025-11-22T13:00:00").getTime(); // Centralized target date
-
+                
                 countdownWrappers.forEach(wrapper => {
-                    const endText = '活動已開始！';
+                    // Get target date and end text from data attributes for each timer
+                    const targetDateStr = wrapper.dataset.targetDate;
+                    if (!targetDateStr) return; // Skip if no target date is set
+
+                    const targetDate = new Date(targetDateStr).getTime();
+                    const endText = wrapper.dataset.endText || '時間已到！';
                     
                     const daysEl = wrapper.querySelector('.countdown-days');
                     const hoursEl = wrapper.querySelector('.countdown-hours');
@@ -1327,13 +1401,13 @@
 
                     const countdownInterval = setInterval(() => {
                         const now = new Date().getTime();
-                        const distance = eventDate - now;
+                        const distance = targetDate - now;
 
                         if (distance < 0) {
                             clearInterval(countdownInterval);
                             const countdownFlexContainer = wrapper.querySelector('.flex');
                             if(countdownFlexContainer) {
-                                countdownFlexContainer.innerHTML = `<p class="text-3xl font-bold text-blue-600">${endText}</p>`;
+                                countdownFlexContainer.innerHTML = `<p class="text-3xl font-bold text-red-600">${endText}</p>`;
                             }
                             return;
                         }
@@ -1357,6 +1431,171 @@
         });
     </script>
     
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, updateDoc, arrayUnion, Timestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- Firebase Config ---
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : { apiKey: "DEMO", authDomain: "DEMO", projectId: "DEMO" };
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // --- Firebase Initialization ---
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const messagesCol = collection(db, `/artifacts/${appId}/public/data/messages`);
+
+        // --- Authentication ---
+        const signIn = async () => {
+            try {
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Authentication failed:", error);
+            }
+        };
+
+        // --- Message Board Logic ---
+        document.addEventListener('DOMContentLoaded', async () => {
+            await signIn();
+            if (!auth.currentUser) {
+                 console.error("Not authenticated.");
+                 return;
+            }
+
+            const staffList = ['邵詩媛', '方素秋', '黃秀玲', '陳佳銘', '紀宗瀚', '吳靜儀', '曾毓珍', '李雅秋', '林曉涵'];
+            
+            const openMsgBoardBtn = document.getElementById('open-message-board-btn');
+            const msgBoardModal = document.getElementById('message-board-modal');
+            const closeMsgBoardBtn = document.getElementById('close-message-board-btn');
+            const messagesContainer = document.getElementById('messages-container');
+            const newMessageForm = document.getElementById('new-message-form');
+            const nameInput = document.getElementById('new-message-name');
+            const contentInput = document.getElementById('new-message-content');
+
+            const replyModal = document.getElementById('reply-modal');
+            const closeReplyBtn = document.getElementById('close-reply-modal-btn');
+            const replyForm = document.getElementById('reply-form');
+            const replyNameSelect = document.getElementById('reply-name-select');
+            const replyContentInput = document.getElementById('reply-content');
+            const replyMessageIdInput = document.getElementById('reply-message-id');
+            const originalMessageText = document.getElementById('original-message-text');
+
+            function populateStaffDropdown() {
+                replyNameSelect.innerHTML = staffList.map(name => `<option value="${name}">${name}</option>`).join('');
+            }
+
+            function openMessageBoard() { msgBoardModal.classList.add('active'); }
+            function closeMessageBoard() { msgBoardModal.classList.remove('active'); }
+            function openReplyModal(messageId, originalContent) {
+                replyMessageIdInput.value = messageId;
+                originalMessageText.textContent = originalContent;
+                replyModal.classList.add('active');
+            }
+            function closeReplyModal() {
+                replyModal.classList.remove('active');
+                replyForm.reset();
+            }
+            
+            function formatTimestamp(timestamp) {
+                if (!timestamp) return '';
+                const date = timestamp.toDate();
+                return date.toLocaleString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+            }
+
+            function renderMessages(querySnapshot) {
+                let html = '';
+                querySnapshot.forEach(doc => {
+                    const message = doc.data();
+                    const repliesHtml = (message.replies || []).map(reply => `
+                        <div class="message-reply">
+                            <div class="message-header">
+                                <span class="reply-author">${reply.name} (工作人員)</span>
+                                <span class="message-time">${formatTimestamp(reply.timestamp)}</span>
+                            </div>
+                            <p class="message-content whitespace-pre-wrap">${reply.content}</p>
+                        </div>
+                    `).join('');
+
+                    html += `
+                        <div class="message-item">
+                            <div class="message-header">
+                                <span class="message-author">${message.name}</span>
+                                <span class="message-time">${formatTimestamp(message.timestamp)}</span>
+                            </div>
+                            <p class="message-content whitespace-pre-wrap">${message.content}</p>
+                            <button class="text-sm text-blue-600 hover:underline reply-btn" data-id="${doc.id}" data-content="${message.content}">回覆</button>
+                            ${repliesHtml}
+                        </div>
+                    `;
+                });
+                messagesContainer.innerHTML = html || '<p class="text-center text-gray-500">目前沒有留言。</p>';
+                
+                document.querySelectorAll('.reply-btn').forEach(button => {
+                    button.addEventListener('click', () => {
+                        openReplyModal(button.dataset.id, button.dataset.content);
+                    });
+                });
+            }
+
+            const q = query(messagesCol, orderBy('timestamp', 'desc'));
+            onSnapshot(q, renderMessages, (error) => console.error("Error fetching messages:", error));
+
+            newMessageForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = nameInput.value.trim();
+                const content = contentInput.value.trim();
+                if (name && content) {
+                    try {
+                        await addDoc(messagesCol, {
+                            name,
+                            content,
+                            timestamp: serverTimestamp(),
+                            replies: []
+                        });
+                        newMessageForm.reset();
+                    } catch (error) {
+                        console.error("Error adding message:", error);
+                        alert("留言失敗，請稍後再試。");
+                    }
+                }
+            });
+
+            replyForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const messageId = replyMessageIdInput.value;
+                const name = replyNameSelect.value;
+                const content = replyContentInput.value.trim();
+                if (messageId && name && content) {
+                    try {
+                        const messageRef = doc(db, `/artifacts/${appId}/public/data/messages`, messageId);
+                        await updateDoc(messageRef, {
+                            replies: arrayUnion({
+                                name,
+                                content,
+                                timestamp: Timestamp.now()
+                            })
+                        });
+                        closeReplyModal();
+                    } catch (error) {
+                        console.error("Error adding reply:", error);
+                        alert("回覆失敗，請稍後再試。");
+                    }
+                }
+            });
+
+            openMsgBoardBtn.addEventListener('click', openMessageBoard);
+            closeMsgBoardBtn.addEventListener('click', closeMessageBoard);
+            closeReplyBtn.addEventListener('click', closeReplyModal);
+            populateStaffDropdown();
+        });
+    </script>
 </body>
 </html>
+
 
