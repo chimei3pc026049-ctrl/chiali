@@ -287,6 +287,15 @@
         .year-114 { --theme-color: #3B82F6; } /* 藍 */
         .year-113 { --theme-color: #10B981; } /* 綠 */
         .year-112 { --theme-color: #F59E0B; } /* 橘 */
+        .year-covid { --theme-color: #EF4444; } /* 紅 (疫情) */
+        .year-108 { --theme-color: #06B6D4; } /* 靛青 */
+        .year-107 { --theme-color: #8B5CF6; } /* 紫 */
+        .year-106 { --theme-color: #9CA3AF; } /* 灰 */
+        .year-105 { --theme-color: #EC4899; } /* 粉紅 */
+        .year-104 { --theme-color: #6366F1; } /* 靛藍 */
+        .year-103 { --theme-color: #D97706; } /* 琥珀 */
+        .year-102 { --theme-color: #84CC16; } /* 萊姆綠 */
+        .year-101 { --theme-color: #3B82F6; } /* 藍 */
 
         .timeline-content-inner { padding: 2.5rem; }
 
@@ -566,7 +575,6 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <!-- 修正：移除 flex items-center justify-center，避免長圖上方被裁切 -->
             <div class="overflow-y-auto p-6 bg-slate-50 flex-grow">
                 <img id="modalImage" src="" alt="Agenda" class="w-full h-auto max-w-full object-contain rounded-lg shadow-sm mx-auto">
             </div>
@@ -581,7 +589,7 @@
                 <i class="fas fa-bars"></i>
             </button>
 
-            <!-- Mobile Menu (重新設計結構) -->
+            <!-- Mobile Menu -->
             <div id="mobile-dropdown" class="mobile-dropdown">
                 <a href="#" data-target="home" class="mobile-nav-item">
                     <div class="nav-icon-box">
@@ -668,7 +676,7 @@
                         <div class="timeline-header">
                             <span class="timeline-year">114年</span>
                             <button onclick="openImageModal('114年議程表', '114.png')" class="agenda-btn">
-                                <i class="114.png"></i> 查看議程表
+                                <i class="far fa-image"></i> 查看議程表
                             </button>
                         </div>
                         
@@ -701,7 +709,7 @@
                         <div class="timeline-header">
                             <span class="timeline-year">113年</span>
                             <button onclick="openImageModal('113年議程表', '113.jpg')" class="agenda-btn">
-                                <i class="113.jpg"></i> 查看議程表
+                                <i class="far fa-image"></i> 查看議程表
                             </button>
                         </div>
                         
@@ -734,7 +742,7 @@
                         <div class="timeline-header">
                             <span class="timeline-year">112年</span>
                             <button onclick="openImageModal('112年議程表', '112.png')" class="agenda-btn">
-                                <i class="112.png"></i> 查看議程表
+                                <i class="far fa-image"></i> 查看議程表
                             </button>
                         </div>
                         
@@ -758,8 +766,250 @@
                             </div>
                         </div>
                     </div>
-            </div>
-    
+                </div>
+
+                <!-- 109-111年 -->
+                <div class="timeline-item year-covid reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header !mb-0 !pb-0 !border-0 flex-col md:flex-row gap-4">
+                            <span class="timeline-year">109-111年</span>
+                            <span class="px-6 py-2 rounded-full bg-red-100 text-red-600 font-bold text-sm tracking-wider shadow-sm">
+                                <i class="fas fa-virus mr-2"></i> 因 COVID-19 疫情停辦
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 108年 -->
+                <div class="timeline-item year-108 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header">
+                            <span class="timeline-year">108年</span>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-hotel"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>嘉義縣仁義潭<br>仁義湖岸大酒店</p>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>仁義潭庭園餐廳</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-6 border-t border-dashed border-gray-200">
+                            <div class="history-detail">
+                                <div class="history-icon-box" style="background-color: #ECFEFF; color: #06B6D4;"><i class="fas fa-tree"></i></div>
+                                <div class="history-content">
+                                    <h4>Day 2 Activity</h4>
+                                    <p>嘉義樹木園、綠盈牧場</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 107年 -->
+                <div class="timeline-item year-107 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header">
+                            <span class="timeline-year">107年</span>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-gopuram"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>南鯤鯓代天府</p>
+                                    <span>祥麟樓2F</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>南鯤鯓代天府</p>
+                                    <span>鯤海樓1F</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 106年 -->
+                <div class="timeline-item year-106 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header !mb-0 !pb-0 !border-0 flex-col md:flex-row gap-4">
+                            <span class="timeline-year">106年</span>
+                            <span class="px-6 py-2 rounded-full bg-gray-100 text-gray-600 font-bold text-sm tracking-wider shadow-sm">
+                                <i class="fas fa-calendar-times mr-2"></i> 因調整共識營日期停辦
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 105年 -->
+                <div class="timeline-item year-105 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header">
+                            <span class="timeline-year">105年</span>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-drum"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>十鼓文化園區</p>
+                                    <span>影音館</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>永不出軌宴會廳</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 104年 -->
+                <div class="timeline-item year-104 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header">
+                            <span class="timeline-year">104年</span>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-hotel"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>台糖長榮酒店</p>
+                                    <span>B1桂冠廳</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-glass-cheers"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>台糖長榮酒店</p>
+                                    <span>B1桂冠廳</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 103年 -->
+                <div class="timeline-item year-103 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header">
+                            <span class="timeline-year">103年</span>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>台南善化大成庭園餐廳</p>
+                                    <span>玉山廳二館</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-glass-cheers"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>台南善化大成庭園餐廳</p>
+                                    <span>紅樓廳</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 102年 -->
+                <div class="timeline-item year-102 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header">
+                            <span class="timeline-year">102年</span>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-microscope"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>台南樹谷科學園區<br>生活科學館</p>
+                                    <span>2F多媒體室</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>樹谷懷舊餐廳</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 101年 -->
+                <div class="timeline-item year-101 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header">
+                            <span class="timeline-year">101年</span>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-hospital-alt"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>柳營奇美醫院</p>
+                                    <span>大講堂</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-building"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>柳營奇美醫院宿舍大樓</p>
+                                    <span>2樓</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
             
             <div class="text-center mt-20 reveal-on-scroll">
@@ -1017,6 +1267,3 @@
     </script>
 </body>
 </html>
-
-
-
