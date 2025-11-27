@@ -16,15 +16,13 @@
             --primary-dark: #1E3A8A;  /* 深主色 */
             --text-dark: #1F2937;     /* 主要文字顏色 */
             --text-light: #4B5563;    /* 次要文字顏色 */
-            --accent-color: #F59E0B;  /* 強調色 - 琥珀橘 (用於滿意度) */
         }
 
         body {
             font-family: 'Inter', 'Noto Sans TC', sans-serif;
-            background-color: #F8F9FA; /* 明亮的淺灰色背景 */
-            color: var(--text-dark); /* 深色文字 */
+            background-color: #F8F9FA;
+            color: var(--text-dark);
             overflow-x: hidden;
-            padding-bottom: 80px; /* 為了避開懸浮按鈕 */
         }
 
         /* 玻璃擬態導覽列容器 */
@@ -34,7 +32,7 @@
             left: 0;
             width: 100%;
             z-index: 100;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
@@ -42,7 +40,7 @@
             transition: all 0.3s ease;
         }
 
-        /* 電腦版導覽列 (預設) */
+        /* 電腦版導覽列 */
         .desktop-nav {
             display: flex;
             justify-content: center;
@@ -51,13 +49,12 @@
 
         .desktop-nav a {
             position: relative;
-            padding: 1.25rem 1.5rem;
+            padding: 1.25rem 2rem;
             font-size: 1.125rem;
             text-decoration: none;
             color: var(--text-light);
-            transition: color 0.3s, text-shadow 0.3s;
-            letter-spacing: 0.05em;
-            white-space: nowrap;
+            transition: color 0.3s;
+            font-weight: 600;
         }
 
         .desktop-nav a::after {
@@ -68,10 +65,8 @@
             width: 80%;
             height: 3px;
             background: var(--primary-color);
-            border-radius: 2px;
             transform: translateX(-50%) scaleX(0);
-            transform-origin: center;
-            transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+            transition: transform 0.3s;
         }
         
         .desktop-nav a:hover::after, .desktop-nav a.active::after {
@@ -80,13 +75,11 @@
 
         .desktop-nav a:hover, .desktop-nav a.active {
             color: var(--primary-color);
-            font-weight: 700;
         }
 
-        /* 手機版選單按鈕 (預設隱藏) */
+        /* 手機版選單按鈕 */
         .mobile-menu-toggle {
-            display: none; /* 電腦版不顯示 */
-            /* position: absolute;  <-- 移除 absolute，改用 flex 控制 */
+            display: none;
             background: none;
             border: none;
             font-size: 1.5rem;
@@ -96,44 +89,36 @@
             z-index: 102;
         }
 
-        /* 手機版下拉清單 (預設隱藏) */
+        /* 手機版下拉清單 */
         .mobile-dropdown {
             display: none;
             position: absolute;
             top: 100%;
             left: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95); /* 半透明白底 */
-            backdrop-filter: blur(15px); /* 強烈的毛玻璃效果 */
-            -webkit-backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.98);
             border-bottom: 1px solid rgba(0,0,0,0.1);
             box-shadow: 0 10px 20px rgba(0,0,0,0.1);
             flex-direction: column;
             z-index: 101;
-            overflow: hidden;
-            max-height: 0;
-            transition: max-height 0.4s ease-in-out;
         }
 
         .mobile-dropdown.open {
             display: flex;
-            max-height: 500px; /* 足夠顯示所有選項 */
         }
 
         .mobile-dropdown a {
             display: block;
             padding: 1rem 0;
             text-align: center;
-            font-size: 1.2rem; /* 手機版字體加大 */
+            font-size: 1.2rem;
             color: var(--text-dark);
             border-bottom: 1px solid rgba(0,0,0,0.05);
             text-decoration: none;
             font-weight: 600;
         }
 
-        .mobile-dropdown a:last-child { border-bottom: none; }
         .mobile-dropdown a.active { color: var(--primary-color); background: rgba(59, 130, 246, 0.05); }
-        .mobile-dropdown a:active { background: rgba(0,0,0,0.05); }
 
         /* 頁面容器 */
         .page {
@@ -155,13 +140,13 @@
             pointer-events: auto;
         }
 
-        #home { min-height: 100vh; }
-        .content-container { text-align: center; margin: auto 0;}
+        #home { min-height: 80vh; align-items: center; }
+        .content-container { text-align: center; width: 100%; }
 
         /* LOGO & Animation */
         .logo {
             height: 20rem;
-            margin-bottom: 4rem;
+            margin-bottom: 2rem;
             animation: float 4s ease-in-out infinite;
         }
         @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
@@ -178,210 +163,66 @@
             left: -150%;
             width: 40%;
             height: 200%;
-            background: linear-gradient(
-                to right,
-                rgba(255, 255, 255, 0) 0%,
-                rgba(255, 255, 255, 0.6) 50%,
-                rgba(255, 255, 255, 0) 100%
-            );
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0) 100%);
             transform: skewX(-25deg);
             animation: lightSweepAnimation 3s infinite;
         }
         @keyframes lightSweepAnimation { 0% { left: -150%; } 80% { left: 150%; } 100% { left: 150%; } }
 
-        /* Typography */
         h1, .page-title { font-weight: 700; letter-spacing: 0.1em; text-shadow: 0 0 10px rgba(59, 130, 246, 0.3); }
-        .subtitle, .slogan { font-weight: 700; letter-spacing: 0.1em; }
-        .slogan { letter-spacing: 0.2em; }
-        .date-time { font-weight: 700; color: var(--primary-dark); letter-spacing: 0.1em; }
-        
-        .coming-soon {
-            display: inline-block;
-            font-weight: 700;
-            letter-spacing: 0.3em;
-            border: 1px solid rgba(197, 6, 158, 0.4);
-            padding: 0.5rem 1.5rem;
-            border-radius: 4px;
-            color: #C5069E;
-            text-shadow: 0 0 8px rgba(197, 6, 158, 0.4);
-            background: rgba(197, 6, 158, 0.1);
-            animation: pulseBorderLight 2.5s ease-in-out infinite alternate;
-            margin-left: 0.3em;
-        }
-        @keyframes pulseBorderLight {
-            from { border-color: rgba(197, 6, 158, 0.4); box-shadow: 0 0 5px rgba(197, 6, 158, 0.2), inset 0 0 5px rgba(197, 6, 158, 0.1); }
-            to { border-color: rgba(197, 6, 158, 1); box-shadow: 0 0 20px rgba(197, 6, 158, 0.4), inset 0 0 10px rgba(197, 6, 158, 0.2); }
-        }
-        
+        .subtitle { font-weight: 700; letter-spacing: 0.1em; }
         .page-content-wrapper { width: 100%; max-width: 900px; text-align: left;}
 
-        /* Form Elements */
-        .tech-form .form-group { margin-bottom: 1.5rem; }
-        .tech-form input, .tech-form select {
-            width: 100%;
-            background: #FFFFFF;
-            border: 1px solid #CED4DA;
-            border-radius: 4px;
-            padding: 0.75rem 1rem;
-            color: var(--text-dark);
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        .tech-form input:focus, .tech-form select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
-        }
-        .tech-button {
-            background-color: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--primary-color);
-            padding: 0.75rem 2rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            border-radius: 4px;
-            transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
-            cursor: pointer;
-        }
-        .tech-button:hover { background-color: var(--primary-color); color: #FFFFFF; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
-
-        /* 懸浮滿意度調查按鈕 (FAB) - 電腦版顯示，手機版將隱藏 */
-        .fab-survey {
-            position: fixed;
-            bottom: 2rem;
-            right: 1.5rem;
-            z-index: 999;
-            background: linear-gradient(135deg, #ec4899 0%, #be185d 100%); /* 亮粉紅色系 */
-            color: white;
-            padding: 1rem 1.5rem;
-            border-radius: 50px;
-            box-shadow: 0 10px 15px -3px rgba(190, 24, 93, 0.5);
-            font-weight: bold;
-            display: flex; /* 預設顯示 */
-            align-items: center;
-            gap: 0.5rem;
-            text-decoration: none;
-            transition: transform 0.2s, box-shadow 0.2s;
-            animation: pulse-fab 2s infinite;
-        }
-        .fab-survey:hover {
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 20px 25px -5px rgba(190, 24, 93, 0.6);
-        }
-        .fab-survey i { font-size: 1.25rem; }
-        
-        @keyframes pulse-fab {
-            0% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(236, 72, 153, 0); } /* 加大擴散範圍 */
-            100% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0); }
-        }
-
-        /* Timeline & Cards */
-        .tech-timeline { position: relative; padding-left: 2rem; }
+        /* Timeline Styles for History */
+        .tech-timeline { position: relative; padding-left: 2rem; margin-top: 2rem; }
         .tech-timeline::before { content: ''; position: absolute; left: 10px; top: 10px; bottom: 10px; width: 2px; background: #DEE2E6; }
-        .timeline-item { position: relative; margin-bottom: 2rem; }
-        .timeline-dot { position: absolute; left: -2.2rem; top: 5px; width: 20px; height: 20px; background: var(--primary-color); border-radius: 50%; border: 3px solid #F8F9FA; box-shadow: 0 0 10px var(--primary-color); }
-        .timeline-time { font-weight: 700; color: var(--primary-color); margin-bottom: 0.25rem; }
-        .timeline-title { font-weight: 700; font-size: 1.125rem; margin-bottom: 0.25rem; color: var(--text-dark); }
-        .timeline-speaker { color: var(--text-light); }
-        .timeline-category { display: inline-block; margin-top: 1.5rem; margin-bottom: 1rem; padding: 0.3rem 1.2rem; background: rgba(59, 130, 246, 0.1); border-radius: 9999px; border: 1px solid rgba(59, 130, 246, 0.3); font-weight: bold; color: var(--primary-dark); }
-
-        .groups-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
-        .group-card { background: #FFFFFF; border: 1px solid #DEE2E6; border-radius: 8px; padding: 1.5rem; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; display: flex; flex-direction: column; }
-        .group-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); }
-        .group-card.highlight { border-color: #C5069E; box-shadow: 0 0 20px rgba(197, 6, 158, 0.4); transform: scale(1.03); }
-        .group-card-header { border-bottom: 1px solid #E9ECEF; padding-bottom: 1rem; margin-bottom: 1rem; }
-        .group-card-header h3 { color: var(--primary-color); font-weight: 700; font-size: 1.25rem; }
-        .group-card-body { flex-grow: 1; }
-        .view-list-btn { color: var(--primary-color); font-weight: 600; cursor: pointer; transition: text-shadow 0.3s; }
+        .timeline-item { position: relative; margin-bottom: 3rem; background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid var(--primary-color); }
+        .timeline-dot { position: absolute; left: -2.2rem; top: 20px; width: 20px; height: 20px; background: var(--primary-color); border-radius: 50%; border: 3px solid #F8F9FA; box-shadow: 0 0 10px var(--primary-color); z-index: 10; }
         
-        /* 各組卡片顏色 (略) */
-        #group-card-c .group-card-header h3 { color: #EA580C; }
-        #group-card-c .view-list-btn { color: #EA580C; }
-        #group-card-a .group-card-header h3 { color: #6366F1; }
-        #group-card-a .view-list-btn { color: #6366F1; }
-        #group-card-r .group-card-header h3 { color: #14B8A6; }
-        #group-card-r .view-list-btn { color: #14B8A6; }
-        #group-card-e .group-card-header h3 { color: #22C55E; }
-        #group-card-e .view-list-btn { color: #22C55E; }
-
-        /* Modal */
-        .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s 0.3s; }
-        .modal-overlay.active { opacity: 1; visibility: visible; transition: opacity 0.3s ease; }
-        .modal-container { background: #FFFFFF; border: 1px solid #DEE2E6; border-radius: 8px; max-width: 700px; width: 90%; max-height: 80vh; display: flex; flex-direction: column; transform: scale(0.95); transition: transform 0.3s ease; }
-        .modal-overlay.active .modal-container { transform: scale(1); }
-        .modal-header { padding: 1.5rem; border-bottom: 1px solid #E9ECEF; }
-        .modal-body { overflow-y: auto; padding: 1.5rem; }
-        .tech-table { width: 100%; border-collapse: collapse; }
-        .tech-table th, .tech-table td { padding: 0.75rem 1rem; text-align: left; }
-        .tech-table thead { background: rgba(59, 130, 246, 0.1); }
+        /* 歷程標題區塊樣式 (修改) */
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        .timeline-year { font-weight: 900; color: var(--primary-color); font-size: 1.5rem; margin: 0; }
         
-        /* Invitation Tabs */
-        .invitation-tabs button { padding: 0.5rem 1.5rem; border: 2px solid transparent; border-bottom-color: #dee2e6; color: var(--text-light); font-weight: 600; transition: all 0.3s; }
-        .invitation-tabs button.active { color: var(--primary-color); border-color: var(--primary-color); border-bottom-color: transparent; border-radius: 8px 8px 0 0; background-color: white; }
-
-        /* 手機版專屬樣式 (Mobile View Overrides) */
-        .mobile-view nav.desktop-nav {
-            display: none; /* 在手機版隱藏原本的導覽列 */
-        }
-
-        .mobile-view .mobile-menu-toggle {
-            display: block; /* 顯示漢堡選單按鈕 */
-            position: static; /* Reset position for flex alignment */
-            margin: 0;
-        }
-
-        .mobile-view header {
-            height: 60px; /* 固定 header 高度，避免佈局跑掉 */
-            display: flex;
-            align-items: center;
-            justify-content: flex-end; /* 讓按鈕靠右 */
-            padding: 0 1rem;
-        }
-
-        /* 手機版 Header 內的控制區塊 (包含滿意度按鈕與選單按鈕) */
-        .mobile-header-controls {
-            display: none; /* 預設隱藏 */
-        }
-
-        .mobile-view .mobile-header-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px; /* 按鈕間距 */
-        }
-
-        /* 手機版 Header 滿意度調查按鈕 */
-        .mobile-header-survey-btn {
-            background: linear-gradient(135deg, #F59E0B 0%, #EA580C 100%);
-            color: white;
-            padding: 0.4rem 0.8rem;
-            border-radius: 50px;
+        /* 議程按鈕樣式 */
+        .agenda-btn {
             font-size: 0.9rem;
-            font-weight: bold;
-            text-decoration: none;
-            display: flex;
+            padding: 0.4rem 0.8rem;
+            border-radius: 9999px;
+            transition: all 0.2s;
+            display: inline-flex;
             align-items: center;
-            gap: 5px;
-            box-shadow: 0 2px 4px rgba(245, 158, 11, 0.4);
-            animation: pulse-gentle 2s infinite;
+            gap: 0.3rem;
+            cursor: pointer;
+            border-width: 1px;
         }
         
-        @keyframes pulse-gentle {
-            0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
-            70% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
-        }
+        .history-detail { margin-bottom: 1rem; display: flex; align-items: flex-start; gap: 0.75rem; }
+        .history-detail:last-child { margin-bottom: 0; }
+        .history-icon { width: 24px; text-align: center; margin-top: 3px; }
+        .history-content h4 { font-weight: 700; color: var(--text-dark); margin-bottom: 0.2rem; font-size: 1.1rem; }
+        .history-content p { color: var(--text-light); font-size: 0.95rem; }
 
-        /* 手機版隱藏右下角 FAB */
-        .mobile-view .fab-survey {
-            display: none !important;
-        }
+        /* Contact Card Style */
+        .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .contact-card { background: #FFFFFF; padding: 1.5rem; rounded-lg; shadow-sm; border-left: 4px solid; }
 
-        .mobile-view .logo {
-            height: 10rem;
-            margin-bottom: 2rem;
-        }
+        /* Mobile View Specifics */
+        .mobile-view nav.desktop-nav { display: none; }
+        .mobile-view .mobile-menu-toggle { display: block; margin-left: auto; }
+        .mobile-view header { height: 60px; display: flex; align-items: center; padding: 0 1rem; }
+        .mobile-view .logo { height: 10rem; margin-bottom: 2rem; }
         .mobile-view h1 { font-size: 2.25rem; }
-        .mobile-view .page { padding: 5rem 1rem 3rem 1rem; } /* 調整頂部 padding */
+        
+        /* 彈窗樣式 */
+        .modal-animate-enter { animation: modalFadeIn 0.3s ease-out forwards; }
+        @keyframes modalFadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
         
     </style>
 </head>
@@ -392,432 +233,232 @@
         <div class="text-center bg-white p-10 rounded-lg shadow-2xl">
             <h2 class="text-3xl font-bold mb-6 text-gray-800">請選擇您的瀏覽模式</h2>
             <div class="flex flex-col sm:flex-row gap-4">
-                <button id="mobile-btn" class="tech-button !bg-blue-500 !text-white px-8 py-4 text-lg">
+                <button id="mobile-btn" class="bg-blue-500 text-white px-8 py-4 text-lg font-bold rounded hover:bg-blue-600 transition">
                     <i class="fas fa-mobile-alt mr-2"></i>手機版
                 </button>
-                <button id="desktop-btn" class="tech-button px-8 py-4 text-lg">
+                <button id="desktop-btn" class="bg-white border-2 border-blue-500 text-blue-500 px-8 py-4 text-lg font-bold rounded hover:bg-blue-50 transition">
                     <i class="fas fa-desktop mr-2"></i>電腦版
                 </button>
             </div>
         </div>
     </div>
 
+    <!-- 圖片彈窗 (Modal) -->
+    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-[200] hidden backdrop-blur-sm" onclick="closeImageModal()">
+        <div class="bg-white rounded-lg p-2 max-w-4xl w-full max-h-[90vh] overflow-hidden relative shadow-2xl modal-animate-enter flex flex-col" onclick="event.stopPropagation()">
+            <!-- Header -->
+            <div class="flex justify-between items-center p-3 border-b border-gray-100">
+                <h3 id="modalTitle" class="text-xl font-bold text-gray-800"></h3>
+                <button onclick="closeImageModal()" class="text-gray-500 hover:text-red-500 transition p-2">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            <!-- Body -->
+            <div class="overflow-y-auto p-2 bg-gray-50 flex-grow flex justify-center items-center">
+                <img id="modalImage" src="" alt="Agenda Image" class="max-w-full h-auto object-contain shadow-md">
+            </div>
+        </div>
+    </div>
+
     <!-- Header 與 導覽列 -->
     <header class="hidden">
-        <!-- 手機版控制區塊 (滿意度按鈕 + 選單按鈕) -->
-        <div class="mobile-header-controls">
-            <!-- 滿意度調查按鈕 (手機版 Header 專用) -->
-            <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=gQbeJPfI6EaNpx9bOT2DTY5ys0TxUgBComrGXxT4XvpUMzk3TUZSTVg3TFIyVjE4RVNYSjNWRzdZWC4u" 
-               target="_blank" 
-               class="mobile-header-survey-btn">
-               <i class="fas fa-poll-h"></i> 滿意度調查
-            </a>
-
-            <!-- 漢堡選單按鈕 -->
+        <div class="container mx-auto flex items-center justify-end md:justify-center h-full">
+            <!-- 漢堡選單按鈕 (手機版) -->
             <button id="mobile-menu-btn" class="mobile-menu-toggle">
-                <i class="fas fa-bars"></i> 選單
+                <i class="fas fa-bars"></i>
             </button>
-        </div>
 
-        <!-- 下拉式半透明選單 (手機版顯示) -->
-        <div id="mobile-dropdown" class="mobile-dropdown">
-            <a href="#" data-target="home">首頁</a>
-            <a href="#" data-target="notice">行前說明</a>
-            <a href="#" data-target="agenda">議程表</a>
-            <a href="#" data-target="invitation">邀請名單</a>
-            <a href="#" data-target="groups">分組名單</a>
-            <a href="#" data-target="check-in">簽到退</a>
-            <a href="#" data-target="venue">會議場地</a>
-            <a href="#" data-target="banquet">晚宴場地</a>
-        </div>
+            <!-- 下拉式選單 (手機版) -->
+            <div id="mobile-dropdown" class="mobile-dropdown">
+                <a href="#" data-target="home">首頁</a>
+                <a href="#" data-target="notice">聯絡窗口</a>
+                <a href="#" data-target="history">歷程記錄</a>
+            </div>
 
-        <!-- 原本的電腦版導覽列 -->
-        <nav class="desktop-nav container mx-auto flex justify-center flex-wrap">
-            <a href="#" data-target="home" class="active">首頁</a>
-            <a href="#" data-target="notice">行前說明</a>
-            <a href="#" data-target="agenda">議程表</a>
-            <a href="#" data-target="invitation">邀請名單</a>
-            <a href="#" data-target="groups">分組名單</a>
-            <a href="#" data-target="check-in">簽到退</a>
-            <a href="#" data-target="venue">會議場地</a>
-            <a href="#" data-target="banquet">晚宴場地</a>
-        </nav>
+            <!-- 電腦版導覽列 -->
+            <nav class="desktop-nav">
+                <a href="#" data-target="home" class="active">首頁</a>
+                <a href="#" data-target="notice">聯絡窗口</a>
+                <a href="#" data-target="history">歷程記錄</a>
+            </nav>
+        </div>
     </header>
-
-    <!-- 🌟 懸浮滿意度調查按鈕 (確保全域顯示，手機版透過 CSS 隱藏) -->
-    <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=gQbeJPfI6EaNpx9bOT2DTY5ys0TxUgBComrGXxT4XvpUMzk3TUZSTVg3TFIyVjE4RVNYSjNWRzdZWC4u" 
-       target="_blank" 
-       rel="noopener noreferrer" 
-       class="fab-survey" 
-       id="globalFabSurvey">
-        <i class="fas fa-poll-h"></i>
-        <span>滿意度調查</span>
-    </a>
 
     <!-- 首頁 -->
     <section id="home" class="page active">
         <main class="content-container">
+            <!-- Logo -->
             <img src="logo-green.png" alt="奇美醫院 Logo" class="logo mx-auto" onerror="this.src='https://placehold.co/400x400/transparent/22c55e?text=Logo'">
+            
             <div class="mb-6 -mt-10">
                 <p class="subtitle text-5xl md:text-5xl lg:text-5xl text-gray-800">佳里奇美醫院</p>
                 <h1 class="light-sweep text-4xl md:text-5xl lg:text-6xl text-gray-600 mt-6">主管共識營</h1>
             </div>
-            <p class="slogan text-xl md:text-2xl" style="color: #003366;">凝聚共識 共創未來</p>
-            <p class="light-sweep slogan text-xl md:text-2xl" style="color: #1E90FF;">Your needs, we care</p>
-            <p class="date-time text-2xl md:text-3xl mt-8">2025 / 11 / 22 (六) &nbsp;&nbsp; 13:00</p>
-            <p class="text-xl md:text-2xl text-gray-700 mt-4 flex items-center justify-center text-center">
-                <i class="fas fa-map-marker-alt mr-3 text-teal-600"></i>
-                <span>國立臺灣史前文化博物館南科考古館 4F國際會議廳</span>
-            </p>
-            <div class="mt-12 mb-8 p-6 rounded-lg shadow-lg bg-white max-w-3xl mx-auto border-t-4 border-b-4 border-green-800">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">活動倒數</h2>
-                <div class="mb-6">
-                    <span class="coming-soon">COMING SOON</span>
-                </div>
-                <div class="countdown-wrapper" data-target-date="2025-11-22T13:00:00" data-end-text="活動已開始">
-                    <div class="flex justify-center items-center gap-4 md:gap-8 text-gray-800">
-                        <div class="text-center"><span class="countdown-days text-4xl md:text-6xl font-bold">00</span><span class="block text-sm">天</span></div>
-                        <div class="text-4xl md:text-6xl font-bold">:</div>
-                        <div class="text-center"><span class="countdown-hours text-4xl md:text-6xl font-bold">00</span><span class="block text-sm">時</span></div>
-                        <div class="text-4xl md:text-6xl font-bold">:</div>
-                        <div class="text-center"><span class="countdown-minutes text-4xl md:text-6xl font-bold">00</span><span class="block text-sm">分</span></div>
-                        <div class="text-4xl md:text-6xl font-bold">:</div>
-                        <div class="text-center"><span class="countdown-seconds text-4xl md:text-6xl font-bold">00</span><span class="block text-sm">秒</span></div>
-                    </div>
-                </div>
+
+            <div class="mt-16 animate-bounce">
+                <p class="text-4xl md:text-5xl font-black text-blue-600 tracking-widest" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.1);">
+                    115年度共識營見
+                </p>
+                <div class="mt-4 text-gray-400">See You Next Year</div>
             </div>
-            <p class="text-XXL text-purple-600 mt-4 text-center">資料更新日期：2025 / 11 / 17</p>
         </main>
     </section>
 
-    <!-- 議程表 -->
-    <section id="agenda" class="page hidden">
+    <!-- 歷程記錄 -->
+    <section id="history" class="page hidden">
         <div class="page-content-wrapper">
-            <h2 class="page-title text-3xl md:text-4xl text-center mb-8 flex items-center justify-center"><i class="fas fa-calendar-alt mr-4"></i>議程表</h2>
-            <div class="text-center mb-8">
-                <a href="https://drive.google.com/drive/folders/1-pkxBrQfJFa6t9Exf6oUDALjPD9mAEc0?usp=sharing" target="_blank" class="tech-button">
-                    <i class="fas fa-cloud-download-alt mr-2"></i>所有講義下載
-                </a>
-            </div>
+            <h2 class="page-title text-3xl md:text-4xl text-center mb-8 flex items-center justify-center">
+                <i class="fas fa-history mr-4 text-blue-500"></i>歷程記錄
+            </h2>
+            
             <div class="tech-timeline">
-                <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-time">12:45 - 13:00</p><h3 class="timeline-title">報到</h3></div>
-                <div class="timeline-category text-green-800">長官致詞</div>
-                <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-time">13:00 - 13:15</p><h3 class="timeline-title">院長致詞</h3><p class="timeline-speaker">田宇峯 院長</p></div>
-                <!-- ... 其他議程 (略) ... -->
-                <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-time">13:15 - 13:20</p><h3 class="timeline-title">經營決策委員會副主委致詞</h3><p class="timeline-speaker">林宏榮 副主委</p></div>
-                <div class="timeline-category text-green-800">分組報告</div>
-                <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-time">13:20 - 13:40</p><h3 class="timeline-title">第一組(C)：擴大長照服務、深耕社區醫療</h3><p class="timeline-speaker">組長:劉憶萍 部長 主講人:周小軒 代理主任、黃玉惠 督導</p></div>
-                <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-time">13:40 - 14:00</p><h3 class="timeline-title">第二組(A)：推動智慧醫療、優化職場環境</h3><p class="timeline-speaker">組長:邵詩媛 行政副院長  主講人:黃秀玲 組長</p></div>
-                <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-time">14:00 - 14:20</p><h3 class="timeline-title">第三組(R)：強化醫療設備、韌性急重照護</h3><p class="timeline-speaker">組長:朱逢源 部長 主講人:李畊緯 科主任</p></div>
-                <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-time">14:20 - 14:40</p><h3 class="timeline-title">第四組(E)：以病人為中心、提供良善醫療</h3><p class="timeline-speaker">組長:洪順興 部長 主講人:楊道欣 科主任、曾建仁 醫師、吳泰清 主任</p></div>
-                <div class="timeline-category text-green-800">綜合討論</div>
-                <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-time">14:40 - 15:00</p><h3 class="timeline-title">總結 & 綜合討論</h3></div>
-                <div class="timeline-item"><div class="timeline-dot" style="background-color: #e5a743; box-shadow: 0 0 10px #e5a743;"></div><p class="timeline-time" style="color: #e5a743;">15:00 - 15:30</p><h3 class="timeline-title" style="color: #c8923a;">茶點時間 & 大合照 </h3></div>
-                <div class="timeline-category text-green-800">特別演講</div>
-                <div class="timeline-item"><div class="timeline-dot" style="background-color: #4a86e8; box-shadow: 0 0 10px #4a86e8;"></div><p class="timeline-time">15:30 - 17:00</p><h3 class="timeline-title">南科病例庫：骨骼、器物與人類的故事 </h3><p class="timeline-speaker">主講人:南科考古館 邊鈺皓 研究助理</p></div>
-                <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-time">17:00 - 17:30</p><h3 class="timeline-title">南科醫院搶先看、賦歸</h3></div>
-                <div class="timeline-item"><div class="timeline-dot"></div><p class="timeline-time">18:00 - 20:00</p><h3 class="timeline-title">晚宴 | 南科總理大餐廳</h3></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 邀請名單 -->
-    <section id="invitation" class="page hidden">
-        <div class="page-content-wrapper">
-            <h2 class="page-title text-3xl md:text-4xl text-center mb-8 flex items-center justify-center"><i class="fas fa-envelope-open-text mr-4"></i>邀請名單</h2>
-            <div class="search-box mb-8">
-                <h3 class="text-lg font-bold text-blue-600 mb-3 text-center">查詢與會貴賓</h3>
-                <div class="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-                    <input type="text" id="invitationNameSearchInput" placeholder="請輸入姓名" class="tech-form w-full flex-grow">
-                    <button id="invitationSearchBtn" class="tech-button"><i class="fas fa-search mr-2"></i>查詢</button>
-                </div>
-                <div id="invitationSearchResult" class="mt-4 text-center font-semibold text-lg space-y-2"></div>
-            </div>
-            <div class="invitation-tabs flex justify-center border-b border-gray-300 mb-6"></div>
-            <div class="invitation-tables-container bg-white p-4 rounded-b-lg shadow-inner"></div>
-        </div>
-    </section>
-    
-    <!-- 分組名單 -->
-    <section id="groups" class="page hidden">
-        <div class="page-content-wrapper">
-            <h2 class="page-title text-3xl md:text-4xl text-center mb-8 flex items-center justify-center"><i class="fas fa-users mr-4"></i>分組名單</h2>
-            <div class="search-box mb-8">
-                <h3 class="text-lg font-bold text-blue-600 mb-3 text-center">查詢您的組別</h3>
-                <div class="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-                    <input type="text" id="nameSearchInput" placeholder="請輸入您的姓名" class="tech-form w-full flex-grow">
-                    <button id="searchBtn" class="tech-button"><i class="fas fa-search text-blue-600 mr-2"></i>查詢</button>
-                </div>
-                <div id="searchResult" class="mt-4 text-center font-semibold text-lg"></div>
-            </div>
-            <div class="groups-grid">
-                <div id="group-card-c" class="group-card"><div class="group-card-header"><h3>Community & Continuity of Care</h3><p>擴大長照服務 深耕社區醫療</p></div><div class="group-card-body"><h4 class="font-bold text-gray-500 mb-2">組長：劉憶萍 部長</h4><h4 class="font-bold text-gray-500 mb-2 mt-4">組員</h4><span class="view-list-btn" onclick="openModal('modal-c')">查看完整名單 <i class="fas fa-arrow-right ml-1"></i></span></div></div>
-                <div id="group-card-a" class="group-card"><div class="group-card-header"><h3>AI Smart Healthcare & Workplace</h3><p>推動智慧醫療 優化職場環境</p></div><div class="group-card-body"><h4 class="font-bold text-gray-500 mb-2">組長：邵詩媛 行政副院長</h4><h4 class="font-bold text-gray-500 mb-2 mt-4">組員</h4><span class="view-list-btn" onclick="openModal('modal-a')">查看完整名單 <i class="fas fa-arrow-right ml-1"></i></span></div></div>
-                <div id="group-card-r" class="group-card"><div class="group-card-header"><h3>Resilient Emergency & Medical System</h3><p>強化醫療設備 韌性急重照護</p></div><div class="group-card-body"><h4 class="font-bold text-gray-500 mb-2">組長：朱逢源 部長</h4><h4 class="font-bold text-gray-500 mb-2 mt-4">組員</h4><span class="view-list-btn" onclick="openModal('modal-r')">查看完整名單 <i class="fas fa-arrow-right ml-1"></i></span></div></div>
-                <div id="group-card-e" class="group-card"><div class="group-card-header"><h3>Empathetic & Patient-Centered Care</h3><p>以病人為中心 提供良善醫療</p></div><div class="group-card-body"><h4 class="font-bold text-gray-500 mb-2">組長：洪順興 部長</h4><h4 class="font-bold text-gray-500 mb-2 mt-4">組員</h4><span class="view-list-btn" onclick="openModal('modal-e')">查看完整名單 <i class="fas fa-arrow-right ml-1"></i></span></div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 簽到退 -->
-    <section id="check-in" class="page hidden">
-        <div class="page-content-wrapper text-center">
-            <h2 class="page-title text-3xl md:text-4xl text-center mb-8"><i class="fas fa-user-check mr-4"></i>簽到退</h2>
-            <div class="flex flex-col items-center gap-8 mt-12">
-                <!-- 一般簽到退 -->
-                <div class="flex flex-col sm:flex-row justify-center items-center gap-12">
-                    <div class="flex flex-col items-center">
-                        <p class="text-green-800 font-bold text-xl mb-2">可簽到時間：12:30 - 13:30</p>
-                        <a id="system-checkin-btn" href="https://apps.chimei.org.tw/meeting/course/#34433" target="_blank" rel="noopener noreferrer" class="tech-button px-12 py-6 text-2xl">
-                            <i class="fas fa-sign-in-alt text-red-500 mr-3"></i>院內系統簽到
-                        </a>
+                <!-- 114年 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-header">
+                        <span class="timeline-year">114年</span>
+                        <button onclick="openImageModal('114年議程表', '114.png')" class="agenda-btn bg-blue-50 text-blue-600 border-blue-200 hover:bg-blue-100 hover:border-blue-300">
+                            <i class="fas fa-file-image"></i> 議程表
+                        </button>
                     </div>
-                    <div class="flex flex-col items-center">
-                        <p class="text-green-800 font-bold text-xl mb-2">可簽退時間：17:00 - 18:00</p>
-                        <a id="system-checkout-btn" href="https://apps.chimei.org.tw/meeting/course/#34433" target="_blank" rel="noopener noreferrer" class="tech-button px-12 py-6 text-2xl">
-                            <i class="fas fa-sign-out-alt text-red-500 mr-3"></i>院內系統簽退
-                        </a>
+                    
+                    <div class="history-detail">
+                        <div class="history-icon"><i class="fas fa-chalkboard-teacher text-blue-500 text-lg"></i></div>
+                        <div class="history-content">
+                            <h4>會議</h4>
+                            <p>國立臺灣史前文化博物館南科考古館 <br><span class="text-sm text-gray-500">4F國際會議廳</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="history-detail">
+                        <div class="history-icon"><i class="fas fa-utensils text-orange-500 text-lg"></i></div>
+                        <div class="history-content">
+                            <h4>晚宴</h4>
+                            <p>南科總理大餐廳</p>
+                        </div>
                     </div>
                 </div>
-                <!-- 補簽到退 -->
-                <div class="flex flex-col sm:flex-row justify-center items-center gap-12 mt-8">
-                    <a id="late-checkin-btn" href="https://forms.office.com/r/genirDRwSu" target="_blank" rel="noopener noreferrer" class="border-2 border-yellow-800 rounded-full text-yellow-800 font-semibold hover:bg-blue-100 px-12 py-6 text-2xl inline-flex items-center justify-center transition-colors">
-                        <i class="fas fa-user-clock mr-3"></i>補簽到
-                    </a>
-                    <a id="late-checkout-btn" href="https://forms.office.com/r/genirDRwSu" target="_blank" rel="noopener noreferrer" class="border-2 border-yellow-800 rounded-full text-yellow-800 font-semibold hover:bg-blue-100 px-12 py-6 text-2xl inline-flex items-center justify-center transition-colors">
-                        <i class="fas fa-user-clock mr-3"></i>補簽退
-                    </a>
+
+                <!-- 113年 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background-color: #10B981; box-shadow: 0 0 10px #10B981;"></div>
+                    <div class="timeline-header">
+                        <span class="timeline-year" style="color: #10B981;">113年</span>
+                        <button onclick="openImageModal('113年議程表', '113.png')" class="agenda-btn bg-green-50 text-green-600 border-green-200 hover:bg-green-100 hover:border-green-300">
+                            <i class="fas fa-file-image"></i> 議程表
+                        </button>
+                    </div>
+                    
+                    <div class="history-detail">
+                        <div class="history-icon"><i class="fas fa-chalkboard-teacher text-emerald-500 text-lg"></i></div>
+                        <div class="history-content">
+                            <h4>會議</h4>
+                            <p>奇美博物館 <br><span class="text-sm text-gray-500">奇美廳</span></p>
+                        </div>
+                    </div>
+
+                    <div class="history-detail">
+                        <div class="history-icon"><i class="fas fa-utensils text-orange-500 text-lg"></i></div>
+                        <div class="history-content">
+                            <h4>晚宴</h4>
+                            <p>大象寬庭宴會廳</p>
+                        </div>
+                    </div>
                 </div>
-                <p class="mt-6 text-xl text-red-500">備註：超過院內簽到退時間，可點選 補簽到 與 補簽退。</p>
-                
-                <!-- 頁面內的滿意度調查按鈕 (增加跳動效果，避免漏看) -->
-                <div class="mt-12 w-full max-w-md">
-                    <a href="https://forms.office.com/Pages/ResponsePage.aspx?id=gQbeJPfI6EaNpx9bOT2DTY5ys0TxUgBComrGXxT4XvpUMzk3TUZSTVg3TFIyVjE4RVNYSjNWRzdZWC4u" target="_blank" rel="noopener noreferrer" class="tech-button !bg-amber-500 !border-amber-500 !text-white px-12 py-6 text-2xl w-full inline-flex items-center justify-center transition-all duration-300 ease-in-out hover:!bg-amber-600 hover:shadow-lg transform hover:scale-105 animate-bounce">
-                        <i class="fas fa-poll-h mr-3"></i>活動滿意度調查
-                    </a>
+
+                <!-- 112年 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot" style="background-color: #F59E0B; box-shadow: 0 0 10px #F59E0B;"></div>
+                    <div class="timeline-header">
+                        <span class="timeline-year" style="color: #F59E0B;">112年</span>
+                        <button onclick="openImageModal('112年議程表', '112.png')" class="agenda-btn bg-amber-50 text-amber-600 border-amber-200 hover:bg-amber-100 hover:border-amber-300">
+                            <i class="fas fa-file-image"></i> 議程表
+                        </button>
+                    </div>
+                    
+                    <div class="history-detail">
+                        <div class="history-icon"><i class="fas fa-chalkboard-teacher text-amber-500 text-lg"></i></div>
+                        <div class="history-content">
+                            <h4>會議</h4>
+                            <p>遠東香格里拉 <br><span class="text-sm text-gray-500">9F國際會議廳</span></p>
+                        </div>
+                    </div>
+
+                    <div class="history-detail">
+                        <div class="history-icon"><i class="fas fa-utensils text-orange-500 text-lg"></i></div>
+                        <div class="history-content">
+                            <h4>晚宴</h4>
+                            <p>遠東香格里拉 <br><span class="text-sm text-gray-500">3F成功廳</span></p>
+                        </div>
+                    </div>
                 </div>
+            </div>
+            
+            <div class="text-center mt-12 text-gray-400">
+                <p>持續累積，共創未來...</p>
             </div>
         </div>
     </section>
 
-    <!-- 會議場地 -->
-    <section id="venue" class="page">
-        <div class="page-content-wrapper text-center w-full">
-            <h2 class="page-title text-3xl md:text-4xl text-center mb-8 flex items-center justify-center"><i class="fas fa-map-marked-alt mr-4"></i>會議場地</h2>
-            <div class="venue-card bg-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto text-gray-800">
-                <img src="pic_A12-00454_1.jpg" alt="國立臺灣史前文化博物館南科考古館" class="w-full h-auto object-cover rounded-lg mb-4 max-h-96" onerror="this.onerror=null;this.src='https://placehold.co/800x600/CCCCCC/FFFFFF?text=Venue';">
-                <h3 class="text-2xl font-bold text-gray-800">國立臺灣史前文化博物館南科考古館</h3>
-                <p class="text-lg text-gray-600 mt-2">4F國際會議廳</p>
-                <div class="flex flex-wrap justify-center gap-4 mt-4">
-                    <a href="https://www.google.com/maps/place/%E5%9C%8B%E7%AB%8B%E8%87%BA%E7%81%A3%E5%8F%B2%E5%89%8D%E6%96%87%E5%8C%96%E5%8D%9A%E7%89%A9%E9%A4%A8%E5%8D%97%E7%A7%91%E8%80%83%E5%8F%A4%E9%A4%A8/@23.1007895,120.2810889,17z/data=!3m1!4b1!4m6!3m5!1s0x346e7bf1980e9f51:0x78b16e6bbdc1e155!8m2!3d23.1007846!4d120.2836638!16s%2Fg%2F11ghrf3wmw?entry=ttu&g_ep=EgoyMDI1MDkyMi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="inline-block tech-button">
-                        <i class="fas fa-map-pin mr-2"></i>查看地圖
-                    </a>
-                    <button onclick="showImageModal('預留座席圖', '會議座席圖.png')" class="inline-block tech-button">
-                        <i class="fas fa-chair mr-2"></i>預留座席圖
-                    </button>
-                    <button onclick="showImageAndTextModal('交通指南', '停車資訊.png', 'venue-traffic-guide-text')" class="inline-block tech-button">
-                        <i class="fas fa-route mr-2"></i>交通指南
-                    </button>
-                    <button onclick="showImageModal('交通車資訊', '交通車資訊.png')" class="inline-block tech-button">
-                        <i class="fas fa-bus mr-2"></i>交通車資訊
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 晚宴場地 -->
-    <section id="banquet" class="page">
-        <div class="page-content-wrapper text-center w-full">
-            <h2 class="page-title text-3xl md:text-4xl text-center mb-8 flex items-center justify-center"><i class="fas fa-utensils mr-4"></i>晚宴場地</h2>
-            <div class="venue-card bg-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto text-gray-800">
-                <img src="1382375724-3290312444.jpg" alt="南科總理大餐廳" class="w-full h-auto object-cover rounded-lg mb-4 max-h-96" onerror="this.onerror=null;this.src='https://placehold.co/800x600/CCCCCC/FFFFFF?text=Banquet';">
-                <h3 class="text-2xl font-bold text-gray-800">南科總理大餐廳</h3>
-                <div class="flex flex-wrap justify-center gap-4 mt-4">
-                    <a href="https://www.google.com/maps/place/%E7%B8%BD%E7%90%86%E5%A4%A7%E9%A4%90%E5%BB%B3/@23.1012836,120.2822422,20z/data=!4m6!3m5!1s0x346e7bb0e75b0ae1:0xde2843ba7b182818!8m2!3d23.1013923!4d120.2811613!16s%2Fg%2F1v8w_y6x?entry=ttu&g_ep=EgoyMDI1MDkyMi4wIKXMDSoASAFQAw%3DD" target="_blank" class="inline-block tech-button">
-                        <i class="fas fa-map-pin mr-2"></i>查看地圖
-                    </a>
-                    <button onclick="showImageModal('桌次圖', '晚宴桌次.png')" class="inline-block tech-button">
-                        <i class="fas fa-table mr-2"></i>桌次圖
-                    </button>
-                    <button onclick="showImageModal('交通指南', '餐廳交通.png')" class="inline-block tech-button">
-                        <i class="fas fa-route mr-2"></i>交通指南
-                    </button>
-                    <button onclick="showImageModal('交通車資訊', '交通車資訊.png')" class="inline-block tech-button">
-                        <i class="fas fa-bus mr-2"></i>交通車資訊
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 其他隱藏內容 (交通指南文字, Modal 等) -->
-    <div id="venue-traffic-guide-text" class="hidden">
-        <h4 class="text-xl font-bold mt-4 mb-2">【火車】</h4>
-        <p class="mb-2">善化火車站→綠1(善化轉運站)→南科商場站下→步行約3分鐘→南科考古館</p>
-        <!-- ... (省略，內容保持不變) ... -->
-    </div>
-
-    <!-- Modals (圖片彈出視窗) -->
-    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden" onclick="closeImageModal()">
-        <div class="modal-content relative bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-full overflow-auto transform scale-95" onclick="event.stopPropagation()">
-            <div class="p-4 border-b flex justify-between items-center sticky top-0 bg-white z-10">
-                <h3 id="modalTitle" class="text-2xl font-bold"></h3>
-                <div class="flex items-center gap-4">
-                    <button id="downloadButton" class="tech-button" title="在新分頁開啟圖片"><i class="fas fa-download mr-2"></i>放大觀看</button>
-                    <button onclick="closeImageModal()" class="tech-button" style="background: linear-gradient(145deg, #ef4444, #b91c1c); padding: 6px 12px; font-size: 14px;" title="關閉"><i class="fas fa-times mr-2"></i>關閉</button>
-                </div>
-            </div>
-            <div class="p-4"><img id="modalImage" src="" alt="彈出圖片" class="w-full h-auto object-contain max-h-[80vh]"></div>
-        </div>
-    </div>
-
-    <!-- Info Modal, ImageAndTextModal ... (保持原樣) ... -->
-    <div id="infoModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden" onclick="closeInfoModal()"><div class="modal-content bg-white rounded-lg shadow-xl max-w-lg w-full max-h-full overflow-auto transform scale-95" onclick="event.stopPropagation()"><div class="p-4 border-b flex justify-between items-center sticky top-0 bg-white z-10"><h3 id="infoModalTitle" class="text-2xl font-bold"></h3><button onclick="closeInfoModal()" class="text-gray-500 hover:text-gray-800 text-3xl font-bold">&times;</button></div><div class="p-6"><p id="infoModalText" class="text-lg text-gray-700"></p></div></div></div>
-    <div id="imageAndTextModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-start justify-center p-4 pt-16 sm:pt-24 z-50 hidden" onclick="closeImageAndTextModal()"><div class="modal-content relative bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-full overflow-auto transform scale-95" onclick="event.stopPropagation()"><div class="p-4 border-b flex justify-between items-center sticky top-0 bg-white z-10"><h3 id="imageAndTextModalTitle" class="text-2xl font-bold"></h3><div class="flex items-center gap-4"><button id="imageAndTextDownloadButton" class="tech-button" title="在新分頁開啟圖片"><i class="fas fa-download mr-2"></i>放大觀看</button><button onclick="closeImageAndTextModal()" class="tech-button" style="background: linear-gradient(145deg, #ef4444, #b91c1c); padding: 6px 12px; font-size: 14px;" title="關閉"><i class="fas fa-times mr-2"></i>關閉</button></div></div><div class="p-4"><img id="imageAndTextModalImage" src="" alt="彈出圖片" class="w-full h-auto object-contain max-h-[50vh]"><div id="imageAndTextModalText" class="mt-4 text-left text-gray-700"></div></div></div></div>
-    <div id="checkinInfoModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex justify-center items-center p-4"><div class="bg-white rounded-lg shadow-xl p-6 md:p-8 max-w-sm w-full text-center"><h3 id="checkinInfoModalTitle" class="text-2xl font-bold mb-4 text-gray-800"></h3><p id="checkinInfoModalMessage" class="text-gray-700 mb-6"></p><button onclick="hideCheckinInfoModal()" class="tech-button w-full">關閉</button></div></div>
-
-    <!-- Notice Section -->
+    <!-- 聯絡窗口 -->
     <section id="notice" class="page hidden">
         <div class="page-content-wrapper">
-            <h2 class="page-title text-3xl md:text-4xl text-center mb-8 flex items-center justify-center"><i class="fas fa-exclamation-circle mr-4"></i>注意事項</h2>
-            <div class="text-gray-700 space-y-4 notes-section">
-                <!-- 注意事項 -->
-                <p>歡迎各位主管參與114年佳里院區主管共識營，當日活動事項說明如下：</p>
-                
-                <div>
-                    <h4>一、活動說明</h4>
-                    <ul class="list-none space-y-2 pl-4">
-                        <li><strong>會議時間：</strong>114年11月22日(六) 13:00-17:00。</li>
-                        <li><strong>會議地點：</strong>國立臺灣史前文化博物館南科考古館 4F國際會議廳</li>
-                        <li><strong>晚宴地點：</strong>南科總理大餐廳 (18:00~20:00)</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4>二、請 貴主管配合事項</h4>
-                    <ol class="list-decimal list-inside space-y-3">
-                        <li>本次活動採線上簽到、簽退，請攜帶員工識別證、手機或其它數位載具出席並於會場掃描QR-CODE，裨益完成報到、簽退及講義下載等相關作業。</li>
-                        <li>出勤班表請預設13:00~17:00。簽到時間 12:30 開始，簽退時間 17:00。</li>
-                        <li>各項學分取得：須全程出席並完成簽到/退者。
-                            <ul class="sub-list list-disc mt-2 text-gray-600">
-                                <li>員工教育訓練-全人醫療1學分</li>
-                                <li>員工教育訓練-健康識能1.5學分</li>
-                                <li>臨床教師認證-A類全人照護2學分</li>
-                                <li>主管培育-領導與統御1學分</li>
-                            </ul>
-                        </li>
-                        <li><strong>會場注意事項：</strong>廳內禁止攜帶及食用任何食品及飲品。</li>
-                        <li>建議有呼吸道症狀或腹瀉等身體不適者請全程配戴口罩，其它與會者建議視情況配戴口罩以維護自身健康安全。</li>
-                        <li>上課講義於活動結束後置於佳里院區企劃組網頁提供閱覽。</li>
-                        <li>活動議程表請參考「議程表」頁籤。</li>
-                        <li>座位安排及茶點說明：除排定會議及晚宴座位（主桌、素食桌）外，其餘由主管自由入座。</li>
-                        <li>交通方式、會議、飯店與停車場相關位置圖請參考「會議場地」及「晚宴場地」頁籤。</li>
-                    </ol>
-                </div>
-
-                <div>
-                    <h4>三、停車資訊</h4>
-                    <p>提醒：會議及晚宴地點均備有停車場，開車前往的主管請依現場指示停放。</p>
-                    <p>南科考古館停車收費資訊🚗</p>
-                     <p>➤機車免費</p>
-                    <p>➤汽車及重型機車前12小時免費，第13小時起每小時收費20元，收費無上限，繳費後始得離場。</p>
-                    <p>🔴註：未超過12小時，可直接駛離停車場，不用再按繳費機。</p>
-                </div>
-
-
-
-                <div>
-                        <h4>四、聯絡窗口</h4>
+            <h2 class="page-title text-3xl md:text-4xl text-center mb-8 flex items-center justify-center">
+                <i class="fas fa-address-book mr-4 text-blue-500"></i>聯絡窗口
+            </h2>
             
-                  
+            <div class="contact-grid">
+                <div class="contact-card border-indigo-500 shadow-md">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">企劃組</h3>
+                    <div class="space-y-2">
+                        <p class="text-lg font-bold text-indigo-700"><i class="fas fa-user mr-2"></i>黃秀玲 組長</p>
+                        <p class="text-gray-600"><i class="fas fa-phone-alt mr-2"></i>分機 32005</p>
+                        <p class="text-gray-600 break-all"><i class="fas fa-envelope mr-2"></i>a00535@mail.chimei.org.tw</p>
                     </div>
-                      <!-- Group Roles -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="bg-slate-50 p-4 rounded-lg shadow-sm border-l-4 border-indigo-500">
-                            <h3 class="text-md font-bold text-gray-800 mb-2">企劃組</h3>
-                            <p class="font-semibold text-indigo-700">黃秀玲 組長</p>
-                            <p class="font-semibold text-indigo-700">分機32005</p>
-                            <p class="font-semibold text-indigo-700">a00535@mail.chimei.org.tw</p>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-lg shadow-sm border-l-4 border-cyan-500">
-                            <h3 class="text-md font-bold text-gray-800 mb-2">企劃組</h3>
-                            <p class="font-semibold text-cyan-700">紀宗瀚 專員</p>
-                            <p class="font-semibold text-cyan-700">分機32911</p>
-                            <p class="font-semibold text-cyan-700">a003c1@mail.chimei.org.tw</p>
+                </div>
+
+                <div class="contact-card border-cyan-500 shadow-md">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">企劃組</h3>
+                    <div class="space-y-2">
+                        <p class="text-lg font-bold text-cyan-700"><i class="fas fa-user mr-2"></i>紀宗瀚 專員</p>
+                        <p class="text-gray-600"><i class="fas fa-phone-alt mr-2"></i>分機 32911</p>
+                        <p class="text-gray-600 break-all"><i class="fas fa-envelope mr-2"></i>a003c1@mail.chimei.org.tw</p>
+                    </div>
                 </div>
             </div>
-             <footer class="text-center mt-12 text-gray-400 text-sm">
+
+            <footer class="text-center mt-16 text-gray-400 text-sm">
                 <p>© 佳里奇美醫院共識營工作小組 版權所有</p>
             </footer>
         </div>
     </section>
 
-
-    <!-- Group Modals (略, 結構保持不變) -->
-    <div id="modal-c" class="modal-overlay" onclick="closeModal('modal-c')"><div class="modal-container" onclick="event.stopPropagation()"><div class="modal-header flex justify-between items-start"><div><h3>C組名單</h3></div><button onclick="closeModal('modal-c')" class="modal-close-btn">&times;</button></div><div class="modal-body"><table class="tech-table"><thead><tr><th>科別代號</th><th>科別名稱</th><th>姓名</th><th>職稱</th></tr></thead><tbody></tbody></table></div></div></div>
-    <div id="modal-a" class="modal-overlay" onclick="closeModal('modal-a')"><div class="modal-container" onclick="event.stopPropagation()"><div class="modal-header flex justify-between items-start"><div><h3>A組名單</h3></div><button onclick="closeModal('modal-a')" class="modal-close-btn">&times;</button></div><div class="modal-body"><table class="tech-table"><thead><tr><th>科別代號</th><th>科別名稱</th><th>姓名</th><th>職稱</th></tr></thead><tbody></tbody></table></div></div></div>
-    <div id="modal-r" class="modal-overlay" onclick="closeModal('modal-r')"><div class="modal-container" onclick="event.stopPropagation()"><div class="modal-header flex justify-between items-start"><div><h3>R組名單</h3></div><button onclick="closeModal('modal-r')" class="modal-close-btn">&times;</button></div><div class="modal-body"><table class="tech-table"><thead><tr><th>科別代號</th><th>科別名稱</th><th>姓名</th><th>職稱</th></tr></thead><tbody></tbody></table></div></div></div>
-    <div id="modal-e" class="modal-overlay" onclick="closeModal('modal-e')"><div class="modal-container" onclick="event.stopPropagation()"><div class="modal-header flex justify-between items-start"><div><h3>E組名單</h3></div><button onclick="closeModal('modal-e')" class="modal-close-btn">&times;</button></div><div class="modal-body"><table class="tech-table"><thead><tr><th>科別代號</th><th>科別名稱</th><th>姓名</th><th>職稱</th></tr></thead><tbody></tbody></table></div></div></div>
-    <div id="info-modal" class="modal-overlay" onclick="closeInfoModal()"><div class="modal-container" onclick="event.stopPropagation()"><div class="modal-header flex justify-between items-start"><h3 class="font-bold text-xl text-blue-600">提示</h3><button onclick="closeInfoModal()" class="modal-close-btn">&times;</button></div><div class="modal-body text-center py-12"><p class="light-sweep text-2xl font-bold text-gray-700">規劃中~</p></div></div></div>
-
     <script>
-        // Modal, Search, Data Logic (Copied from original, kept intact)
+        // Modal Logic
         const modal = document.getElementById('imageModal');
-        const modalContent = modal.querySelector('.modal-content');
         const modalTitle = document.getElementById('modalTitle');
         const modalImage = document.getElementById('modalImage');
-        const downloadButton = document.getElementById('downloadButton');
-        const infoModal = document.getElementById('infoModal');
-        const infoModalContent = infoModal.querySelector('.modal-content');
-        const infoModalTitle = document.getElementById('infoModalTitle');
-        const infoModalText = document.getElementById('infoModalText');
-        const imageAndTextModal = document.getElementById('imageAndTextModal');
-        const imageAndTextModalContent = imageAndTextModal.querySelector('.modal-content');
-        const imageAndTextModalTitle = document.getElementById('imageAndTextModalTitle');
-        const imageAndTextModalImage = document.getElementById('imageAndTextModalImage');
-        const imageAndTextModalText = document.getElementById('imageAndTextModalText');
-        const imageAndTextDownloadButton = document.getElementById('imageAndTextDownloadButton');
-        let currentImageUrl = '';
-        let currentImageTitle = '';
-        let currentImageAndTextUrl = '';
 
-        function showImageModal(title, imageUrl) {
-            if (modal && modalTitle && modalImage) {
-                modalTitle.textContent = title;
-                modalImage.src = imageUrl;
-                currentImageUrl = imageUrl;
-                currentImageTitle = title;
-                modalImage.onerror = () => { const placeholderUrl = `https://placehold.co/800x1100/CCCCCC/FFFFFF?text=${encodeURIComponent(title)}`; modalImage.src = placeholderUrl; currentImageUrl = placeholderUrl; modalImage.onerror = null; };
-                modal.classList.remove('hidden'); document.body.style.overflow = 'hidden';
-                setTimeout(() => { modalContent.classList.remove('scale-95'); }, 10);
-            }
+        function openImageModal(title, imageUrl) {
+            modalTitle.textContent = title;
+            modalImage.src = imageUrl;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // 防止背景滾動
         }
-        downloadButton.addEventListener('click', () => { if (currentImageUrl) { window.open(currentImageUrl, '_blank'); } });
-        function closeImageModal() { if (modal) { modalContent.classList.add('scale-95'); setTimeout(() => { modal.classList.add('hidden'); if (infoModal.classList.contains('hidden') && imageAndTextModal.classList.contains('hidden')) { document.body.style.overflow = 'auto'; } }, 300); } }
-        function showInfoModal(title, text) { if (infoModal && infoModalTitle && infoModalText) { infoModalTitle.textContent = title; infoModalText.textContent = text; infoModal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; setTimeout(() => { infoModalContent.classList.remove('scale-95'); }, 10); } }
-        function closeInfoModal() { if (infoModal) { infoModalContent.classList.add('scale-95'); setTimeout(() => { infoModal.classList.add('hidden'); if (modal.classList.contains('hidden') && imageAndTextModal.classList.contains('hidden')) { document.body.style.overflow = 'auto'; } }, 300); } }
-        function showImageAndTextModal(title, imageUrl, textElementId) { if (imageAndTextModal) { const textElement = document.getElementById(textElementId); const textContent = textElement ? textElement.innerHTML : ''; imageAndTextModalTitle.textContent = title; imageAndTextModalImage.src = imageUrl; imageAndTextModalText.innerHTML = textContent; currentImageAndTextUrl = imageUrl; imageAndTextModalImage.onerror = () => { const placeholderUrl = `https://placehold.co/800x600/CCCCCC/FFFFFF?text=${encodeURIComponent(title)}`; imageAndTextModalImage.src = placeholderUrl; currentImageAndTextUrl = placeholderUrl; imageAndTextModalImage.onerror = null; }; imageAndTextModal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; setTimeout(() => { imageAndTextModalContent.classList.remove('scale-95'); }, 10); } }
-        imageAndTextDownloadButton.addEventListener('click', () => { if (currentImageAndTextUrl) { window.open(currentImageAndTextUrl, '_blank'); } });
-        function closeImageAndTextModal() { if (imageAndTextModal) { imageAndTextModalContent.classList.add('scale-95'); setTimeout(() => { imageAndTextModal.classList.add('hidden'); if (infoModal.classList.contains('hidden') && modal.classList.contains('hidden')) { document.body.style.overflow = 'auto'; } }, 300); } }
-        document.addEventListener('keydown', function(event) { if (event.key === "Escape") { closeImageModal(); closeInfoModal(); closeImageAndTextModal(); } });
-        function showCheckinInfoModal(title, message) { document.getElementById('checkinInfoModalTitle').textContent = title; document.getElementById('checkinInfoModalMessage').textContent = message; document.getElementById('checkinInfoModal').classList.remove('hidden'); document.getElementById('checkinInfoModal').classList.add('flex'); }
-        function hideCheckinInfoModal() { document.getElementById('checkinInfoModal').classList.add('hidden'); document.getElementById('checkinInfoModal').classList.remove('flex'); }
 
-        (function() {
-            const checkinBtn = document.getElementById('system-checkin-btn');
-            const checkoutBtn = document.getElementById('system-checkout-btn');
-            const checkinStartTime = new Date('2025-11-22T12:30:00');
-            const checkinEndTime = new Date('2025-11-22T13:30:00');
-            const checkoutStartTime = new Date('2025-11-22T17:00:00');
-            const checkoutEndTime = new Date('2025-11-22T18:00:00');
-            if (checkinBtn) { checkinBtn.addEventListener('click', function(event) { const now = new Date(); if (now >= checkinStartTime && now <= checkinEndTime) { return; } event.preventDefault(); if (now < checkinStartTime) { showCheckinInfoModal('提示', '尚未開放簽到，開放時間為12:30-13:30'); } else { showCheckinInfoModal('提示', '非院內系統簽到時間，請點選下方補簽到'); } }); }
-            if (checkoutBtn) { checkoutBtn.addEventListener('click', function(event) { const now = new Date(); if (now >= checkoutStartTime && now <= checkoutEndTime) { return; } event.preventDefault(); if (now < checkoutStartTime) { showCheckinInfoModal('提示', '尚未開放簽退，開放時間為17:00-18:00'); } else { showCheckinInfoModal('提示', '非院內系統簽退時間，請點選下方補簽退'); } }); }
-        })();
-        (function() { const lateCheckinBtn = document.getElementById('late-checkin-btn'); const lateCheckoutBtn = document.getElementById('late-checkout-btn'); const openDate = new Date('2025-11-22T13:30:00'); const handleClick = (event) => { const now = new Date(); if (now < openDate) { event.preventDefault(); const openYear = openDate.getFullYear(); showCheckinInfoModal('尚未開放', `補簽到與補簽退功能將於 ${openYear}年11月22日 13:30 開放。`); } }; if (lateCheckinBtn) { lateCheckinBtn.addEventListener('click', handleClick); } if (lateCheckoutBtn) { lateCheckoutBtn.addEventListener('click', handleClick); } })();
+        function closeImageModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // 恢復背景滾動
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeImageModal();
+            }
+        });
 
         document.addEventListener('DOMContentLoaded', function() {
-            // --- Device Selection Logic ---
+            // --- 裝置選擇邏輯 ---
             const overlay = document.getElementById('device-selection-overlay');
             const mobileBtn = document.getElementById('mobile-btn');
             const desktopBtn = document.getElementById('desktop-btn');
@@ -830,26 +471,22 @@
                 }
                 overlay.style.display = 'none'; 
                 mainContent.forEach(el => el.classList.remove('hidden'));
-                
-                // 🌟 全域滿意度調查按鈕預設顯示，這裡確保它不會被隱藏
-                const globalFab = document.getElementById('globalFabSurvey');
-                if(globalFab) globalFab.classList.remove('hidden');
             }
 
             mobileBtn.addEventListener('click', () => initializeView(true));
             desktopBtn.addEventListener('click', () => initializeView(false));
             
-            // --- Mobile Menu Logic ---
+            // --- 手機版選單邏輯 ---
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');
             const mobileDropdown = document.getElementById('mobile-dropdown');
             
             if (mobileMenuBtn && mobileDropdown) {
                 mobileMenuBtn.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Prevent click from bubbling to document
+                    e.stopPropagation();
                     mobileDropdown.classList.toggle('open');
                 });
 
-                // Close menu when clicking a link
+                // 點擊連結後關閉選單
                 const mobileLinks = mobileDropdown.querySelectorAll('a');
                 mobileLinks.forEach(link => {
                     link.addEventListener('click', (e) => {
@@ -860,7 +497,7 @@
                     });
                 });
 
-                // Close menu when clicking outside
+                // 點擊外部關閉選單
                 document.addEventListener('click', (e) => {
                     if (!mobileDropdown.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
                         mobileDropdown.classList.remove('open');
@@ -868,8 +505,8 @@
                 });
             }
 
-            // --- Page Switching Logic ---
-            const navLinks = document.querySelectorAll('.desktop-nav a'); // Only desktop nav links
+            // --- 頁面切換邏輯 ---
+            const navLinks = document.querySelectorAll('.desktop-nav a');
             const pages = document.querySelectorAll('.page');
 
             function showPage(targetId) {
@@ -878,12 +515,11 @@
                     page.classList.toggle('active', page.id === targetId);
                 });
                 
-                // Update active state for both desktop and mobile navs
+                // 更新導覽列狀態
                 navLinks.forEach(link => {
                     link.classList.toggle('active', link.dataset.target === targetId);
                 });
                 
-                // Update mobile dropdown links active state
                 if (mobileDropdown) {
                     const mobileLinks = mobileDropdown.querySelectorAll('a');
                     mobileLinks.forEach(link => {
@@ -900,125 +536,9 @@
                 });
             });
 
+            // 預設顯示首頁
             showPage('home');
-            
-            // --- Data Loading (Group & Invitation) ---
-            // (Keeping existing data structure and logic intact)
-            const allMembers = { 'c': [{'科別代號':'3000','科別名稱':'護理部','姓名':'劉憶萍','職稱':'部長'},{'科別代號':'3000','科別名稱':'護理部','姓名':'黃慧娟','職稱':'專員'},{'科別代號':'3000','科別名稱':'護理部','姓名':'林莉蓉','職稱':'督導'},{'科別代號':'3000','科別名稱':'護理部','姓名':'孔雅雯','職稱':'副護理長'},{'科別代號':'3000','科別名稱':'護理部','姓名':'林俊璋','職稱':'督導'},{'科別代號':'3001','科別名稱':'護理部-輸送組','姓名':'蘇淑芳','職稱':'小組長'},{'科別代號':'3008','科別名稱':'血液透析護理','姓名':'蕭蕙莉','職稱':'護理長'},{'科別代號':'3008','科別名稱':'血液透析護理','姓名':'蔡麗華','職稱':'小組長'},{'科別代號':'300H','科別名稱':'居家服務中心','姓名':'黃玉惠','職稱':'督導'},{'科別代號':'3130','科別名稱':'3A病房','姓名':'李佳容','職稱':'代理護理長'},{'科別代號':'3130','科別名稱':'3A病房','姓名':'何佳宜','職稱':'小組長'},{'科別代號':'3150','科別名稱':'5A病房','姓名':'曾雅鈴','職稱':'護理長'},{'科別代號':'3150','科別名稱':'5A病房','姓名':'吳佩書','職稱':'小組長'},{'科別代號':'3150','科別名稱':'5A病房','姓名':'林宜靜','職稱':'小組長'},{'科別代號':'3160','科別名稱':'6A病房','姓名':'黃湘雲','職稱':'護理長'},{'科別代號':'3160','科別名稱':'6A病房','姓名':'吳佩蓉','職稱':'小組長'},{'科別代號':'3160','科別名稱':'6A病房','姓名':'許家綺','職稱':'小組長'},{'科別代號':'3170','科別名稱':'7A病房','姓名':'洪婉茹','職稱':'護理長'},{'科別代號':'3170','科別名稱':'7A病房','姓名':'蔡語涵','職稱':'小組長'},{'科別代號':'3171','科別名稱':'7B病房','姓名':'洪淑英','職稱':'護理長'},{'科別代號':'3171','科別名稱':'7B病房','姓名':'黃百春','職稱':'小組長'},{'科別代號':'3171','科別名稱':'7B病房','姓名':'吳宜家','職稱':'副護理長'},{'科別代號':'3170','科別名稱':'7A病房','姓名':'莊月慈','職稱':'小組長'},{'科別代號':'3171','科別名稱':'7B病房','姓名':'許馨文','職稱':'小組長'},{'科別代號':'3300','科別名稱':'門診','姓名':'陳燕鈴','職稱':'小組長'},{'科別代號':'3300','科別名稱':'門診','姓名':'蕭琇丰','職稱':'小組長'},{'科別代號':'3300','科別名稱':'門診','姓名':'張蕙茹','職稱':'代理護理長'},{'科別代號':'3930','科別名稱':'護理部-內科','姓名':'高婉菁','職稱':'組長'},{'科別代號':'3930','科別名稱':'護理部-內科','姓名':'方月貞','職稱':'小組長'},{'科別代號':'5111','科別名稱':'物理治療組','姓名':'張敬忠','職稱':'組長'},{'科別代號':'5121','科別名稱':'職能治療組','姓名':'林雁飛','職稱':'組長'},{'科別代號':'5200','科別名稱':'放射診斷科','姓名':'舒惠芳','職稱':'主治醫師'},{'科別代號':'7780','科別名稱':'家庭醫學科','姓名':'杜明道','職稱':'主治醫師'},{'科別代號':'7780','科別名稱':'家庭醫學科','姓名':'柯俊宏','職稱':'主任'},{'科別代號':'778L','科別名稱':'預防醫學中心','姓名':'周小軒','職稱':'代理主任'},{'科別代號':'D300','科別名稱':'居家護理所','姓名':'沈水雲','職稱':'護理長'}], 'a': [{'科別代號':'2000','科別名稱':'院長室','姓名':'邵詩媛','職稱':'副院長'},{'科別代號':'2013','科別名稱':'企劃組','姓名':'紀宗瀚','職稱':'專員'},{'科別代號':'2013','科別名稱':'企劃組','姓名':'黃秀玲','職稱':'組長'},{'科別代號':'2020','科別名稱':'公共事務室','姓名':'林正雄','職稱':'專員'},{'科別代號':'2100','科別名稱':'人力資源部','姓名':'曾毓珍','職稱':'副組長'},{'科別代號':'2300','科別名稱':'醫療事務室','姓名':'方素秋','職稱':'主任'},{'科別代號':'2310','科別名稱':'醫療事務室-醫療服務組','姓名':'林莉娟','職稱':'組長'},{'科別代號':'2310','科別名稱':'醫療事務室-醫療服務組','姓名':'蔡佩君','職稱':'小組長'},{'科別代號':'2310','科別名稱':'醫療事務室-醫療服務組','姓名':'謝麗雯','職稱':'副組長'},{'科別代號':'2320','科別名稱':'醫療事務室-住院服務組','姓名':'王秋蓮','職稱':'組長'},{'科別代號':'2320','科別名稱':'醫療事務室-住院服務組','姓名':'劉婉榆','職稱':'小組長'},{'科別代號':'2330','科別名稱':'醫療事務室-申報業務組','姓名':'楊幸修','職稱':'小組長'},{'科別代號':'2330','科別名稱':'醫療事務室-申報業務組','姓名':'莊淑欽','職稱':'組長'},{'科別代號':'2399','科別名稱':'病歷資訊管理室','姓名':'謝佳芬','職稱':'組長'},{'科別代號':'2399','科別名稱':'病歷資訊管理室','姓名':'陳惠琦','職稱':'小組長'},{'科別代號':'2400','科別名稱':'資訊室','姓名':'黃士哲','職稱':'組長'},{'科別代號':'2500','科別名稱':'總務室','姓名':'陳佳銘','職稱':'組長'},{'科別代號':'1120','科別名稱':'財務處-出納組','姓名':'葉雪法','職稱':'小組長'},{'科別代號':'2600','科別名稱':'社會服務部','姓名':'林佳琪','職稱':'副組長'},{'科別代號':'2700','科別名稱':'安全衛生管理室','姓名':'陳怡靜','職稱':'小組長'},{'科別代號':'2800','科別名稱':'工務室','姓名':'楊竣欽','職稱':'主任'},{'科別代號':'2800','科別名稱':'工務室','姓名':'黃永男','職稱':'組長'},{'科別代號':'2800','科別名稱':'工務室','姓名':'李建賢','職稱':'小組長'},{'科別代號':'2910','科別名稱':'資材室-採購組','姓名':'林欣蓁','職稱':'小組長'},{'科別代號':'2920','科別名稱':'資材室-補給組','姓名':'謝淑芬','職稱':'副組長'},{'科別代號':'5100','科別名稱':'復健科','姓名':'林芯如','職稱':'小組長'},{'科別代號':'5100','科別名稱':'復健科','姓名':'林彣芷','職稱':'主任'},{'科別代號':'5100','科別名稱':'復健科','姓名':'羅元廷','職稱':'主治醫師'},{'科別代號':'5100','科別名稱':'復健科','姓名':'唐愉君','職稱':'小組長'},{'科別代號':'5100','科別名稱':'復健科','姓名':'李林富','職稱':'總技師'},{'科別代號':'7691','科別名稱':'社區發展組','姓名':'吳靜儀','職稱':'組長'},{'科別代號':'7710','科別名稱':'兒科','姓名':'陳昱瑾','職稱':'科主任'},{'科別代號':'7720','科別名稱':'婦產部','姓名':'關哲彥','職稱':'主治醫師'},{'科別代號':'7730','科別名稱':'牙科','姓名':'于錫倩','職稱':'主任'},{'科別代號':'7730','科別名稱':'牙科','姓名':'王思薇','職稱':'小組長'},{'科別代號':'7730','科別名稱':'牙科','姓名':'林靖傑','職稱':'主治醫師'},{'科別代號':'7740','科別名稱':'眼科','姓名':'蕭景星','職稱':'主任'},{'科別代號':'9070','科別名稱':'品質管理中心','姓名':'李建成','職稱':'專員'},{'科別代號':'9070','科別名稱':'品質管理中心','姓名':'楊美珠','職稱':'組長'}], 'r': [{'科別代號':'2000','科別名稱':'院長室','姓名':'田宇峯','職稱':'院長'},{'科別代號':'2000','科別名稱':'院長室','姓名':'王哲川','職稱':'副院長'},{'科別代號':'2000','科別名稱':'院長室','姓名':'王覲文','職稱':'顧問'},{'科別代號':'3200','科別名稱':'急診室','姓名':'蘇春枝','職稱':'小組長'},{'科別代號':'3200','科別名稱':'急診室','姓名':'楊曉鏵','職稱':'護理長'},{'科別代號':'3200','科別名稱':'急診室','姓名':'陳美華','職稱':'小組長'},{'科別代號':'3200','科別名稱':'急診室','姓名':'曾麗娥','職稱':'副護理長'},{'科別代號':'3200','科別名稱':'急診室','姓名':'劉怡姍','職稱':'小組長'},{'科別代號':'3990','科別名稱':'護理部-急診','姓名':'陳瑩純','職稱':'小組長'},{'科別代號':'5500','科別名稱':'藥劑科','姓名':'黃慧娟','職稱':'組長'},{'科別代號':'5500','科別名稱':'藥劑科','姓名':'黃曉鳳','職稱':'代理總藥師'},{'科別代號':'5500','科別名稱':'藥劑科','姓名':'李佩汶','職稱':'小組長'},{'科別代號':'5500','科別名稱':'藥劑科','姓名':'李佳霙','職稱':'小組長'},{'科別代號':'5600','科別名稱':'營養科','姓名':'李宜樺','職稱':'組長'},{'科別代號':'7300','科別名稱':'內科部','姓名':'廖光明','職稱':'部長'},{'科別代號':'7301','科別名稱':'檢查室','姓名':'丁恩惠','職稱':'組長'},{'科別代號':'7301','科別名稱':'檢查室','姓名':'曾瓊瑤','職稱':'小組長'},{'科別代號':'7302','科別名稱':'感染科','姓名':'陳宏睿','職稱':'主治醫師'},{'科別代號':'7320','科別名稱':'心臟血管內科','姓名':'李畊緯','職稱':'科主任'},{'科別代號':'7320','科別名稱':'心臟血管內科','姓名':'林哲光','職稱':'主治醫師'},{'科別代號':'7320','科別名稱':'心臟血管內科','姓名':'涂冠杰','職稱':'主治醫師'},{'科別代號':'7329','科別名稱':'心導管室','姓名':'唐國庭','職稱':'組長'},{'科別代號':'7330','科別名稱':'神經內科','姓名':'陳南丞','職稱':'科主任'},{'科別代號':'7330','科別名稱':'神經內科','姓名':'陳日為','職稱':'主治醫師'},{'科別代號':'7340','科別名稱':'腎臟科─透析室','姓名':'郭育淇','職稱':'科主任'},{'科別代號':'7340','科別名稱':'腎臟科─透析室','姓名':'王弘偉','職稱':'主治醫師'},{'科別代號':'7340','科別名稱':'腎臟科─透析室','姓名':'林煒健','職稱':'主治醫師'},{'科別代號':'7347','科別名稱':'血液透析室','姓名':'黃榮田','職稱':'小組長'},{'科別代號':'7800','科別名稱':'加護醫學部','姓名':'歐軒甫','職稱':'主任'},{'科別代號':'7800','科別名稱':'加護醫學部','姓名':'曾榮賦','職稱':'備任主治醫師'},{'科別代號':'7810','科別名稱':'呼吸治療組','姓名':'陳妙玉','職稱':'組長'},{'科別代號':'7810','科別名稱':'呼吸治療組','姓名':'黃柏豪','職稱':'小組長'},{'科別代號':'7900','科別名稱':'急診醫學部','姓名':'姜郁成','職稱':'主治醫師'},{'科別代號':'7900','科別名稱':'急診醫學部','姓名':'郭炳讓','職稱':'主治醫師'},{'科別代號':'7900','科別名稱':'急診醫學部','姓名':'宋國漳','職稱':'主治醫師'},{'科別代號':'7900','科別名稱':'急診醫學部','姓名':'盧稚涵','職稱':'備任主治醫師'},{'科別代號':'7900','科別名稱':'急診醫學部','姓名':'朱逢源','職稱':'部長'},{'科別代號':'7900','科別名稱':'急診醫學部','姓名':'陳又銘','職稱':'主治醫師'},{'科別代號':'7900','科別名稱':'急診醫學部','姓名':'李國彰','職稱':'主治醫師'},{'科別代號':'7900','科別名稱':'急診醫學部','姓名':'蘇江翰','職稱':'備任主治醫師'},{'科別代號':'7910','科別名稱':'急救醫學科','姓名':'陳義憲','職稱':'科主任'},{'科別代號':'9007','科別名稱':'感染管制組','姓名':'黃小容','職稱':'小組長'}], 'e': [{'科別代號':'4200','科別名稱':'教學研究組','姓名':'余守純','職稱':'組長'},{'科別代號':'3400','科別名稱':'開刀房','姓名':'彭美惠','職稱':'護理長'},{'科別代號':'3400','科別名稱':'開刀房','姓名':'謝安妮','職稱':'小組長'},{'科別代號':'3400','科別名稱':'開刀房','姓名':'林佳珍','職稱':'小組長'},{'科別代號':'3450','科別名稱':'手術室專責護理','姓名':'鄭宛瑢','職稱':'小組長'},{'科別代號':'3520','科別名稱':'2樓加護病房','姓名':'鄭雅馨','職稱':'副護理長'},{'科別代號':'3520','科別名稱':'2樓加護病房','姓名':'吳佩宜','職稱':'護理長'},{'科別代號':'3520','科別名稱':'2樓加護病房','姓名':'方惠姍','職稱':'小組長'},{'科別代號':'3520','科別名稱':'2樓加護病房','姓名':'黃玉婷','職稱':'小組長'},{'科別代號':'3520','科別名稱':'2樓加護病房','姓名':'曾加儒','職稱':'副護理長'},{'科別代號':'3520','科別名稱':'2樓加護病房','姓名':'劉家瑄','職稱':'小組長'},{'科別代號':'3930','科別名稱':'護理部-內科','姓名':'曾妍鳳','職稱':'小組長'},{'科別代號':'3950','科別名稱':'護理部-外科','姓名':'許雯萍','職稱':'小組長'},{'科別代號':'5200','科別名稱':'放射診斷科','姓名':'吳泰清','職稱':'主任'},{'科別代號':'5200','科別名稱':'放射診斷科','姓名':'吳秀蒂','職稱':'代理總技師'},{'科別代號':'5200','科別名稱':'放射診斷科','姓名':'江瑞益','職稱':'小組長'},{'科別代號':'5200','科別名稱':'放射診斷科','姓名':'張鼎晨','職稱':'組長'},{'科別代號':'5200','科別名稱':'放射診斷科','姓名':'楊傑宇','職稱':'主治醫師'},{'科別代號':'5400','科別名稱':'檢驗科','姓名':'陳姿伶','職稱':'總技師'},{'科別代號':'5400','科別名稱':'檢驗科','姓名':'李振福','職稱':'小組長'},{'科別代號':'7350','科別名稱':'胃腸肝膽科','姓名':'高旭儒','職稱':'主治醫師'},{'科別代號':'7350','科別名稱':'胃腸肝膽科','姓名':'楊道欣','職稱':'科主任'},{'科別代號':'7350','科別名稱':'胃腸肝膽科','姓名':'閻姵君','職稱':'主治醫師'},{'科別代號':'7360','科別名稱':'內分泌新陳代謝科','姓名':'陳郁麗','職稱':'科主任'},{'科別代號':'7360','科別名稱':'內分泌新陳代謝科','姓名':'劉欣岳','職稱':'主治醫師'},{'科別代號':'7370','科別名稱':'胸腔內科','姓名':'張明閎','職稱':'主治醫師'},{'科別代號':'7500','科別名稱':'外科部','姓名':'洪順興','職稱':'部長'},{'科別代號':'7510','科別名稱':'一般及消化系外科','姓名':'曾建仁','職稱':'主治醫師'},{'科別代號':'7510','科別名稱':'一般及消化系外科','姓名':'陳俊良','職稱':'科主任'},{'科別代號':'7510','科別名稱':'一般及消化系外科','姓名':'韓龍疇','職稱':'主治醫師'},{'科別代號':'7520','科別名稱':'神經外科','姓名':'林思維','職稱':'科主任'},{'科別代號':'7520','科別名稱':'神經外科','姓名':'廖仁傑','職稱':'主治醫師'},{'科別代號':'7520','科別名稱':'神經外科','姓名':'鄭鴻翔','職稱':'主治醫師'},{'科別代號':'7530','科別名稱':'泌尿外科','姓名':'胡恭寧','職稱':'主治醫師'},{'科別代號':'7530','科別名稱':'泌尿外科','姓名':'陳經國','職稱':'主治醫師'},{'科別代號':'7540','科別名稱':'骨科','姓名':'余宗興','職稱':'科主任'},{'科別代號':'7540','科別名稱':'骨科','姓名':'施貿翔','職稱':'主治醫師'},{'科別代號':'7540','科別名稱':'骨科','姓名':'陳春丞','職稱':'主治醫師'},{'科別代號':'7540','科別名稱':'骨科','姓名':'王柏竣','職稱':'主治醫師'},{'科別代號':'7580','科別名稱':'心臟血管外科','姓名':'洪綸吾','職稱':'主治醫師'},{'科別代號':'7760','科別名稱':'麻醉部','姓名':'康富期','職稱':'主任'},{'科別代號':'7760','科別名稱':'麻醉部','姓名':'林慧蓉','職稱':'護理長'},{'科別代號':'7760','科別名稱':'麻醉部','姓名':'郭玉婷','職稱':'小組長'},{'科別代號':'7760','科別名稱':'麻醉部','姓名':'李育諭','職稱':'主治醫師'}]};
-            const initialInvitationData = [{'院區別':'永康院區','科別代號':'','科別名稱':'董事會','人事號':'B00007','姓名':'高一能','職稱':'執行秘書'},{'院區別':'永康院區','科別代號':'','科別名稱':'董事會','人事號':'A80088','姓名':'劉巡宇','職稱':'董事'},{'院區別':'南科院區','科別代號':'1000','科別名稱':'經營決策委員會','人事號':'B00005','姓名':'林秀娟','職稱':'講座教授'},{'院區別':'永康院區','科別代號':'1000','科別名稱':'經營決策委員會','人事號':'B00003','姓名':'王志中','職稱':'講座教授'},{'院區別':'永康院區','科別代號':'1000','科別名稱':'經營決策委員會','人事號':'930123','姓名':'林美吟','職稱':'祕　書'},{'院區別':'永康院區','科別代號':'1010','科別名稱':'稽核室','人事號':'841157','姓名':'徐寶興','職稱':'高級專員'},{'院區別':'永康院區','科別代號':'2000','科別名稱':'院長室','人事號':'830802','姓名':'陳志成','職稱':'副院長'},{'院區別':'永康院區','科別代號':'2000','科別名稱':'院長室','人事號':'B30014','姓名':'蘇世斌','職稱':'顧問'},{'院區別':'永康院區','科別代號':'2000','科別名稱':'院長室','人事號':'840741','姓名':'陳綉琴','職稱':'副院長'},{'院區別':'永康院區','科別代號':'2000','科別名稱':'院長室','人事號':'8409D1','姓名':'湯宏仁','職稱':'副院長'},{'院區別':'永康院區','科別代號':'2000','科別名稱':'院長室','人事號':'841101','姓名':'林宏榮','職稱':'院　長'},{'院區別':'永康院區','科別代號':'2000','科別名稱':'院長室','人事號':'890401','姓名':'鄭天浚','職稱':'副院長'},{'院區別':'永康院區','科別代號':'2000','科別名稱':'院長室','人事號':'890709','姓名':'許建清','職稱':'副院長'},{'院區別':'永康院區','科別代號':'2000','科別名稱':'院長室','人事號':'910608','姓名':'陳奇祥','職稱':'醫務秘書'},{'院區別':'永康院區','科別代號':'2000','科別名稱':'院長室','人事號':'910704','姓名':'郭行道','職稱':'副院長'},{'院區別':'永康院區','科別代號':'1100','科別名稱':'財務處','人事號':'940741','姓名':'許勝武','職稱':'處長'},{'院區別':'永康院區','科別代號':'1100','科別名稱':'財務處','人事號':'930308','姓名':'楊智堯','職稱':'高級專員'},{'院區別':'永康院區','科別代號':'2000','科別名稱':'院長室','人事號':'B40001','姓名':'邱仲慶','職稱':'榮譽院長'},{'院區別':'永康院區','科別代號':'2000','科別名稱':'院長室','人事號':'B409N3','姓名':'黃仲毅','職稱':'院長特別助理'},{'院區別':'永康院區','科別代號':'2020','科別名稱':'公共事務室','人事號':'8008B9','姓名':'黃文良','職稱':'主　任'},{'院區別':'永康院區','科別代號':'2100','科別名稱':'人力資源部','人事號':'890715','姓名':'李敏禎','職稱':'處　長'},{'院區別':'永康院區','科別代號':'2200','科別名稱':'會計室','人事號':'750218','姓名':'徐亞蘭','職稱':'主　任'},{'院區別':'永康院區','科別代號':'2399','科別名稱':'病歷資訊管理室','人事號':'940943','姓名':'王怡凱','職稱':'主　任'},{'院區別':'永康院區','科別代號':'2400','科別名稱':'資訊室','人事號':'820921','姓名':'陳俊龍','職稱':'主　任'},{'院區別':'永康院區','科別代號':'2600','科別名稱':'社會服務部','人事號':'850613','姓名':'陳立誠','職稱':'主　任'},{'院區別':'永康院區','科別代號':'2700','科別名稱':'安全衛生管理室','人事號':'940301','姓名':'孫千芬','職稱':'主　任'},{'院區別':'永康院區','科別代號':'2900','科別名稱':'資材室','人事號':'810206','姓名':'陸雅玲','職稱':'處　長'},{'院區別':'永康院區','科別代號':'3000','科別名稱':'護理部','人事號':'810653','姓名':'馬淑清','職稱':'部長'},{'院區別':'永康院區','科別代號':'4210','科別名稱':'圖書館','人事號':'930619','姓名':'陳憶玲','職稱':'組　長'},{'院區別':'永康院區','科別代號':'4220','科別名稱':'視聽中心','人事號':'940702','姓名':'陳志金','職稱':'主　任'},{'院區別':'永康院區','科別代號':'5100','科別名稱':'復健部','人事號':'850620','姓名':'葉建男','職稱':'技術主任'},{'院區別':'永康院區','科別代號':'5299','科別名稱':'影像醫學部','人事號':'810641','姓名':'么煥忠','職稱':'技術主任'},{'院區別':'永康院區','科別代號':'5299','科別名稱':'影像醫學部','人事號':'A20818','姓名':'郭禹廷','職稱':'部長'},{'院區別':'永康院區','科別代號':'5400','科別名稱':'臨床病理部','人事號':'910842','姓名':'李健逢','職稱':'部長'},{'院區別':'永康院區','科別代號':'5400','科別名稱':'臨床病理部','人事號':'801202','姓名':'王傑田','職稱':'檢驗科主任'},{'院區別':'永康院區','科別代號':'5500','科別名稱':'藥劑部','人事號':'900677','姓名':'蘇慧真','職稱':'部長'},{'院區別':'永康院區','科別代號':'5600','科別名稱':'營養科','人事號':'880419','姓名':'劉美媛','職稱':'主　任'},{'院區別':'永康院區','科別代號':'7710','科別名稱':'兒科部','人事號':'860202','姓名':'周琪','職稱':'部長'},{'院區別':'永康院區','科別代號':'7720','科別名稱':'婦產部','人事號':'860712','姓名':'蔡永杰','職稱':'部長'},{'院區別':'永康院區','科別代號':'7730','科別名稱':'牙醫部','人事號':'810101','姓名':'顏欽堉','職稱':'部長'},{'院區別':'永康院區','科別代號':'7750','科別名稱':'耳鼻喉部','人事號':'900858','姓名':'張世倫','職稱':'部長'},{'院區別':'永康院區','科別代號':'7760','科別名稱':'麻醉部','人事號':'800742','姓名':'陳貞吟','職稱':'部長'},{'院區別':'永康院區','科別代號':'7780','科別名稱':'家庭醫學部','人事號':'840807','姓名':'黃建元','職稱':'總監'},{'院區別':'柳營院區','科別代號':'2000','科別名稱':'院長室','人事號':'820901','姓名':'顧博明','職稱':'副院長'},{'院區別':'柳營院區','科別代號':'2000','科別名稱':'院長室','人事號':'841005','姓名':'張修維','職稱':'副院長'},{'院區別':'柳營院區','科別代號':'2000','科別名稱':'院長室','人事號':'860201','姓名':'周偉倪','職稱':'院　長'},{'院區別':'柳營院區','科別代號':'2000','科別名稱':'院長室','人事號':'910701','姓名':'張進宏','職稱':'顧　問'},{'院區別':'柳營院區','科別代號':'2000','科別名稱':'院長室','人事號':'930701','姓名':'曹朝榮','職稱':'特聘教授'},{'院區別':'柳營院區','科別代號':'2000','科別名稱':'院長室','人事號':'940801','姓名':'黃文聰','職稱':'副院長'},{'院區別':'柳營院區','科別代號':'2000','科別名稱':'院長室','人事號':'A70004','姓名':'莊銀清','職稱':'榮譽院長'},{'院區別':'柳營院區','科別代號':'2000','科別名稱':'院長室','人事號':'B40951','姓名':'黃順賢','職稱':'榮譽院長'},{'院區別':'柳營院區','科別代號':'2000','科別名稱':'院長室','人事號':'850914','姓名':'蔣維凡','職稱':'醫務秘書'},{'院區別':'永康院區','科別代號':'2000','科別名稱':'院長室','人事號':'','姓名':'黃正安','職稱':'榮譽副院長'},{'院區別':'柳營院區','科別代號':'','科別名稱':'資訊處','人事號':'841138','姓名':'林振冬','職稱':'處　長'}];
-            const groupInfo = { 'c': { name: 'C 組', theme: '擴大長照服務 深耕社區醫療', id: 'group-card-c' }, 'a': { name: 'A 組', theme: '推動智慧醫療 優化職場環境', id: 'group-card-a' }, 'r': { name: 'R 組', theme: '強化醫療設備 韌性急重照護', id: 'group-card-r' }, 'e': { name: 'E 組', theme: '以病人為中心 提供良善醫療', id: 'group-card-e' } };
-
-            window.openModal = function(modalId) {
-                const modal = document.getElementById(modalId);
-                const groupKey = modalId.split('-')[1];
-                const tableBody = modal.querySelector('tbody');
-                const members = allMembers[groupKey];
-                members.sort((a, b) => {
-                    const codeA = a['科別代號'] || ''; const codeB = b['科別代號'] || ''; const titleA = a['職稱'] || ''; const titleB = b['職稱'] || '';
-                    if (codeA === '2000' && codeB === '2000') { const aIsDirector = titleA.replace(/\s|　/g, '') === '院長'; const bIsDirector = titleB.replace(/\s|　/g, '') === '院長'; if (aIsDirector && !bIsDirector) return -1; if (bIsDirector && !aIsDirector) return 1; }
-                    const hasLetterA = /[A-Z]/i.test(codeA); const hasLetterB = /[A-Z]/i.test(codeB); if (!hasLetterA && hasLetterB) return -1; if (hasLetterA && !hasLetterB) return 1; return codeA.localeCompare(codeB, 'zh-Hant-TW-u-kn-true', { numeric: true });
-                });
-                tableBody.innerHTML = members.map(member => `<tr><td>${member['科別代號']}</td><td>${member['科別名稱']}</td><td>${member['姓名']}</td><td>${member['職稱']}</td></tr>`).join('');
-                modal.classList.add('active');
-            }
-            window.closeModal = function(modalId) { document.getElementById(modalId).classList.remove('active'); }
-
-            const searchInput = document.getElementById('nameSearchInput');
-            const searchBtn = document.getElementById('searchBtn');
-            const searchResultDiv = document.getElementById('searchResult');
-            function performSearch() {
-                const query = searchInput.value.trim();
-                document.querySelectorAll('.group-card').forEach(card => card.classList.remove('highlight'));
-                searchResultDiv.innerHTML = '';
-                if (query === '') { searchResultDiv.textContent = '請輸入姓名進行查詢'; return; }
-                const foundResults = [];
-                for (const groupKey in allMembers) { allMembers[groupKey].forEach(member => { if (member['姓名'] === query) { foundResults.push({ ...member, groupKey }); } }); }
-                if (foundResults.length > 0) {
-                    const resultsHtml = foundResults.map(result => { const info = groupInfo[result.groupKey]; const card = document.getElementById(info.id); if (card) { card.classList.add('highlight'); } return `<div>${result['姓名']} ${result['職稱']} 您好！您被分配在 <span class="highlight">${info.name}</span>：${info.theme}</div>`; }).join('');
-                    searchResultDiv.innerHTML = resultsHtml;
-                    const firstHighlightedCard = document.querySelector('.group-card.highlight');
-                    if (firstHighlightedCard) { firstHighlightedCard.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
-                } else { searchResultDiv.innerHTML = `<span class="highlight">查無 "${query}" 的分組資訊</span>`; }
-            }
-            searchBtn.addEventListener('click', performSearch);
-            searchInput.addEventListener('keyup', (event) => { if (event.key === 'Enter') performSearch(); });
-
-            function setupInvitationPage() {
-                const jialiStaffList = [];
-                for (const groupKey in allMembers) { allMembers[groupKey].forEach(person => { jialiStaffList.push({ ...person, '院區別': '佳里院區', '分組': groupKey.toUpperCase() }); }); }
-                const uniqueJialiStaff = Array.from(new Map(jialiStaffList.map(item => [item['姓名'] + item['職稱'], item])).values());
-                const processedInvitationData = initialInvitationData.map(person => { let campus = person['院區別']; if (campus === '永康院區' || campus === '南科院區') { campus = '總院'; } return { ...person, '院區別': campus }; });
-                const invitationData = [...processedInvitationData, ...uniqueJialiStaff];
-                const groupedByCampus = invitationData.reduce((acc, person) => { const campus = person['院區別']; if (!acc[campus]) { acc[campus] = []; } acc[campus].push(person); return acc; }, {});
-                for (const campus in groupedByCampus) {
-                    const boardTitles_main = ['董事', '執行秘書']; const presidentTitles_main = ['院長', '副院長', '院長特別助理', '醫務秘書', '榮譽院長', '榮譽副院長', '顧問']; const presidentTitles_liuying = ['院長', '副院長', '醫務秘書', '榮譽院長', '顧問']; const presidentTitles_jiali = ['院長', '副院長', '顧問'];
-                    groupedByCampus[campus].sort((a, b) => {
-                        const deptA = a['科別名稱'] || ''; const deptB = b['科別名稱'] || ''; const titleA = (a['職稱'] || '').replace(/\s|　/g, ''); const titleB = (b['職稱'] || '').replace(/\s|　/g, '');
-                        if (campus === '總院') { const deptOrder = ['董事會', '經營決策委員會', '院長室', '稽核室', '財務處']; const indexA = deptOrder.indexOf(deptA); const indexB = deptOrder.indexOf(deptB); if (indexA !== -1 || indexB !== -1) { const sortA = indexA === -1 ? 999 : indexA; const sortB = indexB === -1 ? 999 : indexB; if (sortA !== sortB) { return sortA - sortB; } } }
-                        if (deptA === deptB) { if (campus === '總院') { if (deptA === '董事會') { return boardTitles_main.indexOf(titleA) - boardTitles_main.indexOf(titleB); } if (deptA === '院長室') { const pIndexA = presidentTitles_main.indexOf(titleA); const pIndexB = presidentTitles_main.indexOf(titleB); if (pIndexA !== -1 || pIndexB !== -1) { if (pIndexA === -1) return 1; if (pIndexB === -1) return -1; return pIndexA - pIndexB; } } } else if (campus === '柳營院區' && deptA === '院長室') { const pIndexA = presidentTitles_liuying.indexOf(titleA); const pIndexB = presidentTitles_liuying.indexOf(titleB); if (pIndexA !== -1 || pIndexB !== -1) { if (pIndexA === -1) return 1; if (pIndexB === -1) return -1; return pIndexA - pIndexB; } } else if (campus === '佳里院區' && deptA === '院長室') { const pIndexA = presidentTitles_jiali.indexOf(titleA); const pIndexB = presidentTitles_jiali.indexOf(titleB); if (pIndexA !== -1 || pIndexB !== -1) { if (pIndexA === -1) return 1; if (pIndexB === -1) return -1; return pIndexA - pIndexB; } } }
-                        const codeA = a['科別代號'] || ''; const codeB = b['科別代號'] || ''; if (codeA === '' && codeB !== '') return -1; if (codeB === '' && codeA !== '') return 1; const hasLetterA = /[A-Z]/i.test(codeA); const hasLetterB = /[A-Z]/i.test(codeB); if (!hasLetterA && hasLetterB) return -1; if (hasLetterA && !hasLetterB) return 1; return codeA.localeCompare(codeB, 'zh-Hant-TW-u-kn-true', { numeric: true });
-                    });
-                }
-                const campusOrder = ['總院', '柳營院區', '佳里院區'];
-                const tabsContainer = document.querySelector('.invitation-tabs');
-                const tablesContainer = document.querySelector('.invitation-tables-container');
-                tabsContainer.innerHTML = ''; tablesContainer.innerHTML = '';
-                campusOrder.forEach((campus, index) => {
-                    if (!groupedByCampus[campus]) return;
-                    const tab = document.createElement('button'); tab.dataset.campus = campus; tab.textContent = campus; if (index === 0) tab.classList.add('active'); tabsContainer.appendChild(tab);
-                    const tableWrapper = document.createElement('div'); tableWrapper.id = `table-${campus}`; if (index !== 0) tableWrapper.classList.add('hidden');
-                    const isJialiCampus = campus === '佳里院區';
-                    const tableHTML = `<div class="overflow-x-auto"><table class="tech-table"><thead><tr><th>科別代號</th><th>科別名稱</th><th>姓名</th><th>職稱</th>${isJialiCampus ? '<th>分組</th>' : ''}</tr></thead><tbody>${groupedByCampus[campus].map(p => `<tr><td>${p['科別代號'] || ''}</td><td>${p['科別名稱'] || ''}</td><td>${p['姓名'] || ''}</td><td>${p['職稱'] || ''}</td>${isJialiCampus ? `<td class="font-bold text-center">${p['分組'] || ''}</td>` : ''}</tr>`).join('')}</tbody></table></div>`;
-                    tableWrapper.innerHTML = tableHTML; tablesContainer.appendChild(tableWrapper);
-                });
-                tabsContainer.addEventListener('click', (e) => { if (e.target.tagName === 'BUTTON') { const targetCampus = e.target.dataset.campus; tabsContainer.querySelectorAll('button').forEach(btn => { btn.classList.toggle('active', btn.dataset.campus === targetCampus); }); tablesContainer.querySelectorAll('div[id^="table-"]').forEach(table => { table.classList.toggle('hidden', table.id !== `table-${targetCampus}`); }); } });
-                const invSearchInput = document.getElementById('invitationNameSearchInput');
-                const invSearchBtn = document.getElementById('invitationSearchBtn');
-                const invSearchResultDiv = document.getElementById('invitationSearchResult');
-                function performInvitationSearch() {
-                    const query = invSearchInput.value.trim();
-                    invSearchResultDiv.innerHTML = '';
-                    if (query === '') { invSearchResultDiv.textContent = '請輸入姓名進行查詢'; return; }
-                    const results = invitationData.filter(p => p['姓名'].includes(query));
-                    if (results.length > 0) { invSearchResultDiv.innerHTML = results.map(r => { const groupInfoHtml = r['院區別'] === '佳里院區' && r['分組'] ? ` | <span class="font-bold text-red-500">分組: ${r['分組']}</span>` : ''; return `<div class="border-b pb-2 mb-2"><span class="font-bold">${r['姓名']}</span> ${r['職稱']} - <span class="text-gray-600">${r['院區別']} / ${r['科別名稱']}</span>${groupInfoHtml}</div>`; }).join(''); } else { invSearchResultDiv.innerHTML = `<span class="highlight">查無 "${query}" 的邀請資訊</span>`; }
-                }
-                invSearchBtn.addEventListener('click', performInvitationSearch);
-                invSearchInput.addEventListener('keyup', (e) => { if (e.key === 'Enter') performInvitationSearch() });
-            }
-            setupInvitationPage();
-
-            function initializeCountdowns() {
-                const countdownWrappers = document.querySelectorAll('.countdown-wrapper');
-                countdownWrappers.forEach(wrapper => {
-                    const targetDateStr = wrapper.dataset.targetDate;
-                    if (!targetDateStr) return;
-                    const targetDate = new Date(targetDateStr).getTime();
-                    const endText = wrapper.dataset.endText || '時間已到！';
-                    const daysEl = wrapper.querySelector('.countdown-days');
-                    const hoursEl = wrapper.querySelector('.countdown-hours');
-                    const minutesEl = wrapper.querySelector('.countdown-minutes');
-                    const secondsEl = wrapper.querySelector('.countdown-seconds');
-                    if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
-                    const countdownInterval = setInterval(() => {
-                        const now = new Date().getTime();
-                        const distance = targetDate - now;
-                        if (distance < 0) { clearInterval(countdownInterval); const countdownFlexContainer = wrapper.querySelector('.flex'); if(countdownFlexContainer) { countdownFlexContainer.innerHTML = `<p class="text-3xl font-bold text-red-600">${endText}</p>`; } return; }
-                        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                        daysEl.textContent = String(days).padStart(2, '0');
-                        hoursEl.textContent = String(hours).padStart(2, '0');
-                        minutesEl.textContent = String(minutes).padStart(2, '0');
-                        secondsEl.textContent = String(seconds).padStart(2, '0');
-                    }, 1000);
-                });
-            }
-            initializeCountdowns();
         });
     </script>
 </body>
 </html>
-
-
-
