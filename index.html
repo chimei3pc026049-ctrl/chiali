@@ -432,7 +432,11 @@
 
         @media (max-width: 768px) {
             .desktop-nav { display: none; }
-            .mobile-menu-toggle { display: block; }
+            .mobile-menu-toggle { 
+                display: flex; 
+                align-items: center;
+                justify-content: center;
+            }
             
             /* 手機版選單容器 - 重新設計 */
             .mobile-dropdown { 
@@ -586,6 +590,7 @@
         <div class="container mx-auto flex items-center justify-end md:justify-center h-16 md:h-20 max-w-7xl px-6">
             <!-- Mobile Hamburger -->
             <button id="mobile-menu-btn" class="mobile-menu-toggle">
+                <span class="text-base font-bold text-slate-600 mr-2">選單</span>
                 <i class="fas fa-bars"></i>
             </button>
 
