@@ -790,11 +790,16 @@
                 <div class="timeline-item year-108 reveal-on-scroll">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content-inner">
-                        <div class="timeline-header">
+                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
                             <span class="timeline-year">108年</span>
-                            <button onclick="openImageModal('108年議程表', '108.jpg')" class="agenda-btn">
-                                <i class="108.jpg"></i> 查看議程表
-                            </button>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="openImageModal('108年 Day1 議程表', '108.jpg')" class="agenda-btn">
+                                    <i class="108.jpg"></i> Day 1 議程
+                                </button>
+                                <button onclick="openImageModal('108年 Day2 議程表', '108-2.jpg')" class="agenda-btn">
+                                    <i class="108-2.jpg"></i> Day 2 議程
+                                </button>
+                            </div>
                         </div>
                         
                         <div class="grid md:grid-cols-2 gap-8">
