@@ -1192,22 +1192,14 @@
         // Data for albums
         const albumData = {
             '114': ['11401.jpg'],
-            '113': ['11301.jpeg'],
-            '113': ['11302.jpeg'],
-            '113': ['11303.jpeg'],
-            '113': ['11304.jpeg'],
-            '113': ['11305.jpeg'],
-            '112': ['11201.jpeg'],
-            '112': ['11202.jpeg'],
+            '113': ['11301.jpeg', '11302.jpeg','11303.jpeg','11304.jpeg','11305.jpeg'],
+            '112': ['11201.jpeg', '11202.jpeg'],
             '108': ['10801.jpg'],
-            '107': ['10701.jpg'],
-            '107': ['10702.jpg'],
-            '105': ['10501.jpg'],
-            '105': ['10502.jpg'],
+            '107': ['10701.jpg', '10702.jpg'],
+            '105': ['10501.jpg', '10502.jpg'],
             '104': ['10401.jpg'],
             '103': ['10301.jpg'],
-            '102': ['10201.jpg'],
-            '102': ['10202.jpg'],
+            '102': ['10201.jpg','10202.jpg'],
             '101': ['10101.jpg'],
         };
 
@@ -1250,7 +1242,7 @@
                 <div class="relative w-full h-full flex flex-col items-center justify-center min-h-[50vh]">
                     <!-- Main Image Area -->
                     <div class="relative w-full flex-grow flex items-center justify-center group">
-                        <img id="album-img" src="${currentSrc}" class="max-h-[70vh] w-auto object-contain rounded-lg shadow-lg transition-all duration-300" onerror="this.src='https://placehold.co/800x600/e2e8f0/1e293b?text=Photo+Placeholder'">
+                        <img id="album-img" src="${currentSrc}" class="max-h-[70vh] w-auto object-contain rounded-lg shadow-lg transition-all duration-500 ease-in-out transform" style="backface-visibility: hidden;" onerror="this.src='https://placehold.co/800x600/e2e8f0/1e293b?text=Photo+Placeholder'">
                         
                         ${total > 1 ? `
                         <!-- Navigation Buttons -->
@@ -1275,14 +1267,52 @@
 
         function nextPhoto() {
             if (currentAlbumPhotos.length <= 1) return;
-            currentPhotoIndex = (currentPhotoIndex + 1) % currentAlbumPhotos.length;
-            renderAlbumView(); // Re-render to update image and counter
+            
+            const imgEl = document.getElementById('album-img');
+            // Flip out animation
+            imgEl.style.transform = "rotateY(-90deg)";
+            imgEl.style.opacity = "0";
+            
+            setTimeout(() => {
+                currentPhotoIndex = (currentPhotoIndex + 1) % currentAlbumPhotos.length;
+                renderAlbumView(); // Re-render to update image and counter
+                
+                // The new image will be rendered with default style. 
+                // We need to set initial state for flip in animation.
+                const newImgEl = document.getElementById('album-img');
+                newImgEl.style.transform = "rotateY(90deg)";
+                newImgEl.style.opacity = "0";
+                
+                // Trigger reflow
+                void newImgEl.offsetWidth;
+                
+                // Flip in animation
+                newImgEl.style.transform = "rotateY(0)";
+                newImgEl.style.opacity = "1";
+            }, 300);
         }
 
         function prevPhoto() {
             if (currentAlbumPhotos.length <= 1) return;
-            currentPhotoIndex = (currentPhotoIndex - 1 + currentAlbumPhotos.length) % currentAlbumPhotos.length;
-            renderAlbumView();
+            
+            const imgEl = document.getElementById('album-img');
+            // Flip out animation
+            imgEl.style.transform = "rotateY(90deg)";
+            imgEl.style.opacity = "0";
+            
+            setTimeout(() => {
+                currentPhotoIndex = (currentPhotoIndex - 1 + currentAlbumPhotos.length) % currentAlbumPhotos.length;
+                renderAlbumView();
+                
+                const newImgEl = document.getElementById('album-img');
+                newImgEl.style.transform = "rotateY(-90deg)";
+                newImgEl.style.opacity = "0";
+                
+                void newImgEl.offsetWidth;
+                
+                newImgEl.style.transform = "rotateY(0)";
+                newImgEl.style.opacity = "1";
+            }, 300);
         }
 
         function showModal() {
@@ -1439,5 +1469,3 @@
     </script>
 </body>
 </html>
-
-
