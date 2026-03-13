@@ -1,704 +1,1471 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>佳里奇美醫院 主管共識營檔案庫</title>
-  
-  <!-- 引入字體 -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-  
-  <!-- 引入 FontAwesome 圖示 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
-  <!-- 引入 Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- 引入 React 核心庫與 Babel 轉譯器 (讓瀏覽器能直接看懂 JSX) -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>佳里奇美醫院 主管共識營</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* --- 核心變數 --- */
+        :root {
+            --primary-color: #3B82F6;
+            --primary-dark: #1E3A8A;
+            --text-dark: #111827;
+            --text-light: #6B7280;
+            --glass-bg: rgba(255, 255, 255, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.6);
+            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+        }
 
-  <!-- 全局樣式注入 -->
-  <style>
-    :root {
-      --primary-color: #3B82F6;
-      --text-dark: #111827;
-      --text-light: #6B7280;
-    }
+        /* --- 全局樣式優化 --- */
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            background-color: #f3f4f6;
+            /* 動態流動背景 */
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.05) 0px, transparent 50%);
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
 
-    body {
-      font-family: 'Inter', 'Noto Sans TC', sans-serif;
-      background-color: #f3f4f6;
-      background-image: 
-        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
-        radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.1) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.05) 0px, transparent 50%);
-      background-attachment: fixed;
-      background-size: 100% 100%;
-      margin: 0;
-      color: var(--text-dark);
-      overflow-x: hidden;
-    }
+        /* 滾動條美化 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-    /* 滾動條美化 */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #f1f1f1; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        /* --- 玻璃擬態導覽列 --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        header.scrolled {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.95);
+        }
 
-    .scrollbar-hide::-webkit-scrollbar { display: none; }
-    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        .desktop-nav a {
+            position: relative;
+            padding: 1.25rem 1.8rem;
+            font-size: 1.05rem;
+            text-decoration: none;
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
 
-    /* 首頁動畫 */
-    .logo-glow {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(59,130,246,0.2) 0%, rgba(255,255,255,0) 70%);
-      border-radius: 50%;
-      z-index: -1;
-      animation: pulse-glow 4s infinite ease-in-out;
-    }
-    @keyframes pulse-glow {
-      0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-      50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-    }
-    .float-logo { animation: float-logo 6s ease-in-out infinite; }
-    @keyframes float-logo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        .desktop-nav a::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: rgba(59, 130, 246, 0.0);
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
 
-    /* 進場動畫 */
-    .fade-in-up {
-      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+        .desktop-nav a:hover, .desktop-nav a.active {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
 
-    /* 3D 電子書動畫 */
-    .perspective-box { perspective: 2500px; }
-    .book-page-layer {
-      transform-style: preserve-3d;
-      backface-visibility: hidden;
-      background: #f8fafc;
-    }
-    .page-turn-out-left { animation: swingOutLeft 0.7s cubic-bezier(0.645, 0.045, 0.355, 1) forwards; transform-origin: left center; z-index: 20; }
-    .page-turn-in-right { animation: swingInRight 0.7s cubic-bezier(0.645, 0.045, 0.355, 1) forwards; transform-origin: right center; z-index: 10; }
-    .page-turn-out-right { animation: swingOutRight 0.7s cubic-bezier(0.645, 0.045, 0.355, 1) forwards; transform-origin: right center; z-index: 20; }
-    .page-turn-in-left { animation: swingInLeft 0.7s cubic-bezier(0.645, 0.045, 0.355, 1) forwards; transform-origin: left center; z-index: 10; }
+        .desktop-nav a:hover::before, .desktop-nav a.active::before {
+            background: rgba(59, 130, 246, 0.08);
+            transform: scale(1);
+        }
 
-    @keyframes swingOutLeft { 0% { transform: rotateY(0deg) scale(1); opacity: 1; } 40% { opacity: 0.8; } 100% { transform: rotateY(-90deg) scale(0.9); opacity: 0; } }
-    @keyframes swingInRight { 0% { transform: rotateY(90deg) scale(0.9); opacity: 0; } 60% { opacity: 0.8; } 100% { transform: rotateY(0deg) scale(1); opacity: 1; } }
-    @keyframes swingOutRight { 0% { transform: rotateY(0deg) scale(1); opacity: 1; } 40% { opacity: 0.8; } 100% { transform: rotateY(90deg) scale(0.9); opacity: 0; } }
-    @keyframes swingInLeft { 0% { transform: rotateY(-90deg) scale(0.9); opacity: 0; } 60% { opacity: 0.8; } 100% { transform: rotateY(0deg) scale(1); opacity: 1; } }
-  </style>
+        /* --- 頁面容器動畫 --- */
+        .page {
+            display: flex;
+            justify-content: center;
+            padding: 8rem 1rem 5rem 1rem;
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            transform: translateY(15px);
+        }
+        
+        .page.active {
+            opacity: 1;
+            position: relative;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        /* --- 滾動顯現動畫 (Scroll Reveal) --- */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- 首頁樣式 --- */
+        #home { 
+            min-height: 100vh; /* 佔滿全螢幕 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 0; /* 移除多餘 padding，由 flex 置中 */
+            padding-bottom: 0;
+        }
+        
+        .content-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column; /* 垂直排列 */
+            align-items: center;    /* 水平置中 */
+            justify-content: center; /* 垂直置中 */
+            text-align: center;
+        }
+        
+        .logo-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        /* Logo 背後的柔和光暈 */
+        .logo-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(59,130,246,0.2) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: pulse-glow 4s infinite ease-in-out;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+        }
+
+        .logo {
+            height: 16rem;
+            margin-bottom: 2rem;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));
+            animation: float-logo 6s ease-in-out infinite;
+        }
+        @keyframes float-logo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+
+        h1.main-title {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            position: relative;
+            display: inline-block;
+        }
+
+        .next-year-box {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 2rem 3rem;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        .next-year-box:hover { transform: scale(1.02); }
+
+        /* --- 歷程記錄 (High-End Timeline) --- */
+        .tech-timeline { 
+            position: relative; 
+            padding-left: 3.5rem; 
+            margin-top: 4rem; 
+        }
+        
+        /* 漸層光流線條 */
+        .tech-timeline::before { 
+            content: ''; 
+            position: absolute; 
+            left: 19px; 
+            top: 0; 
+            bottom: 0; 
+            width: 2px; 
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(59, 130, 246, 0.5) 10%, 
+                rgba(59, 130, 246, 0.2) 90%, 
+                transparent 100%);
+        }
+
+        .timeline-item { 
+            position: relative; 
+            margin-bottom: 4rem; 
+            background: #ffffff;
+            padding: 0; /* Reset padding for inner layout */
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden; /* For hover effect */
+        }
+
+        .timeline-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.08);
+            border-color: rgba(59, 130, 246, 0.2);
+        }
+        
+        /* 裝飾性頂部線條 */
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--theme-color, #3b82f6), transparent);
+            opacity: 0.6;
+        }
+
+        /* 波紋節點 Dot */
+        .timeline-dot { 
+            position: absolute; 
+            left: -47px; 
+            top: 2.5rem; 
+            width: 22px; 
+            height: 22px; 
+            background: #FFFFFF; 
+            border-radius: 50%; 
+            border: 5px solid var(--theme-color, #3b82f6); 
+            z-index: 10; 
+            transition: transform 0.3s ease;
+        }
+        
+        .timeline-item:hover .timeline-dot { transform: scale(1.2); }
+
+        /* 節點波紋動畫 */
+        .timeline-dot::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 1px solid var(--theme-color, #3b82f6);
+            animation: ripple 2s infinite cubic-bezier(0, 0.2, 0.8, 1);
+            z-index: -1;
+        }
+        @keyframes ripple {
+            0% { width: 0; height: 0; opacity: 0; }
+            50% { opacity: 1; }
+            100% { width: 300%; height: 300%; opacity: 0; }
+        }
+
+        /* 年份主題色定義 */
+        .year-114 { --theme-color: #3B82F6; } /* 藍 */
+        .year-113 { --theme-color: #10B981; } /* 綠 */
+        .year-112 { --theme-color: #F59E0B; } /* 橘 */
+        .year-covid { --theme-color: #EF4444; } /* 紅 (疫情) */
+        .year-108 { --theme-color: #06B6D4; } /* 靛青 */
+        .year-107 { --theme-color: #8B5CF6; } /* 紫 */
+        .year-106 { --theme-color: #9CA3AF; } /* 灰 */
+        .year-105 { --theme-color: #EC4899; } /* 粉紅 */
+        .year-104 { --theme-color: #6366F1; } /* 靛藍 */
+        .year-103 { --theme-color: #D97706; } /* 琥珀 */
+        .year-102 { --theme-color: #84CC16; } /* 萊姆綠 */
+        .year-101 { --theme-color: #3B82F6; } /* 藍 */
+
+        .timeline-content-inner { padding: 2.5rem; }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed rgba(0,0,0,0.08);
+        }
+
+        .timeline-year { 
+            font-size: 2.5rem; 
+            font-weight: 900; 
+            line-height: 1;
+            background: linear-gradient(120deg, var(--theme-color) 0%, #1f2937 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+        
+        /* 互動式議程按鈕 */
+        .agenda-btn {
+            position: relative;
+            padding: 0.6rem 1.2rem;
+            background: #fff;
+            color: var(--text-light);
+            border: 1px solid #e5e7eb;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+        }
+        
+        .agenda-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .agenda-btn:hover {
+            border-color: var(--theme-color);
+            color: var(--theme-color);
+            box-shadow: 0 5px 15px -3px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        .agenda-btn:hover::before { left: 100%; }
+
+        .history-detail { 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 1.2rem; 
+            margin-bottom: 1.5rem;
+        }
+        
+        .history-icon-box { 
+            width: 50px; 
+            height: 50px; 
+            border-radius: 16px;
+            background: rgba(255,255,255,0.8);
+            border: 1px solid rgba(0,0,0,0.05);
+            color: var(--theme-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .timeline-item:hover .history-icon-box { transform: scale(1.1) rotate(5deg); }
+
+        .history-content h4 { 
+            font-size: 0.75rem; 
+            font-weight: 800; 
+            text-transform: uppercase; 
+            letter-spacing: 0.1em; 
+            color: #9ca3af; 
+            margin-bottom: 0.3rem;
+        }
+        
+        .history-content p { 
+            font-size: 1.15rem; 
+            font-weight: 700; 
+            color: #374151;
+            line-height: 1.3;
+        }
+        .history-content span {
+            font-weight: 400;
+            font-size: 0.95rem;
+            color: #6b7280;
+            display: block;
+            margin-top: 0.2rem;
+        }
+
+        /* --- 聯絡窗口 (更緊湊的樣式) --- */
+        .contact-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            padding: 1.8rem; /* 縮小 padding */
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 5px; height: 100%;
+            background: var(--accent-color, #3b82f6);
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -8px rgba(0,0,0,0.08);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        /* --- 手機版優化 --- */
+        .mobile-menu-toggle { display: none; }
+        .mobile-dropdown { display: none; }
+
+        @media (max-width: 768px) {
+            .desktop-nav { display: none; }
+            .mobile-menu-toggle { 
+                display: flex; 
+                align-items: center;
+                justify-content: center;
+            }
+            
+            /* 手機版選單容器 - 重新設計 */
+            .mobile-dropdown { 
+                position: absolute; 
+                top: 100%; 
+                left: 0; 
+                right: 0; 
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+                display: none; 
+                flex-direction: column;
+                padding: 1.5rem;
+                border-radius: 0 0 24px 24px;
+                gap: 0.8rem;
+            }
+            
+            .mobile-dropdown.open { display: flex; animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+            @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+            
+            /* 手機版選項按鈕 */
+            .mobile-nav-item {
+                display: flex;
+                align-items: center;
+                padding: 1.2rem 1.2rem;
+                background-color: #fff;
+                border: 1px solid #f3f4f6;
+                border-radius: 16px;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            }
+            
+            .mobile-nav-item:active {
+                background-color: #eff6ff;
+                border-color: #3b82f6;
+                transform: scale(0.98);
+            }
+            
+            .mobile-nav-item.active {
+                background-color: #eff6ff;
+                border-color: #3b82f6;
+                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+            }
+            
+            /* 手機版圖示區塊 */
+            .nav-icon-box {
+                width: 56px;
+                height: 56px;
+                border-radius: 14px;
+                background: #eff6ff;
+                color: #3b82f6;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.5rem;
+                margin-right: 1.2rem;
+                flex-shrink: 0;
+            }
+            
+            .mobile-nav-item.active .nav-icon-box {
+                background: #3b82f6;
+                color: #fff;
+            }
+            
+            /* 手機版文字區塊 */
+            .nav-text-content {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            .nav-main-text {
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: #1f2937;
+                line-height: 1.2;
+                margin-bottom: 0.25rem;
+            }
+            
+            .nav-sub-text {
+                font-size: 0.85rem;
+                color: #6b7280;
+                font-weight: 500;
+            }
+            
+            .nav-arrow {
+                color: #d1d5db;
+                font-size: 1.2rem;
+                margin-left: 0.5rem;
+            }
+            
+            .mobile-nav-item.active .nav-arrow {
+                color: #3b82f6;
+            }
+            
+            /* 時間軸修正 */
+            .tech-timeline { padding-left: 2.5rem; }
+            .timeline-dot { left: -33px; width: 18px; height: 18px; top: 2.8rem; }
+            .tech-timeline::before { left: 10px; }
+            
+            .page { padding-top: 6rem; }
+            #home { padding-top: 0; } /* 手機版首頁也移除 padding */
+            .timeline-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .agenda-btn { width: 100%; justify-content: center; }
+        }
+    </style>
 </head>
 <body>
-  <!-- React 將會渲染在此容器內 -->
-  <div id="root"></div>
 
-  <!-- React 應用程式碼 (標記為 text/babel 讓 Babel 處理) -->
-  <script type="text/babel">
-    const { useState, useEffect } = React;
-
-    // ==========================================
-    // 1. 電子書組件 (EBookApp)
-    // ==========================================
-    const EBookApp = () => {
-      const [currentPage, setCurrentPage] = useState(0);
-      const [prevPage, setPrevPage] = useState(0);
-      const [isAnimating, setIsAnimating] = useState(false);
-      const [direction, setDirection] = useState('');
-
-      const rawBookData = [
-        {
-          title: "佳里奇美醫院",
-          subtitle: "主管共識營歷程紀實",
-          content: [
-            "本電子書彙整自 101 年以來的共識營足跡。",
-            "從柳營奇美啟航，歷經疫情淬鍊，邁向創新未來。",
-            "透過跨界交流與場域轉換，凝聚主管向心力，共創佳里院區全新藍圖。"
-          ],
-          icon: <i className="fas fa-history text-[3rem] text-blue-600 mb-4"></i>,
-          images: ["https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800"],
-          imageAlt: "[醫療團隊與專業會議]",
-          isCover: true
-        },
-        {
-          title: "114年度", subtitle: "文化與創新展望",
-          content: [
-            "🎯 會議場地：\n• 國立臺灣史前文化博物館 (南科考古館 4F國際會議廳)。",
-            "🍽️ 晚宴地點：\n• 南科總理大餐廳。",
-            "💡 歷程亮點：\n• 結合史前文化底蘊與現代科技發展，激發醫療服務的永續與創新思維。"
-          ],
-          icon: <i className="fas fa-landmark text-3xl text-blue-600 mb-4"></i>,
-          images: ["11401.jpg"],
-          imageAlt: "114年 南科考古館"
-        },
-        {
-          title: "113年度", subtitle: "藝術與人文對話",
-          content: [
-            "🎯 會議場地：\n• 奇美博物館 (奇美廳)。",
-            "🍽️ 晚宴地點：\n• 大象寬庭宴會廳。",
-            "💡 歷程亮點：\n• 將會議移師藝術殿堂，在人文氣息中進行深度對話，提升醫療服務的核心溫度。"
-          ],
-          icon: <i className="fas fa-building text-3xl text-blue-600 mb-4"></i>,
-          images: ["11301.jpeg", "11302.jpeg", "11303.jpeg", "11304.jpeg", "11305.jpeg"],
-          imageAlt: "113年 奇美博物館"
-        },
-        {
-          title: "112年度", subtitle: "疫後重啟與凝聚",
-          content: [
-            "🎯 會議場地：\n• 遠東香格里拉 (9F國際會議廳)。",
-            "🍽️ 晚宴地點：\n• 遠東香格里拉 (3F成功廳)。",
-            "💡 歷程亮點：\n• 走過疫情陰霾後的首次回歸，於專業優質的飯店空間重新凝聚主管團隊戰鬥力。"
-          ],
-          icon: <i className="fas fa-hotel text-3xl text-blue-600 mb-4"></i>,
-          images: ["11201.jpeg", "11202.jpeg"],
-          imageAlt: "112年 遠東香格里拉"
-        },
-        {
-          title: "109-111年度", subtitle: "疫情淬鍊與堅守",
-          content: [
-            "⚠️ 停辦公告：\n• 因 COVID-19 疫情嚴峻，為堅守醫療防疫量能，共識營全面停辦。",
-            "• 全院主管與同仁齊心抗疫，守護大台南地區民眾健康。"
-          ],
-          icon: <i className="fas fa-stethoscope text-3xl text-red-500 mb-4"></i>,
-          images: ["https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&q=80&w=800"],
-          imageAlt: "齊心抗疫 守護健康"
-        },
-        {
-          title: "108年度", subtitle: "淬鍊與戶外探索",
-          content: [
-            "🌳 會議與晚宴：\n• 嘉義縣仁義潭 仁義湖岸大酒店 / 仁義潭庭園餐廳。",
-            "💡 歷程亮點：\n• 特別企劃：Day 2 安排嘉義樹木園、綠盈牧場，推動大自然療癒與團隊破冰。"
-          ],
-          icon: <i className="fas fa-campground text-3xl text-blue-600 mb-4"></i>,
-          images: ["10801.jpg"],
-          imageAlt: "108年 嘉義探索之旅"
-        },
-        {
-          title: "107年度", subtitle: "宗教與建築之美",
-          content: [
-            "🏛️ 會議場地：\n• 南鯤鯓代天府 (祥麟樓)。",
-            "🍽️ 晚宴地點：\n• 南鯤鯓代天府 (鯤海樓)。",
-            "💡 歷程亮點：\n• 體驗傳統信仰與建築之美，在莊嚴場域中凝聚共識。"
-          ],
-          icon: <i className="fas fa-vihara text-3xl text-blue-600 mb-4"></i>,
-          images: ["10701.jpg", "10702.jpg"],
-          imageAlt: "107年 南鯤鯓代天府"
-        },
-        {
-          title: "106年度", subtitle: "檔期調整",
-          content: [
-            "📅 停辦公告：\n• 因院內專案與業務檔期調整，本年度共識營暫停辦理一次。"
-          ],
-          icon: <i className="fas fa-calendar-times text-3xl text-gray-500 mb-4"></i>,
-          images: ["https://images.unsplash.com/photo-1506784365847-bbad939e9335?auto=format&fit=crop&q=80&w=800"],
-          imageAlt: "檔期調整"
-        },
-        {
-          title: "105年度", subtitle: "工業與文創的震撼",
-          content: [
-            "🥁 會議場地：\n• 十鼓文化園區 (影音館)。",
-            "🍽️ 晚宴地點：\n• 永不出軌宴會廳。",
-            "💡 歷程亮點：\n• 感受擊鼓藝術與工業遺產的震撼，激發團隊的爆發力與節奏默契。"
-          ],
-          icon: <i className="fas fa-users text-3xl text-blue-600 mb-4"></i>,
-          images: ["10501.jpg", "10502.jpg"],
-          imageAlt: "105年 十鼓文化園區"
-        },
-        {
-          title: "104年度", subtitle: "策略深耕",
-          content: [
-            "🏢 會議與晚宴場地：\n• 台糖長榮酒店 (B1桂冠廳)。",
-            "💡 歷程亮點：\n• 專注於策略深耕與深度對話，聚焦年度營運目標。"
-          ],
-          icon: <i className="fas fa-hotel text-3xl text-blue-600 mb-4"></i>,
-          images: ["10401.jpg"],
-          imageAlt: "104年 台糖長榮酒店"
-        },
-        {
-          title: "103年度", subtitle: "凝聚與交流",
-          content: [
-            "🍽️ 會議場地：\n• 台南善化大成庭園餐廳 (玉山廳)。",
-            "🍽️ 晚宴地點：\n• 台南善化大成庭園餐廳 (紅樓廳)。"
-          ],
-          icon: <i className="fas fa-users text-3xl text-blue-600 mb-4"></i>,
-          images: ["10301.jpg"],
-          imageAlt: "103年 善化大成庭園餐廳"
-        },
-        {
-          title: "102年度", subtitle: "科學與人文",
-          content: [
-            "🔬 會議場地：\n• 台南樹谷科學園區 (生活科學館 2F多媒體室)。",
-            "🍽️ 晚宴地點：\n• 樹谷懷舊餐廳。"
-          ],
-          icon: <i className="fas fa-flask text-3xl text-blue-600 mb-4"></i>,
-          images: ["10201.jpg", "10202.jpg"],
-          imageAlt: "102年 樹谷科學園區"
-        },
-        {
-          title: "101年度", subtitle: "首屆啟航",
-          content: [
-            "🏥 會議場地：\n• 柳營奇美醫院 (大講堂)。",
-            "🍽️ 晚宴地點：\n• 柳營奇美醫院宿舍大樓 (2樓)。",
-            "💡 意義：\n• 佳里奇美主管共識營的發源地，為日後的跨部門合作立下堅實基石。"
-          ],
-          icon: <i className="fas fa-hospital text-3xl text-blue-600 mb-4"></i>,
-          images: ["10101.jpg"],
-          imageAlt: "101年 柳營奇美醫院"
-        },
-        {
-          title: "未來展望與聯絡", subtitle: "115年度見 (To Be Continued)",
-          content: [
-            "期待未來持續精進，迎接全新挑戰！"
-          ],
-          icon: <i className="fas fa-rocket text-3xl text-blue-600 mb-4"></i>,
-          images: ["https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800"],
-          imageAlt: "攜手邁向未來"
-        }
-      ];
-
-      const bookData = [];
-      const bookmarks = [];
-      let pageCount = 0;
-
-      rawBookData.forEach((section, sectionIdx) => {
-        let shortLabel = section.title;
-        let isFuture = false;
-
-        if (section.isCover) shortLabel = "首頁";
-        else if (section.title === "未來展望與聯絡") {
-          shortLabel = "展望";
-          isFuture = true;
-        }
-        else shortLabel = shortLabel.replace('年度', '年');
-
-        bookmarks.push({
-          id: sectionIdx,
-          label: shortLabel,
-          pageIndex: pageCount,
-          isCover: section.isCover,
-          isFuture: isFuture
-        });
-
-        section.images.forEach((img, idx) => {
-          bookData.push({
-            ...section,
-            image: img,
-            displaySubtitle: section.images.length > 1 
-              ? `${section.subtitle} (照片 ${idx + 1}/${section.images.length})` 
-              : section.subtitle,
-            sectionId: sectionIdx
-          });
-          pageCount++;
-        });
-      });
-
-      const totalPages = bookData.length;
-
-      const executeFlip = (targetIndex, forcedDirection) => {
-        setPrevPage(currentPage);
-        setCurrentPage(targetIndex);
-        setDirection(forcedDirection);
-        setIsAnimating(true);
-        setTimeout(() => setIsAnimating(false), 700);
-      };
-
-      const handleNextPage = () => { if (currentPage < totalPages - 1 && !isAnimating) executeFlip(currentPage + 1, 'next'); };
-      const handlePrevPage = () => { if (currentPage > 0 && !isAnimating) executeFlip(currentPage - 1, 'prev'); };
-      const jumpToBookmark = (targetIndex) => {
-        if (targetIndex === currentPage || isAnimating) return;
-        executeFlip(targetIndex, targetIndex > currentPage ? 'next' : 'prev');
-      };
-
-      const PageContent = ({ data }) => (
-        <div className="w-full h-full flex flex-col md:flex-row bg-white rounded-xl overflow-hidden border border-slate-200 shadow-[0_4px_20px_rgb(0,0,0,0.05)]">
-          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-8 -ml-4 bg-gradient-to-r from-slate-100 via-slate-300 to-slate-100 border-x border-slate-300 z-10 shadow-inner"></div>
-          
-          <div className="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-center h-full overflow-y-auto">
-            {data.isCover ? (
-              <div className="text-center md:text-left">
-                {data.icon}
-                <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 leading-tight tracking-tight">{data.title}</h2>
-                <h3 className="text-lg md:text-xl text-blue-600 font-bold mb-6 md:mb-8 tracking-wide">{data.displaySubtitle}</h3>
-                <div className="space-y-4 text-slate-600 text-base md:text-lg">
-                  {data.content.map((text, idx) => (
-                    <p key={idx} className="leading-relaxed font-medium">{text}</p>
-                  ))}
+    <!-- 裝置選擇 -->
+    <div id="device-selection-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-[9999] transition-opacity duration-300">
+        <div class="text-center bg-white p-8 md:p-12 rounded-3xl shadow-2xl max-w-md w-full mx-4 border border-white/20 transform scale-100 transition-transform duration-300">
+            <div class="mb-8">
+                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600 text-2xl">
+                    <i class="fas fa-mobile-screen-button"></i>
                 </div>
-              </div>
-            ) : (
-              <div>
-                {data.icon}
-                <h3 className="text-xs md:text-sm font-bold tracking-widest text-blue-500 uppercase mb-2">{data.title}</h3>
-                <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-4 md:mb-6">{data.displaySubtitle}</h2>
-                <ul className="space-y-3 md:space-y-4">
-                  {data.content.flatMap(str => str.split('\n')).map((text, idx) => {
-                    if (!text.trim()) return null;
-                    const isBullet = text.trim().startsWith('•');
-                    return (
-                      <li key={idx} className="flex items-start text-slate-700 leading-relaxed text-sm md:text-base">
-                        {isBullet ? (
-                          <span className="ml-2 md:ml-6 mr-3 text-blue-500 font-bold">•</span>
-                        ) : (
-                          <span className="mr-3 mt-1.5"><div className="w-1.5 h-1.5 rounded-full bg-blue-500" /></span>
-                        )}
-                        <span className={`${isBullet ? 'text-slate-600' : 'font-bold text-slate-800'}`}>
-                          {isBullet ? text.substring(1).trim() : text}
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
-          </div>
-
-          <div className="w-full md:w-1/2 bg-slate-50 relative overflow-hidden h-48 md:h-full flex-shrink-0">
-            <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-transparent z-0 mix-blend-multiply"></div>
-            <img 
-              src={data.image} 
-              alt={data.imageAlt}
-              className="w-full h-full object-cover relative z-0"
-              onError={(e) => {
-                e.target.onerror = null; 
-                e.target.src = `https://placehold.co/800x600/e2e8f0/1e293b?text=${encodeURIComponent(data.title + ' 照片')}`;
-              }}
-            />
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-transparent p-4 md:p-6 pt-16 md:pt-24 z-10">
-              <p className="text-white text-xs md:text-sm font-medium tracking-wide">{data.imageAlt}</p>
+                <h2 class="text-2xl font-bold text-slate-800">請選擇瀏覽模式</h2>
+                <p class="text-slate-500 mt-2">為了提供最佳的體驗，請選擇您的裝置類型</p>
             </div>
-          </div>
-        </div>
-      );
-
-      return (
-        <div className="w-full flex flex-col items-center justify-center font-sans overflow-hidden fade-in-up">
-          {/* 玻璃擬態時光索引書籤 */}
-          <div className="w-full max-w-5xl z-20 mb-6 relative px-2">
-            <div className="relative flex items-center p-2 bg-white/70 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-2xl overflow-x-auto scrollbar-hide">
-              <div className="hidden md:flex items-center text-blue-600 font-bold px-4 border-r border-slate-200/60 mr-2 shrink-0">
-                <i className="fas fa-sparkles text-lg mr-1.5"></i>
-                <span className="tracking-wide">時光索引</span>
-              </div>
-              <div className="flex gap-2 px-1">
-                {bookmarks.map((bm) => {
-                  const isActive = bookData[currentPage]?.sectionId === bm.id;
-                  return (
-                    <button
-                      key={bm.id}
-                      onClick={() => jumpToBookmark(bm.pageIndex)}
-                      disabled={isAnimating || isActive}
-                      className={`
-                        relative group flex items-center px-3 py-1.5 md:px-4 md:py-2 shrink-0 rounded-xl text-sm md:text-base font-bold transition-all duration-300
-                        ${isActive ? 'bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30 scale-105' : 'bg-transparent text-slate-500 hover:bg-white hover:shadow-sm hover:text-blue-600'}
-                      `}
-                    >
-                      {bm.isCover && <i className={`fas fa-book-open text-sm mr-1.5 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-500'}`}></i>}
-                      {bm.isFuture && <i className={`fas fa-rocket text-sm mr-1.5 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-500'}`}></i>}
-                      {!bm.isCover && !bm.isFuture && (
-                        <div className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full mr-2 transition-all duration-300 ${isActive ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'bg-slate-300 group-hover:bg-blue-400 group-hover:scale-110'}`} />
-                      )}
-                      <span className="tracking-wider whitespace-nowrap">{bm.label}</span>
-                      {isActive && <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-white/60 rounded-full blur-[1px]"></span>}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-
-          {/* 3D 電子書主體 */}
-          <div className="perspective-box relative w-full max-w-5xl h-[550px] md:h-[550px] z-0 px-2 md:px-0">
-            {isAnimating && (
-              <div className={`absolute inset-0 md:inset-x-0 w-[calc(100%-1rem)] md:w-full mx-auto h-full book-page-layer ${direction === 'next' ? 'page-turn-out-left' : 'page-turn-out-right'}`}>
-                <PageContent data={bookData[prevPage]} />
-              </div>
-            )}
-            <div className={`absolute inset-0 md:inset-x-0 w-[calc(100%-1rem)] md:w-full mx-auto h-full book-page-layer ${isAnimating ? (direction === 'next' ? 'page-turn-in-right' : 'page-turn-in-left') : ''}`}>
-              <PageContent data={bookData[currentPage]} />
-            </div>
-          </div>
-
-          {/* 底部導覽與頁碼 */}
-          <div className="mt-8 flex flex-col items-center gap-4 z-10">
-            <div className="flex items-center gap-4 md:gap-6">
-              <button 
-                onClick={handlePrevPage} disabled={currentPage === 0 || isAnimating}
-                className={`flex items-center gap-1 md:gap-2 px-4 py-2.5 md:px-6 md:py-3 rounded-full text-sm md:text-base font-bold transition-all ${currentPage === 0 ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-white text-slate-700 shadow-md hover:shadow-lg hover:bg-blue-50 hover:text-blue-600 active:scale-95'}`}
-              >
-                <i className="fas fa-chevron-left text-lg"></i> 上一頁
-              </button>
-              <span className="text-sm font-semibold text-slate-400">
-                Page {currentPage + 1} / {totalPages}
-              </span>
-              <button 
-                onClick={handleNextPage} disabled={currentPage === totalPages - 1 || isAnimating}
-                className={`flex items-center gap-1 md:gap-2 px-4 py-2.5 md:px-6 md:py-3 rounded-full text-sm md:text-base font-bold transition-all ${currentPage === totalPages - 1 ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-blue-600 text-white shadow-md hover:shadow-lg hover:bg-blue-700 active:scale-95'}`}
-              >
-                下一頁 <i className="fas fa-chevron-right text-lg"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    // ==========================================
-    // 2. 主應用程式與頁面組件 (App)
-    // ==========================================
-    const App = () => {
-      const [deviceSelected, setDeviceSelected] = useState(false);
-      const [activeTab, setActiveTab] = useState('home');
-      const [isScrolled, setIsScrolled] = useState(false);
-      const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-      useEffect(() => {
-        const handleScroll = () => setIsScrolled(window.scrollY > 50);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-      }, []);
-
-      const handleNavClick = (tab) => {
-        setActiveTab(tab);
-        setIsMobileMenuOpen(false);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      };
-
-      if (!deviceSelected) {
-        return (
-          <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-[9999]">
-            <div className="text-center bg-white p-8 md:p-12 rounded-3xl shadow-2xl max-w-md w-full mx-4 border border-white/20 transform scale-100 transition-transform duration-300 fade-in-up">
-              <div className="mb-8">
-                <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600">
-                  <i className="fas fa-mobile-screen text-3xl"></i>
-                </div>
-                <h2 className="text-2xl font-bold text-slate-800">請選擇瀏覽模式</h2>
-                <p className="text-slate-500 mt-2">為了提供最佳的體驗，請選擇您的裝置類型</p>
-              </div>
-              <div className="flex flex-col gap-3">
-                <button onClick={() => setDeviceSelected(true)} className="group w-full bg-blue-600 text-white px-6 py-4 rounded-xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30 flex items-center justify-center gap-3 font-bold">
-                  <i className="fas fa-mobile-alt text-xl group-hover:scale-110 transition-transform"></i> 手機版
+            <div class="flex flex-col gap-3">
+                <button id="mobile-btn" class="group w-full bg-blue-600 text-white px-6 py-4 rounded-xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30 flex items-center justify-center gap-3 font-bold">
+                    <i class="fas fa-mobile-alt group-hover:scale-110 transition-transform"></i> 手機版
                 </button>
-                <button onClick={() => setDeviceSelected(true)} className="group w-full bg-white border border-slate-200 text-slate-700 px-6 py-4 rounded-xl hover:border-blue-500 hover:text-blue-600 transition-all flex items-center justify-center gap-3 font-bold">
-                  <i className="fas fa-desktop text-xl group-hover:scale-110 transition-transform"></i> 電腦版
+                <button id="desktop-btn" class="group w-full bg-white border border-slate-200 text-slate-700 px-6 py-4 rounded-xl hover:border-blue-500 hover:text-blue-600 transition-all flex items-center justify-center gap-3 font-bold">
+                    <i class="fas fa-desktop group-hover:scale-110 transition-transform"></i> 電腦版
                 </button>
-              </div>
             </div>
-          </div>
-        );
-      }
+        </div>
+    </div>
 
-      return (
-        <div className="min-h-screen relative pb-10">
-          
-          {/* 導覽列 Header */}
-          <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-400 ${isScrolled ? 'bg-white/95 shadow-md backdrop-blur-md py-2' : 'bg-white/80 backdrop-blur-lg py-4 border-b border-white/30'}`}>
-            <div className="container mx-auto flex items-center justify-between md:justify-center px-6">
-              
-              <div className="md:hidden flex-1"></div>
-              <button 
-                className="md:hidden flex items-center text-slate-700 hover:text-blue-600 transition-colors"
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              >
-                <span className="font-bold mr-2">選單</span>
-                <i className="fas fa-bars text-2xl"></i>
-              </button>
+    <!-- 圖片彈窗 (Modal) -->
+    <div id="imageModal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-4 z-[200] hidden transition-all duration-300 opacity-0 scale-95" onclick="closeImageModal()">
+        <div class="bg-white rounded-2xl overflow-hidden shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-all duration-300" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center p-5 border-b border-slate-100 bg-white/95 backdrop-blur sticky top-0 z-10">
+                <h3 id="modalTitle" class="text-lg font-bold text-slate-800 pl-2 border-l-4 border-blue-500"></h3>
+                <button onclick="closeImageModal()" class="w-10 h-10 rounded-full bg-slate-50 hover:bg-red-50 hover:text-red-500 text-slate-400 transition-colors flex items-center justify-center text-xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="overflow-y-auto p-6 bg-slate-50 flex-grow">
+                <img id="modalImage" src="" alt="Agenda" class="w-full h-auto max-w-full object-contain rounded-lg shadow-sm mx-auto">
+            </div>
+        </div>
+    </div>
 
-              <nav className="hidden md:flex gap-2">
-                {[
-                  { id: 'home', label: '首頁' },
-                  { id: 'notice', label: '聯絡窗口' },
-                  { id: 'history', label: '歷程記錄' }
-                ].map(tab => (
-                  <button
-                    key={tab.id}
-                    onClick={() => handleNavClick(tab.id)}
-                    className={`relative px-6 py-3 font-medium text-lg rounded-xl transition-all duration-300 ${activeTab === tab.id ? 'text-blue-600 font-bold bg-blue-50/50' : 'text-slate-500 hover:text-blue-600 hover:bg-white/50'}`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </nav>
+    <!-- Header -->
+    <header class="hidden" id="main-header">
+        <div class="container mx-auto flex items-center justify-end md:justify-center h-16 md:h-20 max-w-7xl px-6">
+            <!-- Mobile Hamburger -->
+            <button id="mobile-menu-btn" class="mobile-menu-toggle">
+                <span class="text-base font-bold text-slate-600 mr-2">選單</span>
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-dropdown" class="mobile-dropdown">
+                <a href="#" data-target="home" class="mobile-nav-item">
+                    <div class="nav-icon-box">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="nav-text-content">
+                        <span class="nav-main-text">首頁</span>
+                        <span class="nav-sub-text">回到活動主視覺</span>
+                    </div>
+                    <i class="fas fa-chevron-right nav-arrow"></i>
+                </a>
+                
+                <a href="#" data-target="notice" class="mobile-nav-item">
+                    <div class="nav-icon-box">
+                        <i class="fas fa-address-book"></i>
+                    </div>
+                    <div class="nav-text-content">
+                        <span class="nav-main-text">聯絡窗口</span>
+                        <span class="nav-sub-text">各組企劃聯繫資訊</span>
+                    </div>
+                    <i class="fas fa-chevron-right nav-arrow"></i>
+                </a>
+                
+                <a href="#" data-target="history" class="mobile-nav-item">
+                    <div class="nav-icon-box">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="nav-text-content">
+                        <span class="nav-main-text">歷程記錄</span>
+                        <span class="nav-sub-text">回顧過往共識營足跡</span>
+                    </div>
+                    <i class="fas fa-chevron-right nav-arrow"></i>
+                </a>
             </div>
 
-            {/* 手機版下拉選單 */}
-            {isMobileMenuOpen && (
-              <div className="absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-slate-100 shadow-xl rounded-b-3xl md:hidden flex flex-col p-4 gap-3 animate-in slide-in-from-top-4 duration-200">
-                {[
-                  { id: 'home', label: '首頁', desc: '回到活動主視覺', icon: 'fas fa-home' },
-                  { id: 'notice', label: '聯絡窗口', desc: '各組企劃聯繫資訊', icon: 'fas fa-address-book' },
-                  { id: 'history', label: '歷程記錄', desc: '回顧過往共識營足跡', icon: 'fas fa-history' }
-                ].map(tab => {
-                  const isActive = activeTab === tab.id;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => handleNavClick(tab.id)}
-                      className={`flex items-center p-4 rounded-2xl transition-all text-left ${isActive ? 'bg-blue-50 border border-blue-200 shadow-sm' : 'bg-white border border-slate-100'}`}
-                    >
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center mr-4 shrink-0 transition-colors ${isActive ? 'bg-blue-600 text-white' : 'bg-blue-50 text-blue-500'}`}>
-                        <i className={`${tab.icon} text-xl`}></i>
-                      </div>
-                      <div className="flex-1">
-                        <div className={`font-bold text-lg mb-0.5 ${isActive ? 'text-blue-900' : 'text-slate-800'}`}>{tab.label}</div>
-                        <div className="text-sm text-slate-500 font-medium">{tab.desc}</div>
-                      </div>
-                      <i className={`fas fa-chevron-right text-lg ${isActive ? 'text-blue-500' : 'text-slate-300'}`}></i>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </header>
+            <!-- Desktop Nav -->
+            <nav class="desktop-nav">
+                <a href="#" data-target="home" class="active">首頁</a>
+                <a href="#" data-target="notice">聯絡窗口</a>
+                <a href="#" data-target="history">歷程記錄</a>
+            </nav>
+        </div>
+    </header>
 
-          {/* 主要內容區塊 */}
-          <main className="pt-24 md:pt-32 px-4 md:px-6 flex justify-center w-full min-h-[80vh]">
+    <!-- 1. 首頁 Section -->
+    <section id="home" class="page active">
+        <main class="content-container reveal-on-scroll is-visible">
+            <!-- Logo Area -->
+            <div class="logo-container">
+                <div class="logo-glow"></div>
+                <img src="logo-green.png" alt="奇美醫院 Logo" class="logo mx-auto" onerror="this.src='https://placehold.co/400x400/transparent/22c55e?text=Logo'">
+            </div>
             
-            {/* 首頁 */}
-            {activeTab === 'home' && (
-              <div className="w-full max-w-4xl flex flex-col items-center justify-center text-center fade-in-up mt-10 md:mt-20">
-                <div className="relative inline-block mb-10">
-                  <div className="logo-glow"></div>
-                  <div className="float-logo w-40 h-40 md:w-56 md:h-56 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-2xl mx-auto border-4 border-white">
-                    <i className="fas fa-building text-7xl md:text-8xl text-white"></i>
-                  </div>
-                </div>
-                
-                <div className="relative z-10">
-                  <p className="text-3xl md:text-5xl text-slate-700 mb-4 font-bold tracking-wider">佳里奇美醫院</p>
-                  <h1 className="text-5xl md:text-7xl font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-blue-800 via-blue-500 to-cyan-400">
-                    主管共識營
-                  </h1>
-                </div>
+            <div class="mb-8 -mt-12 relative z-10">
+                <p class="subtitle text-4xl md:text-5xl text-slate-700 mb-4 font-bold tracking-wider">佳里奇美醫院</p>
+                <h1 class="main-title text-5xl md:text-7xl mt-2">主管共識營</h1>
+            </div>
 
-                <div className="mt-16 bg-white/60 backdrop-blur-md border border-white/50 py-8 px-12 rounded-3xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:scale-105 transition-transform duration-300 cursor-default">
-                  <p className="text-4xl md:text-5xl font-black uppercase bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-teal-500 tracking-widest">
+            <div class="next-year-box mt-16 inline-block mx-auto animate-bounce-slow">
+                <p class="text-4xl md:text-5xl font-black text-blue-600 tracking-widest uppercase bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-teal-500" style="text-shadow: 0px 2px 4px rgba(0,0,0,0.1);">
                     115年度見
-                  </p>
-                  <div className="mt-4 text-slate-400 font-medium tracking-[0.25em] text-xs md:text-sm">SEE YOU NEXT YEAR</div>
-                </div>
-              </div>
-            )}
+                </p>
+                <div class="mt-3 text-slate-400 font-medium tracking-[0.2em] text-sm">SEE YOU NEXT YEAR</div>
+            </div>
+        </main>
+    </section>
 
-            {/* 歷程記錄 */}
-            {activeTab === 'history' && (
-              <div className="w-full flex flex-col items-center">
-                <div className="text-center mb-10 fade-in-up">
-                  <span className="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 shadow-sm mb-4 md:mb-6 transform rotate-3">
-                    <i className="fas fa-history text-3xl"></i>
-                  </span>
-                  <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">主管共識營歷程檔案庫</h2>
-                  <div className="h-1 w-16 md:w-24 bg-gradient-to-r from-blue-500 to-teal-400 mx-auto mt-4 md:mt-6 rounded-full"></div>
-                </div>
-                <EBookApp />
-              </div>
-            )}
-
-            {/* 聯絡窗口 */}
-            {activeTab === 'notice' && (
-              <div className="w-full max-w-4xl flex flex-col items-center fade-in-up">
-                <div className="text-center mb-10">
-                  <span className="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 shadow-sm mb-4 md:mb-6 transform -rotate-3">
-                    <i className="fas fa-address-book text-3xl"></i>
-                  </span>
-                  <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">聯絡窗口</h2>
-                  <p className="text-slate-500 mt-3 text-sm md:text-base">如有任何疑問，歡迎隨時聯繫企劃組同仁</p>
-                </div>
-                
-                <div className="grid md:grid-cols-2 gap-6 w-full">
-                  <div className="bg-white/80 backdrop-blur-md border border-white/60 p-6 md:p-8 rounded-3xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
-                    <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center">
-                      <span className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mr-3"><i className="fas fa-users text-lg"></i></span>
-                      企劃組
-                    </h3>
-                    <div className="space-y-5">
-                      <div className="flex items-center group">
-                        <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mr-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                          <i className="fas fa-user text-lg"></i>
+    <!-- 2. 歷程記錄 Section -->
+    <section id="history" class="page hidden">
+        <div class="page-content-wrapper w-full max-w-4xl">
+            <div class="text-center mb-16 reveal-on-scroll">
+                <span class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 text-3xl shadow-sm mb-6 transform rotate-3">
+                    <i class="fas fa-history"></i>
+                </span>
+                <h2 class="text-4xl font-extrabold text-slate-800 tracking-tight">主管共識營歷程</h2>
+                <div class="h-1 w-24 bg-gradient-to-r from-blue-500 to-teal-400 mx-auto mt-6 rounded-full"></div>
+            </div>
+            
+            <div class="tech-timeline">
+                <!-- 114年 -->
+                <div class="timeline-item year-114 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
+                            <span class="timeline-year">114年</span>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="openImageModal('114年議程表', '114.png')" class="agenda-btn">
+                                    <i class="far fa-file-image"></i> 議程表
+                                </button>
+                                <button onclick="openAlbumModal('114年大合照', '114')" class="agenda-btn">
+                                    <i class="fas fa-camera"></i> 大合照
+                                </button>
+                            </div>
                         </div>
-                        <div>
-                          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Contact Person</p>
-                          <p className="text-lg font-bold text-slate-800">黃秀玲 組長</p>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-chalkboard-teacher"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>國立臺灣史前文化博物館<br>南科考古館</p>
+                                    <span>4F國際會議廳</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>南科總理大餐廳</p>
+                                    <span>晚宴會場</span>
+                                </div>
+                            </div>
                         </div>
-                      </div>
-                      <div className="flex items-center group">
-                        <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mr-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                          <i className="fas fa-phone text-lg"></i>
-                        </div>
-                        <div>
-                          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Extension</p>
-                          <p className="text-lg font-bold text-slate-800 font-mono">32005</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center group overflow-hidden">
-                        <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mr-4 shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                          <i className="fas fa-envelope text-lg"></i>
-                        </div>
-                        <div className="overflow-hidden">
-                          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Email</p>
-                          <p className="text-sm md:text-base font-medium text-slate-700 truncate font-mono">a00535@mail.chimei.org.tw</p>
-                        </div>
-                      </div>
                     </div>
-                  </div>
-
-                  <div className="bg-white/80 backdrop-blur-md border border-white/60 p-6 md:p-8 rounded-3xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
-                    <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center">
-                      <span className="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-600 flex items-center justify-center mr-3"><i className="fas fa-users text-lg"></i></span>
-                      企劃組
-                    </h3>
-                    <div className="space-y-5">
-                      <div className="flex items-center group">
-                        <div className="w-12 h-12 rounded-full bg-cyan-50 text-cyan-500 flex items-center justify-center mr-4 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
-                          <i className="fas fa-user text-lg"></i>
-                        </div>
-                        <div>
-                          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Contact Person</p>
-                          <p className="text-lg font-bold text-slate-800">紀宗瀚 專員</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center group">
-                        <div className="w-12 h-12 rounded-full bg-cyan-50 text-cyan-500 flex items-center justify-center mr-4 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
-                          <i className="fas fa-phone text-lg"></i>
-                        </div>
-                        <div>
-                          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Extension</p>
-                          <p className="text-lg font-bold text-slate-800 font-mono">32911</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center group overflow-hidden">
-                        <div className="w-12 h-12 rounded-full bg-cyan-50 text-cyan-500 flex items-center justify-center mr-4 shrink-0 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
-                          <i className="fas fa-envelope text-lg"></i>
-                        </div>
-                        <div className="overflow-hidden">
-                          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Email</p>
-                          <p className="text-sm md:text-base font-medium text-slate-700 truncate font-mono">a003c1@mail.chimei.org.tw</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
-                
-                <footer className="text-center mt-16 text-slate-400 text-xs md:text-sm font-medium">
-                  <p>© 佳里奇美醫院共識營工作小組 版權所有</p>
-                </footer>
-              </div>
-            )}
-          </main>
+
+                <!-- 113年 -->
+                <div class="timeline-item year-113 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
+                            <span class="timeline-year">113年</span>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="openImageModal('113年議程表', '113.jpg')" class="agenda-btn">
+                                    <i class="far fa-file-image"></i> 議程表
+                                </button>
+                                <button onclick="openAlbumModal('113年大合照', '113')" class="agenda-btn">
+                                    <i class="fas fa-camera"></i> 大合照
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-landmark"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>奇美博物館</p>
+                                    <span>奇美廳</span>
+                                </div>
+                            </div>
+
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-wine-glass-alt"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>大象寬庭宴會廳</p>
+                                    <span>晚宴會場</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 112年 -->
+                <div class="timeline-item year-112 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
+                            <span class="timeline-year">112年</span>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="openImageModal('112年議程表', '112.png')" class="agenda-btn">
+                                    <i class="far fa-file-image"></i> 議程表
+                                </button>
+                                <button onclick="openAlbumModal('112年大合照', '112')" class="agenda-btn">
+                                    <i class="fas fa-camera"></i> 大合照
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-hotel"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>遠東香格里拉</p>
+                                    <span>9F國際會議廳</span>
+                                </div>
+                            </div>
+
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-glass-cheers"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>遠東香格里拉</p>
+                                    <span>3F成功廳</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 109-111年 -->
+                <div class="timeline-item year-covid reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header !mb-0 !pb-0 !border-0 flex-col md:flex-row gap-4">
+                            <span class="timeline-year">109-111年</span>
+                            <span class="px-6 py-2 rounded-full bg-red-100 text-red-600 font-bold text-sm tracking-wider shadow-sm">
+                                <i class="fas fa-virus mr-2"></i> 因 COVID-19 疫情停辦
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 108年 -->
+                <div class="timeline-item year-108 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
+                            <span class="timeline-year">108年</span>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="openImageModal('108年 Day1 議程表', '108.jpg')" class="agenda-btn">
+                                    <i class="108.jpg"></i> Day 1 議程
+                                </button>
+                                <button onclick="openImageModal('108年 Day2 議程表', '108-2.jpg')" class="agenda-btn">
+                                    <i class="108-2.jpg"></i> Day 2 議程
+                                </button>
+                                <button onclick="openAlbumModal('108年大合照', '108')" class="agenda-btn">
+                                    <i class="fas fa-camera"></i> 大合照
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-hotel"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>嘉義縣仁義潭<br>仁義湖岸大酒店</p>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>仁義潭庭園餐廳</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 pt-6 border-t border-dashed border-gray-200">
+                            <div class="history-detail">
+                                <div class="history-icon-box" style="background-color: #ECFEFF; color: #06B6D4;"><i class="fas fa-tree"></i></div>
+                                <div class="history-content">
+                                    <h4>Day 2 Activity</h4>
+                                    <p>嘉義樹木園、綠盈牧場</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 107年 -->
+                <div class="timeline-item year-107 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
+                            <span class="timeline-year">107年</span>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="openImageModal('107年議程表', '107.jpg')" class="agenda-btn">
+                                    <i class="107.jpg"></i> 議程表
+                                </button>
+                                <button onclick="openAlbumModal('107年大合照', '107')" class="agenda-btn">
+                                    <i class="fas fa-camera"></i> 大合照
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-gopuram"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>南鯤鯓代天府</p>
+                                    <span>祥麟樓2F</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>南鯤鯓代天府</p>
+                                    <span>鯤海樓1F</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 106年 -->
+                <div class="timeline-item year-106 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header !mb-0 !pb-0 !border-0 flex-col md:flex-row gap-4">
+                            <span class="timeline-year">106年</span>
+                            <span class="px-6 py-2 rounded-full bg-gray-100 text-gray-600 font-bold text-sm tracking-wider shadow-sm">
+                                <i class="fas fa-calendar-times mr-2"></i> 因調整共識營日期停辦
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 105年 -->
+                <div class="timeline-item year-105 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
+                            <span class="timeline-year">105年</span>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="openImageModal('105年議程表', '105.jpg')" class="agenda-btn">
+                                    <i class="105.jpg"></i> 議程表
+                                </button>
+                                <button onclick="openAlbumModal('105年大合照', '105')" class="agenda-btn">
+                                    <i class="fas fa-camera"></i> 大合照
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-drum"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>十鼓文化園區</p>
+                                    <span>影音館</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>永不出軌宴會廳</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 104年 -->
+                <div class="timeline-item year-104 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
+                            <span class="timeline-year">104年</span>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="openImageModal('104年議程表', '104.jpg')" class="agenda-btn">
+                                    <i class="104.jpg"></i> 議程表
+                                </button>
+                                <button onclick="openAlbumModal('104年大合照', '104')" class="agenda-btn">
+                                    <i class="fas fa-camera"></i> 大合照
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-hotel"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>台糖長榮酒店</p>
+                                    <span>B1桂冠廳</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-glass-cheers"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>台糖長榮酒店</p>
+                                    <span>B1桂冠廳</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 103年 -->
+                <div class="timeline-item year-103 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
+                            <span class="timeline-year">103年</span>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="openImageModal('103年議程表', '103.jpg')" class="agenda-btn">
+                                    <i class="103.jpg"></i> 議程表
+                                </button>
+                                <button onclick="openAlbumModal('103年大合照', '103')" class="agenda-btn">
+                                    <i class="fas fa-camera"></i> 大合照
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>台南善化大成庭園餐廳</p>
+                                    <span>玉山廳二館</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-glass-cheers"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>台南善化大成庭園餐廳</p>
+                                    <span>紅樓廳</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 102年 -->
+                <div class="timeline-item year-102 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
+                            <span class="timeline-year">102年</span>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="openImageModal('102年議程表', '102.jpg')" class="agenda-btn">
+                                    <i class="102.jpg"></i> 議程表
+                                </button>
+                                <button onclick="openAlbumModal('102年大合照', '102')" class="agenda-btn">
+                                    <i class="fas fa-camera"></i> 大合照
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-microscope"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>台南樹谷科學園區<br>生活科學館</p>
+                                    <span>2F多媒體室</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>樹谷懷舊餐廳</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 101年 -->
+                <div class="timeline-item year-101 reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content-inner">
+                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
+                            <span class="timeline-year">101年</span>
+                            <div class="flex flex-wrap gap-3">
+                                <button onclick="openImageModal('101年議程表', '101.jpg')" class="agenda-btn">
+                                    <i class="101.jpg"></i> 議程表
+                                </button>
+                                <button onclick="openAlbumModal('101年大合照', '101')" class="agenda-btn">
+                                    <i class="fas fa-camera"></i> 大合照
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-hospital-alt"></i></div>
+                                <div class="history-content">
+                                    <h4>Conference Venue</h4>
+                                    <p>柳營奇美醫院</p>
+                                    <span>大講堂</span>
+                                </div>
+                            </div>
+                            
+                            <div class="history-detail">
+                                <div class="history-icon-box"><i class="fas fa-building"></i></div>
+                                <div class="history-content">
+                                    <h4>Banquet Venue</h4>
+                                    <p>柳營奇美醫院宿舍大樓</p>
+                                    <span>2樓</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="text-center mt-20 reveal-on-scroll">
+                <p class="text-slate-400 font-bold tracking-[0.3em] text-sm uppercase opacity-70">To Be Continued</p>
+            </div>
         </div>
-      );
-    }
+    </section>
 
-    // 啟動 React 應用
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<App />);
-  </script>
+    <!-- 3. 聯絡窗口 Section -->
+    <section id="notice" class="page hidden">
+        <div class="page-content-wrapper w-full max-w-4xl">
+            <div class="text-center mb-10 reveal-on-scroll">
+                <span class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 text-2xl shadow-sm mb-4 transform -rotate-3">
+                    <i class="fas fa-address-book"></i>
+                </span>
+                <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">聯絡窗口</h2>
+                <p class="text-slate-500 mt-2 text-base">如有任何疑問，歡迎隨時聯繫企劃組同仁</p>
+            </div>
+            
+            <div class="contact-grid">
+                <div class="contact-card reveal-on-scroll" style="--accent-color: #3B82F6;">
+                    <h3 class="text-lg font-bold text-slate-800 mb-5 flex items-center">
+                        <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mr-3 text-base"><i class="fas fa-users"></i></span>
+                        企劃組
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center group">
+                            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 mr-3 flex-shrink-0 transition-colors group-hover:bg-blue-600 group-hover:text-white text-lg">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">Contact Person</p>
+                                <p class="text-base font-bold text-slate-800">黃秀玲 組長</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center group">
+                            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 mr-3 flex-shrink-0 transition-colors group-hover:bg-blue-600 group-hover:text-white text-lg">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">Extension</p>
+                                <p class="text-base font-bold text-slate-800 font-mono">32005</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center group">
+                            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 mr-3 flex-shrink-0 transition-colors group-hover:bg-blue-600 group-hover:text-white text-lg">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="overflow-hidden">
+                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">Email</p>
+                                <p class="text-sm font-medium text-slate-700 truncate font-mono">a00535@mail.chimei.org.tw</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-card reveal-on-scroll" style="--accent-color: #06b6d4;">
+                    <h3 class="text-lg font-bold text-slate-800 mb-5 flex items-center">
+                        <span class="w-8 h-8 rounded-lg bg-cyan-100 text-cyan-600 flex items-center justify-center mr-3 text-base"><i class="fas fa-users"></i></span>
+                        企劃組
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center group">
+                            <div class="w-10 h-10 rounded-full bg-cyan-50 flex items-center justify-center text-cyan-500 mr-3 flex-shrink-0 transition-colors group-hover:bg-cyan-600 group-hover:text-white text-lg">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">Contact Person</p>
+                                <p class="text-base font-bold text-slate-800">紀宗瀚 專員</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center group">
+                            <div class="w-10 h-10 rounded-full bg-cyan-50 flex items-center justify-center text-cyan-500 mr-3 flex-shrink-0 transition-colors group-hover:bg-cyan-600 group-hover:text-white text-lg">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">Extension</p>
+                                <p class="text-base font-bold text-slate-800 font-mono">32911</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center group">
+                            <div class="w-10 h-10 rounded-full bg-cyan-50 flex items-center justify-center text-cyan-500 mr-3 flex-shrink-0 transition-colors group-hover:bg-cyan-600 group-hover:text-white text-lg">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="overflow-hidden">
+                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">Email</p>
+                                <p class="text-sm font-medium text-slate-700 truncate font-mono">a003c1@mail.chimei.org.tw</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="text-center mt-16 text-slate-400 text-sm font-medium">
+                <p>© 佳里奇美醫院共識營工作小組 版權所有</p>
+            </footer>
+        </div>
+    </section>
+
+    <script>
+        // Data for albums
+        const albumData = {
+            '114': ['11401.jpg'],
+            '113': ['11301.jpeg', '11302.jpeg','11303.jpeg','11304.jpeg','11305.jpeg'],
+            '112': ['11201.jpeg', '11202.jpeg'],
+            '108': ['10801.jpg'],
+            '107': ['10701.jpg', '10702.jpg'],
+            '105': ['10501.jpg', '10502.jpg'],
+            '104': ['10401.jpg'],
+            '103': ['10301.jpg'],
+            '102': ['10201.jpg','10202.jpg'],
+            '101': ['10101.jpg'],
+        };
+
+        let currentAlbumPhotos = [];
+        let currentPhotoIndex = 0;
+
+        // --- Modal Logic ---
+        const modal = document.getElementById('imageModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.querySelector('#imageModal .overflow-y-auto'); // Select the content container directly
+
+        // Open Image Modal (Single Image like Agenda)
+        function openImageModal(title, imageUrl) {
+            modalTitle.textContent = title;
+            // Reset modal content for single image
+            modalContent.innerHTML = `<img src="${imageUrl}" class="w-full h-auto max-w-full object-contain rounded-lg shadow-sm mx-auto" onerror="this.src='https://placehold.co/800x600/e2e8f0/1e293b?text=Image+Not+Found'">`;
+            showModal();
+        }
+
+        // Open Album Modal (Carousel)
+        function openAlbumModal(title, year) {
+            modalTitle.textContent = title;
+            currentAlbumPhotos = albumData[year] || [];
+            currentPhotoIndex = 0;
+
+            if (currentAlbumPhotos.length === 0) {
+                modalContent.innerHTML = `<div class="text-center text-gray-500 py-10 font-bold text-lg">暫無照片</div>`;
+            } else {
+                renderAlbumView();
+            }
+            showModal();
+        }
+
+        function renderAlbumView() {
+            const total = currentAlbumPhotos.length;
+            const currentSrc = currentAlbumPhotos[currentPhotoIndex];
+            
+            // Generate HTML for Carousel
+            let html = `
+                <div class="relative w-full h-full flex flex-col items-center justify-center min-h-[50vh]">
+                    <!-- Main Image Area -->
+                    <div class="relative w-full flex-grow flex items-center justify-center group">
+                        <img id="album-img" src="${currentSrc}" class="max-h-[70vh] w-auto object-contain rounded-lg shadow-lg transition-all duration-500 ease-in-out transform" style="backface-visibility: hidden;" onerror="this.src='https://placehold.co/800x600/e2e8f0/1e293b?text=Photo+Placeholder'">
+                        
+                        ${total > 1 ? `
+                        <!-- Navigation Buttons -->
+                        <button onclick="prevPhoto()" class="absolute left-0 top-1/2 -translate-y-1/2 -ml-2 md:ml-2 w-10 h-10 md:w-12 md:h-12 bg-white/80 hover:bg-white text-slate-800 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-110 z-10 focus:outline-none backdrop-blur-sm border border-gray-100">
+                            <i class="fas fa-chevron-left text-lg"></i>
+                        </button>
+                        <button onclick="nextPhoto()" class="absolute right-0 top-1/2 -translate-y-1/2 -mr-2 md:mr-2 w-10 h-10 md:w-12 md:h-12 bg-white/80 hover:bg-white text-slate-800 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-110 z-10 focus:outline-none backdrop-blur-sm border border-gray-100">
+                            <i class="fas fa-chevron-right text-lg"></i>
+                        </button>
+                        ` : ''}
+                    </div>
+                    
+                    <!-- Counter -->
+                    <div class="mt-6 px-4 py-1.5 bg-slate-200/80 backdrop-blur rounded-full text-sm font-bold text-slate-600 tracking-wider shadow-sm border border-white/50">
+                        ${currentPhotoIndex + 1} / ${total}
+                    </div>
+                </div>
+            `;
+            
+            modalContent.innerHTML = html;
+        }
+
+        function nextPhoto() {
+            if (currentAlbumPhotos.length <= 1) return;
+            
+            const imgEl = document.getElementById('album-img');
+            // Flip out animation
+            imgEl.style.transform = "rotateY(-90deg)";
+            imgEl.style.opacity = "0";
+            
+            setTimeout(() => {
+                currentPhotoIndex = (currentPhotoIndex + 1) % currentAlbumPhotos.length;
+                renderAlbumView(); // Re-render to update image and counter
+                
+                // The new image will be rendered with default style. 
+                // We need to set initial state for flip in animation.
+                const newImgEl = document.getElementById('album-img');
+                newImgEl.style.transform = "rotateY(90deg)";
+                newImgEl.style.opacity = "0";
+                
+                // Trigger reflow
+                void newImgEl.offsetWidth;
+                
+                // Flip in animation
+                newImgEl.style.transform = "rotateY(0)";
+                newImgEl.style.opacity = "1";
+            }, 300);
+        }
+
+        function prevPhoto() {
+            if (currentAlbumPhotos.length <= 1) return;
+            
+            const imgEl = document.getElementById('album-img');
+            // Flip out animation
+            imgEl.style.transform = "rotateY(90deg)";
+            imgEl.style.opacity = "0";
+            
+            setTimeout(() => {
+                currentPhotoIndex = (currentPhotoIndex - 1 + currentAlbumPhotos.length) % currentAlbumPhotos.length;
+                renderAlbumView();
+                
+                const newImgEl = document.getElementById('album-img');
+                newImgEl.style.transform = "rotateY(-90deg)";
+                newImgEl.style.opacity = "0";
+                
+                void newImgEl.offsetWidth;
+                
+                newImgEl.style.transform = "rotateY(0)";
+                newImgEl.style.opacity = "1";
+            }, 300);
+        }
+
+        function showModal() {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0', 'scale-95');
+                modal.classList.add('opacity-100', 'scale-100');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            modal.classList.remove('opacity-100', 'scale-100');
+            modal.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                closeImageModal();
+            }
+            // Add keyboard navigation for album
+            if (!modal.classList.contains('hidden') && currentAlbumPhotos.length > 1) {
+                if (event.key === "ArrowLeft") prevPhoto();
+                if (event.key === "ArrowRight") nextPhoto();
+            }
+        });
+
+        // --- Scroll Reveal Logic ---
+        function handleScrollReveal() {
+            const reveals = document.querySelectorAll('.reveal-on-scroll');
+            const windowHeight = window.innerHeight;
+            const elementVisible = 100;
+
+            reveals.forEach(reveal => {
+                const elementTop = reveal.getBoundingClientRect().top;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('is-visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', handleScrollReveal);
+
+        // --- Main Initialization ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const overlay = document.getElementById('device-selection-overlay');
+            const mobileBtn = document.getElementById('mobile-btn');
+            const desktopBtn = document.getElementById('desktop-btn');
+            const mainContent = document.querySelectorAll('header, .page');
+            const body = document.body;
+            const header = document.getElementById('main-header');
+
+            // 裝置選擇
+            function initializeView(isMobile) {
+                if (isMobile) {
+                    body.classList.add('mobile-view');
+                }
+                overlay.style.opacity = '0';
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                    mainContent.forEach(el => el.classList.remove('hidden'));
+                    // 初始化 Scroll Reveal (針對首頁)
+                    handleScrollReveal();
+                }, 300);
+            }
+
+            mobileBtn.addEventListener('click', () => initializeView(true));
+            desktopBtn.addEventListener('click', () => initializeView(false));
+            
+            // Header Scroll Effect
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+                handleScrollReveal(); // 確保滾動時檢查動畫
+            });
+
+            // Mobile Menu Logic
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileDropdown = document.getElementById('mobile-dropdown');
+            
+            if (mobileMenuBtn && mobileDropdown) {
+                mobileMenuBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    mobileDropdown.classList.toggle('open');
+                });
+
+                const mobileLinks = mobileDropdown.querySelectorAll('a');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const targetId = link.dataset.target;
+                        showPage(targetId);
+                        mobileDropdown.classList.remove('open');
+                    });
+                });
+
+                document.addEventListener('click', (e) => {
+                    if (!mobileDropdown.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                        mobileDropdown.classList.remove('open');
+                    }
+                });
+            }
+
+            // Page Navigation Logic
+            const navLinks = document.querySelectorAll('.desktop-nav a');
+            const pages = document.querySelectorAll('.page');
+
+            function showPage(targetId) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                pages.forEach(page => {
+                    if (page.id === targetId) {
+                        page.classList.add('active');
+                        // 切換頁面後重置動畫狀態
+                        setTimeout(() => {
+                            const reveals = page.querySelectorAll('.reveal-on-scroll');
+                            reveals.forEach(el => el.classList.add('is-visible'));
+                        }, 100);
+                    } else {
+                        page.classList.remove('active');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.dataset.target === targetId);
+                });
+                
+                if (mobileDropdown) {
+                    const mobileLinks = mobileDropdown.querySelectorAll('a');
+                    mobileLinks.forEach(link => {
+                        link.classList.toggle('active', link.dataset.target === targetId);
+                    });
+                }
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.dataset.target;
+                    showPage(targetId);
+                });
+            });
+
+            // 預設顯示
+            showPage('home');
+        });
+    </script>
 </body>
 </html>
