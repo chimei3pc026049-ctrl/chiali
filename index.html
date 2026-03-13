@@ -1,17 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  ChevronLeft, ChevronRight, History, Building2, Landmark, Tent, Hotel, 
-  Users, Stethoscope, Phone, CalendarX2, Sparkles, BookOpen, Rocket,
-  Smartphone, Monitor, Menu, Home, Contact, Mail, User
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>佳里奇美醫院 主管共識營檔案庫</title>
+  
+  <!-- 引入字體 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  
+  <!-- 引入 FontAwesome 圖示 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- 引入 Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- 引入 React 核心庫與 Babel 轉譯器 (讓瀏覽器能直接看懂 JSX) -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-// ==========================================
-// 1. 全局樣式注入 (Global Styles)
-// ==========================================
-const GlobalStyles = () => (
-  <style>{`
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap');
-    
+  <!-- 全局樣式注入 -->
+  <style>
     :root {
       --primary-color: #3B82F6;
       --text-dark: #111827;
@@ -84,606 +95,610 @@ const GlobalStyles = () => (
     @keyframes swingInRight { 0% { transform: rotateY(90deg) scale(0.9); opacity: 0; } 60% { opacity: 0.8; } 100% { transform: rotateY(0deg) scale(1); opacity: 1; } }
     @keyframes swingOutRight { 0% { transform: rotateY(0deg) scale(1); opacity: 1; } 40% { opacity: 0.8; } 100% { transform: rotateY(90deg) scale(0.9); opacity: 0; } }
     @keyframes swingInLeft { 0% { transform: rotateY(-90deg) scale(0.9); opacity: 0; } 60% { opacity: 0.8; } 100% { transform: rotateY(0deg) scale(1); opacity: 1; } }
-  `}</style>
-);
+  </style>
+</head>
+<body>
+  <!-- React 將會渲染在此容器內 -->
+  <div id="root"></div>
 
-// ==========================================
-// 2. 電子書組件 (EBookApp) - 完全取代原有的時間軸
-// ==========================================
-const EBookApp = () => {
-  const [currentPage, setCurrentPage] = useState(0);
-  const [prevPage, setPrevPage] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [direction, setDirection] = useState('');
+  <!-- React 應用程式碼 (標記為 text/babel 讓 Babel 處理) -->
+  <script type="text/babel">
+    const { useState, useEffect } = React;
 
-  const rawBookData = [
-    {
-      title: "佳里奇美醫院",
-      subtitle: "主管共識營歷程紀實",
-      content: [
-        "本電子書彙整自 101 年以來的共識營足跡。",
-        "從柳營奇美啟航，歷經疫情淬鍊，邁向創新未來。",
-        "透過跨界交流與場域轉換，凝聚主管向心力，共創佳里院區全新藍圖。"
-      ],
-      icon: <History className="w-12 h-12 text-blue-600 mb-4" />,
-      images: ["https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800"],
-      imageAlt: "[醫療團隊與專業會議]",
-      isCover: true
-    },
-    {
-      title: "114年度", subtitle: "文化與創新展望",
-      content: [
-        "🎯 會議場地：\n• 國立臺灣史前文化博物館 (南科考古館 4F國際會議廳)。",
-        "🍽️ 晚宴地點：\n• 南科總理大餐廳。",
-        "💡 歷程亮點：\n• 結合史前文化底蘊與現代科技發展，激發醫療服務的永續與創新思維。"
-      ],
-      icon: <Landmark className="w-8 h-8 text-blue-600 mb-4" />,
-      images: ["11401.jpg"],
-      imageAlt: "114年 南科考古館"
-    },
-    {
-      title: "113年度", subtitle: "藝術與人文對話",
-      content: [
-        "🎯 會議場地：\n• 奇美博物館 (奇美廳)。",
-        "🍽️ 晚宴地點：\n• 大象寬庭宴會廳。",
-        "💡 歷程亮點：\n• 將會議移師藝術殿堂，在人文氣息中進行深度對話，提升醫療服務的核心溫度。"
-      ],
-      icon: <Building2 className="w-8 h-8 text-blue-600 mb-4" />,
-      images: ["11301.jpeg", "11302.jpeg", "11303.jpeg", "11304.jpeg", "11305.jpeg"],
-      imageAlt: "113年 奇美博物館"
-    },
-    {
-      title: "112年度", subtitle: "疫後重啟與凝聚",
-      content: [
-        "🎯 會議場地：\n• 遠東香格里拉 (9F國際會議廳)。",
-        "🍽️ 晚宴地點：\n• 遠東香格里拉 (3F成功廳)。",
-        "💡 歷程亮點：\n• 走過疫情陰霾後的首次回歸，於專業優質的飯店空間重新凝聚主管團隊戰鬥力。"
-      ],
-      icon: <Hotel className="w-8 h-8 text-blue-600 mb-4" />,
-      images: ["11201.jpeg", "11202.jpeg"],
-      imageAlt: "112年 遠東香格里拉"
-    },
-    {
-      title: "109-111年度", subtitle: "疫情淬鍊與堅守",
-      content: [
-        "⚠️ 停辦公告：\n• 因 COVID-19 疫情嚴峻，為堅守醫療防疫量能，共識營全面停辦。",
-        "• 全院主管與同仁齊心抗疫，守護大台南地區民眾健康。"
-      ],
-      icon: <Stethoscope className="w-8 h-8 text-red-500 mb-4" />,
-      images: ["https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&q=80&w=800"],
-      imageAlt: "齊心抗疫 守護健康"
-    },
-    {
-      title: "108年度", subtitle: "淬鍊與戶外探索",
-      content: [
-        "🌳 會議與晚宴：\n• 嘉義縣仁義潭 仁義湖岸大酒店 / 仁義潭庭園餐廳。",
-        "💡 歷程亮點：\n• 特別企劃：Day 2 安排嘉義樹木園、綠盈牧場，推動大自然療癒與團隊破冰。"
-      ],
-      icon: <Tent className="w-8 h-8 text-blue-600 mb-4" />,
-      images: ["10801.jpg"],
-      imageAlt: "108年 嘉義探索之旅"
-    },
-    {
-      title: "107年度", subtitle: "宗教與建築之美",
-      content: [
-        "🏛️ 會議場地：\n• 南鯤鯓代天府 (祥麟樓)。",
-        "🍽️ 晚宴地點：\n• 南鯤鯓代天府 (鯤海樓)。",
-        "💡 歷程亮點：\n• 體驗傳統信仰與建築之美，在莊嚴場域中凝聚共識。"
-      ],
-      icon: <Landmark className="w-8 h-8 text-blue-600 mb-4" />,
-      images: ["10701.jpg", "10702.jpg"],
-      imageAlt: "107年 南鯤鯓代天府"
-    },
-    {
-      title: "106年度", subtitle: "檔期調整",
-      content: [
-        "📅 停辦公告：\n• 因院內專案與業務檔期調整，本年度共識營暫停辦理一次。"
-      ],
-      icon: <CalendarX2 className="w-8 h-8 text-gray-500 mb-4" />,
-      images: ["https://images.unsplash.com/photo-1506784365847-bbad939e9335?auto=format&fit=crop&q=80&w=800"],
-      imageAlt: "檔期調整"
-    },
-    {
-      title: "105年度", subtitle: "工業與文創的震撼",
-      content: [
-        "🥁 會議場地：\n• 十鼓文化園區 (影音館)。",
-        "🍽️ 晚宴地點：\n• 永不出軌宴會廳。",
-        "💡 歷程亮點：\n• 感受擊鼓藝術與工業遺產的震撼，激發團隊的爆發力與節奏默契。"
-      ],
-      icon: <Users className="w-8 h-8 text-blue-600 mb-4" />,
-      images: ["10501.jpg", "10502.jpg"],
-      imageAlt: "105年 十鼓文化園區"
-    },
-    {
-      title: "104年度", subtitle: "策略深耕",
-      content: [
-        "🏢 會議與晚宴場地：\n• 台糖長榮酒店 (B1桂冠廳)。",
-        "💡 歷程亮點：\n• 專注於策略深耕與深度對話，聚焦年度營運目標。"
-      ],
-      icon: <Hotel className="w-8 h-8 text-blue-600 mb-4" />,
-      images: ["10401.jpg"],
-      imageAlt: "104年 台糖長榮酒店"
-    },
-    {
-      title: "103年度", subtitle: "凝聚與交流",
-      content: [
-        "🍽️ 會議場地：\n• 台南善化大成庭園餐廳 (玉山廳)。",
-        "🍽️ 晚宴地點：\n• 台南善化大成庭園餐廳 (紅樓廳)。"
-      ],
-      icon: <Users className="w-8 h-8 text-blue-600 mb-4" />,
-      images: ["10301.jpg"],
-      imageAlt: "103年 善化大成庭園餐廳"
-    },
-    {
-      title: "102年度", subtitle: "科學與人文",
-      content: [
-        "🔬 會議場地：\n• 台南樹谷科學園區 (生活科學館 2F多媒體室)。",
-        "🍽️ 晚宴地點：\n• 樹谷懷舊餐廳。"
-      ],
-      icon: <Building2 className="w-8 h-8 text-blue-600 mb-4" />,
-      images: ["10201.jpg", "10202.jpg"],
-      imageAlt: "102年 樹谷科學園區"
-    },
-    {
-      title: "101年度", subtitle: "首屆啟航",
-      content: [
-        "🏥 會議場地：\n• 柳營奇美醫院 (大講堂)。",
-        "🍽️ 晚宴地點：\n• 柳營奇美醫院宿舍大樓 (2樓)。",
-        "💡 意義：\n• 佳里奇美主管共識營的發源地，為日後的跨部門合作立下堅實基石。"
-      ],
-      icon: <History className="w-8 h-8 text-blue-600 mb-4" />,
-      images: ["10101.jpg"],
-      imageAlt: "101年 柳營奇美醫院"
-    },
-    {
-      title: "未來展望與聯絡", subtitle: "115年度見 (To Be Continued)",
-      content: [
-        "期待未來持續精進，迎接全新挑戰！"
-      ],
-      icon: <Rocket className="w-8 h-8 text-blue-600 mb-4" />,
-      images: ["https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800"],
-      imageAlt: "攜手邁向未來"
-    }
-  ];
+    // ==========================================
+    // 1. 電子書組件 (EBookApp)
+    // ==========================================
+    const EBookApp = () => {
+      const [currentPage, setCurrentPage] = useState(0);
+      const [prevPage, setPrevPage] = useState(0);
+      const [isAnimating, setIsAnimating] = useState(false);
+      const [direction, setDirection] = useState('');
 
-  const bookData = [];
-  const bookmarks = [];
-  let pageCount = 0;
+      const rawBookData = [
+        {
+          title: "佳里奇美醫院",
+          subtitle: "主管共識營歷程紀實",
+          content: [
+            "本電子書彙整自 101 年以來的共識營足跡。",
+            "從柳營奇美啟航，歷經疫情淬鍊，邁向創新未來。",
+            "透過跨界交流與場域轉換，凝聚主管向心力，共創佳里院區全新藍圖。"
+          ],
+          icon: <i className="fas fa-history text-[3rem] text-blue-600 mb-4"></i>,
+          images: ["https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800"],
+          imageAlt: "[醫療團隊與專業會議]",
+          isCover: true
+        },
+        {
+          title: "114年度", subtitle: "文化與創新展望",
+          content: [
+            "🎯 會議場地：\n• 國立臺灣史前文化博物館 (南科考古館 4F國際會議廳)。",
+            "🍽️ 晚宴地點：\n• 南科總理大餐廳。",
+            "💡 歷程亮點：\n• 結合史前文化底蘊與現代科技發展，激發醫療服務的永續與創新思維。"
+          ],
+          icon: <i className="fas fa-landmark text-3xl text-blue-600 mb-4"></i>,
+          images: ["11401.jpg"],
+          imageAlt: "114年 南科考古館"
+        },
+        {
+          title: "113年度", subtitle: "藝術與人文對話",
+          content: [
+            "🎯 會議場地：\n• 奇美博物館 (奇美廳)。",
+            "🍽️ 晚宴地點：\n• 大象寬庭宴會廳。",
+            "💡 歷程亮點：\n• 將會議移師藝術殿堂，在人文氣息中進行深度對話，提升醫療服務的核心溫度。"
+          ],
+          icon: <i className="fas fa-building text-3xl text-blue-600 mb-4"></i>,
+          images: ["11301.jpeg", "11302.jpeg", "11303.jpeg", "11304.jpeg", "11305.jpeg"],
+          imageAlt: "113年 奇美博物館"
+        },
+        {
+          title: "112年度", subtitle: "疫後重啟與凝聚",
+          content: [
+            "🎯 會議場地：\n• 遠東香格里拉 (9F國際會議廳)。",
+            "🍽️ 晚宴地點：\n• 遠東香格里拉 (3F成功廳)。",
+            "💡 歷程亮點：\n• 走過疫情陰霾後的首次回歸，於專業優質的飯店空間重新凝聚主管團隊戰鬥力。"
+          ],
+          icon: <i className="fas fa-hotel text-3xl text-blue-600 mb-4"></i>,
+          images: ["11201.jpeg", "11202.jpeg"],
+          imageAlt: "112年 遠東香格里拉"
+        },
+        {
+          title: "109-111年度", subtitle: "疫情淬鍊與堅守",
+          content: [
+            "⚠️ 停辦公告：\n• 因 COVID-19 疫情嚴峻，為堅守醫療防疫量能，共識營全面停辦。",
+            "• 全院主管與同仁齊心抗疫，守護大台南地區民眾健康。"
+          ],
+          icon: <i className="fas fa-stethoscope text-3xl text-red-500 mb-4"></i>,
+          images: ["https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&q=80&w=800"],
+          imageAlt: "齊心抗疫 守護健康"
+        },
+        {
+          title: "108年度", subtitle: "淬鍊與戶外探索",
+          content: [
+            "🌳 會議與晚宴：\n• 嘉義縣仁義潭 仁義湖岸大酒店 / 仁義潭庭園餐廳。",
+            "💡 歷程亮點：\n• 特別企劃：Day 2 安排嘉義樹木園、綠盈牧場，推動大自然療癒與團隊破冰。"
+          ],
+          icon: <i className="fas fa-campground text-3xl text-blue-600 mb-4"></i>,
+          images: ["10801.jpg"],
+          imageAlt: "108年 嘉義探索之旅"
+        },
+        {
+          title: "107年度", subtitle: "宗教與建築之美",
+          content: [
+            "🏛️ 會議場地：\n• 南鯤鯓代天府 (祥麟樓)。",
+            "🍽️ 晚宴地點：\n• 南鯤鯓代天府 (鯤海樓)。",
+            "💡 歷程亮點：\n• 體驗傳統信仰與建築之美，在莊嚴場域中凝聚共識。"
+          ],
+          icon: <i className="fas fa-vihara text-3xl text-blue-600 mb-4"></i>,
+          images: ["10701.jpg", "10702.jpg"],
+          imageAlt: "107年 南鯤鯓代天府"
+        },
+        {
+          title: "106年度", subtitle: "檔期調整",
+          content: [
+            "📅 停辦公告：\n• 因院內專案與業務檔期調整，本年度共識營暫停辦理一次。"
+          ],
+          icon: <i className="fas fa-calendar-times text-3xl text-gray-500 mb-4"></i>,
+          images: ["https://images.unsplash.com/photo-1506784365847-bbad939e9335?auto=format&fit=crop&q=80&w=800"],
+          imageAlt: "檔期調整"
+        },
+        {
+          title: "105年度", subtitle: "工業與文創的震撼",
+          content: [
+            "🥁 會議場地：\n• 十鼓文化園區 (影音館)。",
+            "🍽️ 晚宴地點：\n• 永不出軌宴會廳。",
+            "💡 歷程亮點：\n• 感受擊鼓藝術與工業遺產的震撼，激發團隊的爆發力與節奏默契。"
+          ],
+          icon: <i className="fas fa-users text-3xl text-blue-600 mb-4"></i>,
+          images: ["10501.jpg", "10502.jpg"],
+          imageAlt: "105年 十鼓文化園區"
+        },
+        {
+          title: "104年度", subtitle: "策略深耕",
+          content: [
+            "🏢 會議與晚宴場地：\n• 台糖長榮酒店 (B1桂冠廳)。",
+            "💡 歷程亮點：\n• 專注於策略深耕與深度對話，聚焦年度營運目標。"
+          ],
+          icon: <i className="fas fa-hotel text-3xl text-blue-600 mb-4"></i>,
+          images: ["10401.jpg"],
+          imageAlt: "104年 台糖長榮酒店"
+        },
+        {
+          title: "103年度", subtitle: "凝聚與交流",
+          content: [
+            "🍽️ 會議場地：\n• 台南善化大成庭園餐廳 (玉山廳)。",
+            "🍽️ 晚宴地點：\n• 台南善化大成庭園餐廳 (紅樓廳)。"
+          ],
+          icon: <i className="fas fa-users text-3xl text-blue-600 mb-4"></i>,
+          images: ["10301.jpg"],
+          imageAlt: "103年 善化大成庭園餐廳"
+        },
+        {
+          title: "102年度", subtitle: "科學與人文",
+          content: [
+            "🔬 會議場地：\n• 台南樹谷科學園區 (生活科學館 2F多媒體室)。",
+            "🍽️ 晚宴地點：\n• 樹谷懷舊餐廳。"
+          ],
+          icon: <i className="fas fa-flask text-3xl text-blue-600 mb-4"></i>,
+          images: ["10201.jpg", "10202.jpg"],
+          imageAlt: "102年 樹谷科學園區"
+        },
+        {
+          title: "101年度", subtitle: "首屆啟航",
+          content: [
+            "🏥 會議場地：\n• 柳營奇美醫院 (大講堂)。",
+            "🍽️ 晚宴地點：\n• 柳營奇美醫院宿舍大樓 (2樓)。",
+            "💡 意義：\n• 佳里奇美主管共識營的發源地，為日後的跨部門合作立下堅實基石。"
+          ],
+          icon: <i className="fas fa-hospital text-3xl text-blue-600 mb-4"></i>,
+          images: ["10101.jpg"],
+          imageAlt: "101年 柳營奇美醫院"
+        },
+        {
+          title: "未來展望與聯絡", subtitle: "115年度見 (To Be Continued)",
+          content: [
+            "期待未來持續精進，迎接全新挑戰！"
+          ],
+          icon: <i className="fas fa-rocket text-3xl text-blue-600 mb-4"></i>,
+          images: ["https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=800"],
+          imageAlt: "攜手邁向未來"
+        }
+      ];
 
-  rawBookData.forEach((section, sectionIdx) => {
-    let shortLabel = section.title;
-    let isFuture = false;
+      const bookData = [];
+      const bookmarks = [];
+      let pageCount = 0;
 
-    if (section.isCover) shortLabel = "首頁";
-    else if (section.title === "未來展望與聯絡") {
-      shortLabel = "展望";
-      isFuture = true;
-    }
-    else shortLabel = shortLabel.replace('年度', '年');
+      rawBookData.forEach((section, sectionIdx) => {
+        let shortLabel = section.title;
+        let isFuture = false;
 
-    bookmarks.push({
-      id: sectionIdx,
-      label: shortLabel,
-      pageIndex: pageCount,
-      isCover: section.isCover,
-      isFuture: isFuture
-    });
+        if (section.isCover) shortLabel = "首頁";
+        else if (section.title === "未來展望與聯絡") {
+          shortLabel = "展望";
+          isFuture = true;
+        }
+        else shortLabel = shortLabel.replace('年度', '年');
 
-    section.images.forEach((img, idx) => {
-      bookData.push({
-        ...section,
-        image: img,
-        displaySubtitle: section.images.length > 1 
-          ? `${section.subtitle} (照片 ${idx + 1}/${section.images.length})` 
-          : section.subtitle,
-        sectionId: sectionIdx
+        bookmarks.push({
+          id: sectionIdx,
+          label: shortLabel,
+          pageIndex: pageCount,
+          isCover: section.isCover,
+          isFuture: isFuture
+        });
+
+        section.images.forEach((img, idx) => {
+          bookData.push({
+            ...section,
+            image: img,
+            displaySubtitle: section.images.length > 1 
+              ? `${section.subtitle} (照片 ${idx + 1}/${section.images.length})` 
+              : section.subtitle,
+            sectionId: sectionIdx
+          });
+          pageCount++;
+        });
       });
-      pageCount++;
-    });
-  });
 
-  const totalPages = bookData.length;
+      const totalPages = bookData.length;
 
-  const executeFlip = (targetIndex, forcedDirection) => {
-    setPrevPage(currentPage);
-    setCurrentPage(targetIndex);
-    setDirection(forcedDirection);
-    setIsAnimating(true);
-    setTimeout(() => setIsAnimating(false), 700);
-  };
+      const executeFlip = (targetIndex, forcedDirection) => {
+        setPrevPage(currentPage);
+        setCurrentPage(targetIndex);
+        setDirection(forcedDirection);
+        setIsAnimating(true);
+        setTimeout(() => setIsAnimating(false), 700);
+      };
 
-  const handleNextPage = () => { if (currentPage < totalPages - 1 && !isAnimating) executeFlip(currentPage + 1, 'next'); };
-  const handlePrevPage = () => { if (currentPage > 0 && !isAnimating) executeFlip(currentPage - 1, 'prev'); };
-  const jumpToBookmark = (targetIndex) => {
-    if (targetIndex === currentPage || isAnimating) return;
-    executeFlip(targetIndex, targetIndex > currentPage ? 'next' : 'prev');
-  };
+      const handleNextPage = () => { if (currentPage < totalPages - 1 && !isAnimating) executeFlip(currentPage + 1, 'next'); };
+      const handlePrevPage = () => { if (currentPage > 0 && !isAnimating) executeFlip(currentPage - 1, 'prev'); };
+      const jumpToBookmark = (targetIndex) => {
+        if (targetIndex === currentPage || isAnimating) return;
+        executeFlip(targetIndex, targetIndex > currentPage ? 'next' : 'prev');
+      };
 
-  const PageContent = ({ data }) => (
-    <div className="w-full h-full flex flex-col md:flex-row bg-white rounded-xl overflow-hidden border border-slate-200 shadow-[0_4px_20px_rgb(0,0,0,0.05)]">
-      <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-8 -ml-4 bg-gradient-to-r from-slate-100 via-slate-300 to-slate-100 border-x border-slate-300 z-10 shadow-inner"></div>
-      
-      <div className="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-center h-full overflow-y-auto">
-        {data.isCover ? (
-          <div className="text-center md:text-left">
-            {data.icon}
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 leading-tight tracking-tight">{data.title}</h2>
-            <h3 className="text-lg md:text-xl text-blue-600 font-bold mb-6 md:mb-8 tracking-wide">{data.displaySubtitle}</h3>
-            <div className="space-y-4 text-slate-600 text-base md:text-lg">
-              {data.content.map((text, idx) => (
-                <p key={idx} className="leading-relaxed font-medium">{text}</p>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div>
-            {data.icon}
-            <h3 className="text-xs md:text-sm font-bold tracking-widest text-blue-500 uppercase mb-2">{data.title}</h3>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-4 md:mb-6">{data.displaySubtitle}</h2>
-            <ul className="space-y-3 md:space-y-4">
-              {data.content.flatMap(str => str.split('\n')).map((text, idx) => {
-                if (!text.trim()) return null;
-                const isBullet = text.trim().startsWith('•');
-                return (
-                  <li key={idx} className="flex items-start text-slate-700 leading-relaxed text-sm md:text-base">
-                    {isBullet ? (
-                      <span className="ml-2 md:ml-6 mr-3 text-blue-500 font-bold">•</span>
-                    ) : (
-                      <span className="mr-3 mt-1.5"><div className="w-1.5 h-1.5 rounded-full bg-blue-500" /></span>
-                    )}
-                    <span className={`${isBullet ? 'text-slate-600' : 'font-bold text-slate-800'}`}>
-                      {isBullet ? text.substring(1).trim() : text}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        )}
-      </div>
-
-      <div className="w-full md:w-1/2 bg-slate-50 relative overflow-hidden h-48 md:h-full flex-shrink-0">
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-transparent z-0 mix-blend-multiply"></div>
-        <img 
-          src={data.image} 
-          alt={data.imageAlt}
-          className="w-full h-full object-cover relative z-0"
-          onError={(e) => {
-            e.target.onerror = null; 
-            e.target.src = `https://placehold.co/800x600/e2e8f0/1e293b?text=${encodeURIComponent(data.title + ' 照片')}`;
-          }}
-        />
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-transparent p-4 md:p-6 pt-16 md:pt-24 z-10">
-          <p className="text-white text-xs md:text-sm font-medium tracking-wide">{data.imageAlt}</p>
-        </div>
-      </div>
-    </div>
-  );
-
-  return (
-    <div className="w-full flex flex-col items-center justify-center font-sans overflow-hidden fade-in-up">
-      {/* 玻璃擬態時光索引書籤 */}
-      <div className="w-full max-w-5xl z-20 mb-6 relative px-2">
-        <div className="relative flex items-center p-2 bg-white/70 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-2xl overflow-x-auto scrollbar-hide">
-          <div className="hidden md:flex items-center text-blue-600 font-bold px-4 border-r border-slate-200/60 mr-2 shrink-0">
-            <Sparkles className="w-5 h-5 mr-1.5" />
-            <span className="tracking-wide">時光索引</span>
-          </div>
-          <div className="flex gap-2 px-1">
-            {bookmarks.map((bm) => {
-              const isActive = bookData[currentPage]?.sectionId === bm.id;
-              return (
-                <button
-                  key={bm.id}
-                  onClick={() => jumpToBookmark(bm.pageIndex)}
-                  disabled={isAnimating || isActive}
-                  className={`
-                    relative group flex items-center px-3 py-1.5 md:px-4 md:py-2 shrink-0 rounded-xl text-sm md:text-base font-bold transition-all duration-300
-                    ${isActive ? 'bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30 scale-105' : 'bg-transparent text-slate-500 hover:bg-white hover:shadow-sm hover:text-blue-600'}
-                  `}
-                >
-                  {bm.isCover && <BookOpen className={`w-4 h-4 mr-1.5 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-500'}`} />}
-                  {bm.isFuture && <Rocket className={`w-4 h-4 mr-1.5 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-500'}`} />}
-                  {!bm.isCover && !bm.isFuture && (
-                    <div className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full mr-2 transition-all duration-300 ${isActive ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'bg-slate-300 group-hover:bg-blue-400 group-hover:scale-110'}`} />
-                  )}
-                  <span className="tracking-wider whitespace-nowrap">{bm.label}</span>
-                  {isActive && <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-white/60 rounded-full blur-[1px]"></span>}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* 3D 電子書主體 */}
-      <div className="perspective-box relative w-full max-w-5xl h-[550px] md:h-[550px] z-0 px-2 md:px-0">
-        {isAnimating && (
-          <div className={`absolute inset-0 md:inset-x-0 w-[calc(100%-1rem)] md:w-full mx-auto h-full book-page-layer ${direction === 'next' ? 'page-turn-out-left' : 'page-turn-out-right'}`}>
-            <PageContent data={bookData[prevPage]} />
-          </div>
-        )}
-        <div className={`absolute inset-0 md:inset-x-0 w-[calc(100%-1rem)] md:w-full mx-auto h-full book-page-layer ${isAnimating ? (direction === 'next' ? 'page-turn-in-right' : 'page-turn-in-left') : ''}`}>
-          <PageContent data={bookData[currentPage]} />
-        </div>
-      </div>
-
-      {/* 底部導覽與頁碼 */}
-      <div className="mt-8 flex flex-col items-center gap-4 z-10">
-        <div className="flex items-center gap-4 md:gap-6">
-          <button 
-            onClick={handlePrevPage} disabled={currentPage === 0 || isAnimating}
-            className={`flex items-center gap-1 md:gap-2 px-4 py-2.5 md:px-6 md:py-3 rounded-full text-sm md:text-base font-bold transition-all ${currentPage === 0 ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-white text-slate-700 shadow-md hover:shadow-lg hover:bg-blue-50 hover:text-blue-600 active:scale-95'}`}
-          >
-            <ChevronLeft className="w-5 h-5" /> 上一頁
-          </button>
-          <span className="text-sm font-semibold text-slate-400">
-            Page {currentPage + 1} / {totalPages}
-          </span>
-          <button 
-            onClick={handleNextPage} disabled={currentPage === totalPages - 1 || isAnimating}
-            className={`flex items-center gap-1 md:gap-2 px-4 py-2.5 md:px-6 md:py-3 rounded-full text-sm md:text-base font-bold transition-all ${currentPage === totalPages - 1 ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-blue-600 text-white shadow-md hover:shadow-lg hover:bg-blue-700 active:scale-95'}`}
-          >
-            下一頁 <ChevronRight className="w-5 h-5" />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// ==========================================
-// 3. 主應用程式與頁面組件 (App)
-// ==========================================
-export default function App() {
-  const [deviceSelected, setDeviceSelected] = useState(false);
-  const [activeTab, setActiveTab] = useState('home');
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  // 監聽滾動以改變 Header 樣式
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // 導航切換
-  const handleNavClick = (tab) => {
-    setActiveTab(tab);
-    setIsMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  if (!deviceSelected) {
-    return (
-      <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-[9999]">
-        <GlobalStyles />
-        <div className="text-center bg-white p-8 md:p-12 rounded-3xl shadow-2xl max-w-md w-full mx-4 border border-white/20 transform scale-100 transition-transform duration-300 fade-in-up">
-          <div className="mb-8">
-            <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600">
-              <Smartphone className="w-8 h-8" />
-            </div>
-            <h2 className="text-2xl font-bold text-slate-800">請選擇瀏覽模式</h2>
-            <p className="text-slate-500 mt-2">為了提供最佳的體驗，請選擇您的裝置類型</p>
-          </div>
-          <div className="flex flex-col gap-3">
-            <button onClick={() => setDeviceSelected(true)} className="group w-full bg-blue-600 text-white px-6 py-4 rounded-xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30 flex items-center justify-center gap-3 font-bold">
-              <Smartphone className="w-5 h-5 group-hover:scale-110 transition-transform" /> 手機版
-            </button>
-            <button onClick={() => setDeviceSelected(true)} className="group w-full bg-white border border-slate-200 text-slate-700 px-6 py-4 rounded-xl hover:border-blue-500 hover:text-blue-600 transition-all flex items-center justify-center gap-3 font-bold">
-              <Monitor className="w-5 h-5 group-hover:scale-110 transition-transform" /> 電腦版
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen relative pb-10">
-      <GlobalStyles />
-      
-      {/* 導覽列 Header */}
-      <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-400 ${isScrolled ? 'bg-white/95 shadow-md backdrop-blur-md py-2' : 'bg-white/80 backdrop-blur-lg py-4 border-b border-white/30'}`}>
-        <div className="container mx-auto flex items-center justify-between md:justify-center px-6">
+      const PageContent = ({ data }) => (
+        <div className="w-full h-full flex flex-col md:flex-row bg-white rounded-xl overflow-hidden border border-slate-200 shadow-[0_4px_20px_rgb(0,0,0,0.05)]">
+          <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-8 -ml-4 bg-gradient-to-r from-slate-100 via-slate-300 to-slate-100 border-x border-slate-300 z-10 shadow-inner"></div>
           
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex-1"></div>
-          <button 
-            className="md:hidden flex items-center text-slate-700 hover:text-blue-600 transition-colors"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            <span className="font-bold mr-2">選單</span>
-            <Menu className="w-6 h-6" />
-          </button>
+          <div className="w-full md:w-1/2 p-6 md:p-12 flex flex-col justify-center h-full overflow-y-auto">
+            {data.isCover ? (
+              <div className="text-center md:text-left">
+                {data.icon}
+                <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 leading-tight tracking-tight">{data.title}</h2>
+                <h3 className="text-lg md:text-xl text-blue-600 font-bold mb-6 md:mb-8 tracking-wide">{data.displaySubtitle}</h3>
+                <div className="space-y-4 text-slate-600 text-base md:text-lg">
+                  {data.content.map((text, idx) => (
+                    <p key={idx} className="leading-relaxed font-medium">{text}</p>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div>
+                {data.icon}
+                <h3 className="text-xs md:text-sm font-bold tracking-widest text-blue-500 uppercase mb-2">{data.title}</h3>
+                <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-4 md:mb-6">{data.displaySubtitle}</h2>
+                <ul className="space-y-3 md:space-y-4">
+                  {data.content.flatMap(str => str.split('\n')).map((text, idx) => {
+                    if (!text.trim()) return null;
+                    const isBullet = text.trim().startsWith('•');
+                    return (
+                      <li key={idx} className="flex items-start text-slate-700 leading-relaxed text-sm md:text-base">
+                        {isBullet ? (
+                          <span className="ml-2 md:ml-6 mr-3 text-blue-500 font-bold">•</span>
+                        ) : (
+                          <span className="mr-3 mt-1.5"><div className="w-1.5 h-1.5 rounded-full bg-blue-500" /></span>
+                        )}
+                        <span className={`${isBullet ? 'text-slate-600' : 'font-bold text-slate-800'}`}>
+                          {isBullet ? text.substring(1).trim() : text}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+          </div>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex gap-2">
-            {[
-              { id: 'home', label: '首頁' },
-              { id: 'notice', label: '聯絡窗口' },
-              { id: 'history', label: '歷程記錄' }
-            ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => handleNavClick(tab.id)}
-                className={`relative px-6 py-3 font-medium text-lg rounded-xl transition-all duration-300 ${activeTab === tab.id ? 'text-blue-600 font-bold bg-blue-50/50' : 'text-slate-500 hover:text-blue-600 hover:bg-white/50'}`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </nav>
+          <div className="w-full md:w-1/2 bg-slate-50 relative overflow-hidden h-48 md:h-full flex-shrink-0">
+            <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/20 to-transparent z-0 mix-blend-multiply"></div>
+            <img 
+              src={data.image} 
+              alt={data.imageAlt}
+              className="w-full h-full object-cover relative z-0"
+              onError={(e) => {
+                e.target.onerror = null; 
+                e.target.src = `https://placehold.co/800x600/e2e8f0/1e293b?text=${encodeURIComponent(data.title + ' 照片')}`;
+              }}
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/90 via-slate-900/50 to-transparent p-4 md:p-6 pt-16 md:pt-24 z-10">
+              <p className="text-white text-xs md:text-sm font-medium tracking-wide">{data.imageAlt}</p>
+            </div>
+          </div>
         </div>
+      );
 
-        {/* Mobile Dropdown */}
-        {isMobileMenuOpen && (
-          <div className="absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-slate-100 shadow-xl rounded-b-3xl md:hidden flex flex-col p-4 gap-3 animate-in slide-in-from-top-4 duration-200">
-            {[
-              { id: 'home', label: '首頁', desc: '回到活動主視覺', icon: Home },
-              { id: 'notice', label: '聯絡窗口', desc: '各組企劃聯繫資訊', icon: Contact },
-              { id: 'history', label: '歷程記錄', desc: '回顧過往共識營足跡', icon: History }
-            ].map(tab => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => handleNavClick(tab.id)}
-                  className={`flex items-center p-4 rounded-2xl transition-all text-left ${isActive ? 'bg-blue-50 border border-blue-200 shadow-sm' : 'bg-white border border-slate-100'}`}
-                >
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center mr-4 shrink-0 transition-colors ${isActive ? 'bg-blue-600 text-white' : 'bg-blue-50 text-blue-500'}`}>
-                    <Icon className="w-6 h-6" />
-                  </div>
-                  <div className="flex-1">
-                    <div className={`font-bold text-lg mb-0.5 ${isActive ? 'text-blue-900' : 'text-slate-800'}`}>{tab.label}</div>
-                    <div className="text-sm text-slate-500 font-medium">{tab.desc}</div>
-                  </div>
-                  <ChevronRight className={`w-5 h-5 ${isActive ? 'text-blue-500' : 'text-slate-300'}`} />
+      return (
+        <div className="w-full flex flex-col items-center justify-center font-sans overflow-hidden fade-in-up">
+          {/* 玻璃擬態時光索引書籤 */}
+          <div className="w-full max-w-5xl z-20 mb-6 relative px-2">
+            <div className="relative flex items-center p-2 bg-white/70 backdrop-blur-xl border border-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.06)] rounded-2xl overflow-x-auto scrollbar-hide">
+              <div className="hidden md:flex items-center text-blue-600 font-bold px-4 border-r border-slate-200/60 mr-2 shrink-0">
+                <i className="fas fa-sparkles text-lg mr-1.5"></i>
+                <span className="tracking-wide">時光索引</span>
+              </div>
+              <div className="flex gap-2 px-1">
+                {bookmarks.map((bm) => {
+                  const isActive = bookData[currentPage]?.sectionId === bm.id;
+                  return (
+                    <button
+                      key={bm.id}
+                      onClick={() => jumpToBookmark(bm.pageIndex)}
+                      disabled={isAnimating || isActive}
+                      className={`
+                        relative group flex items-center px-3 py-1.5 md:px-4 md:py-2 shrink-0 rounded-xl text-sm md:text-base font-bold transition-all duration-300
+                        ${isActive ? 'bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30 scale-105' : 'bg-transparent text-slate-500 hover:bg-white hover:shadow-sm hover:text-blue-600'}
+                      `}
+                    >
+                      {bm.isCover && <i className={`fas fa-book-open text-sm mr-1.5 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-500'}`}></i>}
+                      {bm.isFuture && <i className={`fas fa-rocket text-sm mr-1.5 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-blue-500'}`}></i>}
+                      {!bm.isCover && !bm.isFuture && (
+                        <div className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full mr-2 transition-all duration-300 ${isActive ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]' : 'bg-slate-300 group-hover:bg-blue-400 group-hover:scale-110'}`} />
+                      )}
+                      <span className="tracking-wider whitespace-nowrap">{bm.label}</span>
+                      {isActive && <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-1/2 h-0.5 bg-white/60 rounded-full blur-[1px]"></span>}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* 3D 電子書主體 */}
+          <div className="perspective-box relative w-full max-w-5xl h-[550px] md:h-[550px] z-0 px-2 md:px-0">
+            {isAnimating && (
+              <div className={`absolute inset-0 md:inset-x-0 w-[calc(100%-1rem)] md:w-full mx-auto h-full book-page-layer ${direction === 'next' ? 'page-turn-out-left' : 'page-turn-out-right'}`}>
+                <PageContent data={bookData[prevPage]} />
+              </div>
+            )}
+            <div className={`absolute inset-0 md:inset-x-0 w-[calc(100%-1rem)] md:w-full mx-auto h-full book-page-layer ${isAnimating ? (direction === 'next' ? 'page-turn-in-right' : 'page-turn-in-left') : ''}`}>
+              <PageContent data={bookData[currentPage]} />
+            </div>
+          </div>
+
+          {/* 底部導覽與頁碼 */}
+          <div className="mt-8 flex flex-col items-center gap-4 z-10">
+            <div className="flex items-center gap-4 md:gap-6">
+              <button 
+                onClick={handlePrevPage} disabled={currentPage === 0 || isAnimating}
+                className={`flex items-center gap-1 md:gap-2 px-4 py-2.5 md:px-6 md:py-3 rounded-full text-sm md:text-base font-bold transition-all ${currentPage === 0 ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-white text-slate-700 shadow-md hover:shadow-lg hover:bg-blue-50 hover:text-blue-600 active:scale-95'}`}
+              >
+                <i className="fas fa-chevron-left text-lg"></i> 上一頁
+              </button>
+              <span className="text-sm font-semibold text-slate-400">
+                Page {currentPage + 1} / {totalPages}
+              </span>
+              <button 
+                onClick={handleNextPage} disabled={currentPage === totalPages - 1 || isAnimating}
+                className={`flex items-center gap-1 md:gap-2 px-4 py-2.5 md:px-6 md:py-3 rounded-full text-sm md:text-base font-bold transition-all ${currentPage === totalPages - 1 ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-blue-600 text-white shadow-md hover:shadow-lg hover:bg-blue-700 active:scale-95'}`}
+              >
+                下一頁 <i className="fas fa-chevron-right text-lg"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // ==========================================
+    // 2. 主應用程式與頁面組件 (App)
+    // ==========================================
+    const App = () => {
+      const [deviceSelected, setDeviceSelected] = useState(false);
+      const [activeTab, setActiveTab] = useState('home');
+      const [isScrolled, setIsScrolled] = useState(false);
+      const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+      useEffect(() => {
+        const handleScroll = () => setIsScrolled(window.scrollY > 50);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      const handleNavClick = (tab) => {
+        setActiveTab(tab);
+        setIsMobileMenuOpen(false);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      };
+
+      if (!deviceSelected) {
+        return (
+          <div className="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-[9999]">
+            <div className="text-center bg-white p-8 md:p-12 rounded-3xl shadow-2xl max-w-md w-full mx-4 border border-white/20 transform scale-100 transition-transform duration-300 fade-in-up">
+              <div className="mb-8">
+                <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600">
+                  <i className="fas fa-mobile-screen text-3xl"></i>
+                </div>
+                <h2 className="text-2xl font-bold text-slate-800">請選擇瀏覽模式</h2>
+                <p className="text-slate-500 mt-2">為了提供最佳的體驗，請選擇您的裝置類型</p>
+              </div>
+              <div className="flex flex-col gap-3">
+                <button onClick={() => setDeviceSelected(true)} className="group w-full bg-blue-600 text-white px-6 py-4 rounded-xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30 flex items-center justify-center gap-3 font-bold">
+                  <i className="fas fa-mobile-alt text-xl group-hover:scale-110 transition-transform"></i> 手機版
                 </button>
-              );
-            })}
-          </div>
-        )}
-      </header>
-
-      {/* 主要內容區塊 */}
-      <main className="pt-24 md:pt-32 px-4 md:px-6 flex justify-center w-full min-h-[80vh]">
-        
-        {/* --- 首頁 View --- */}
-        {activeTab === 'home' && (
-          <div className="w-full max-w-4xl flex flex-col items-center justify-center text-center fade-in-up mt-10 md:mt-20">
-            <div className="relative inline-block mb-10">
-              <div className="logo-glow"></div>
-              {/* 若沒有 logo 圖案，這邊用圖標模擬 */}
-              <div className="float-logo w-40 h-40 md:w-56 md:h-56 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-2xl mx-auto border-4 border-white">
-                <Building2 className="w-20 h-20 md:w-28 md:h-28 text-white" />
+                <button onClick={() => setDeviceSelected(true)} className="group w-full bg-white border border-slate-200 text-slate-700 px-6 py-4 rounded-xl hover:border-blue-500 hover:text-blue-600 transition-all flex items-center justify-center gap-3 font-bold">
+                  <i className="fas fa-desktop text-xl group-hover:scale-110 transition-transform"></i> 電腦版
+                </button>
               </div>
             </div>
-            
-            <div className="relative z-10">
-              <p className="text-3xl md:text-5xl text-slate-700 mb-4 font-bold tracking-wider">佳里奇美醫院</p>
-              <h1 className="text-5xl md:text-7xl font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-blue-800 via-blue-500 to-cyan-400">
-                主管共識營
-              </h1>
-            </div>
-
-            <div className="mt-16 bg-white/60 backdrop-blur-md border border-white/50 py-8 px-12 rounded-3xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:scale-105 transition-transform duration-300 cursor-default">
-              <p className="text-4xl md:text-5xl font-black uppercase bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-teal-500 tracking-widest">
-                115年度見
-              </p>
-              <div className="mt-4 text-slate-400 font-medium tracking-[0.25em] text-xs md:text-sm">SEE YOU NEXT YEAR</div>
-            </div>
           </div>
-        )}
+        );
+      }
 
-        {/* --- 歷程記錄 (電子書) View --- */}
-        {activeTab === 'history' && (
-          <div className="w-full flex flex-col items-center">
-            <div className="text-center mb-10 fade-in-up">
-              <span className="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 shadow-sm mb-4 md:mb-6 transform rotate-3">
-                <History className="w-8 h-8" />
-              </span>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">主管共識營歷程檔案庫</h2>
-              <div className="h-1 w-16 md:w-24 bg-gradient-to-r from-blue-500 to-teal-400 mx-auto mt-4 md:mt-6 rounded-full"></div>
-            </div>
-            <EBookApp />
-          </div>
-        )}
+      return (
+        <div className="min-h-screen relative pb-10">
+          
+          {/* 導覽列 Header */}
+          <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-400 ${isScrolled ? 'bg-white/95 shadow-md backdrop-blur-md py-2' : 'bg-white/80 backdrop-blur-lg py-4 border-b border-white/30'}`}>
+            <div className="container mx-auto flex items-center justify-between md:justify-center px-6">
+              
+              <div className="md:hidden flex-1"></div>
+              <button 
+                className="md:hidden flex items-center text-slate-700 hover:text-blue-600 transition-colors"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                <span className="font-bold mr-2">選單</span>
+                <i className="fas fa-bars text-2xl"></i>
+              </button>
 
-        {/* --- 聯絡窗口 View --- */}
-        {activeTab === 'notice' && (
-          <div className="w-full max-w-4xl flex flex-col items-center fade-in-up">
-            <div className="text-center mb-10">
-              <span className="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 shadow-sm mb-4 md:mb-6 transform -rotate-3">
-                <Contact className="w-8 h-8" />
-              </span>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">聯絡窗口</h2>
-              <p className="text-slate-500 mt-3 text-sm md:text-base">如有任何疑問，歡迎隨時聯繫企劃組同仁</p>
+              <nav className="hidden md:flex gap-2">
+                {[
+                  { id: 'home', label: '首頁' },
+                  { id: 'notice', label: '聯絡窗口' },
+                  { id: 'history', label: '歷程記錄' }
+                ].map(tab => (
+                  <button
+                    key={tab.id}
+                    onClick={() => handleNavClick(tab.id)}
+                    className={`relative px-6 py-3 font-medium text-lg rounded-xl transition-all duration-300 ${activeTab === tab.id ? 'text-blue-600 font-bold bg-blue-50/50' : 'text-slate-500 hover:text-blue-600 hover:bg-white/50'}`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </nav>
             </div>
+
+            {/* 手機版下拉選單 */}
+            {isMobileMenuOpen && (
+              <div className="absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-slate-100 shadow-xl rounded-b-3xl md:hidden flex flex-col p-4 gap-3 animate-in slide-in-from-top-4 duration-200">
+                {[
+                  { id: 'home', label: '首頁', desc: '回到活動主視覺', icon: 'fas fa-home' },
+                  { id: 'notice', label: '聯絡窗口', desc: '各組企劃聯繫資訊', icon: 'fas fa-address-book' },
+                  { id: 'history', label: '歷程記錄', desc: '回顧過往共識營足跡', icon: 'fas fa-history' }
+                ].map(tab => {
+                  const isActive = activeTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => handleNavClick(tab.id)}
+                      className={`flex items-center p-4 rounded-2xl transition-all text-left ${isActive ? 'bg-blue-50 border border-blue-200 shadow-sm' : 'bg-white border border-slate-100'}`}
+                    >
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center mr-4 shrink-0 transition-colors ${isActive ? 'bg-blue-600 text-white' : 'bg-blue-50 text-blue-500'}`}>
+                        <i className={`${tab.icon} text-xl`}></i>
+                      </div>
+                      <div className="flex-1">
+                        <div className={`font-bold text-lg mb-0.5 ${isActive ? 'text-blue-900' : 'text-slate-800'}`}>{tab.label}</div>
+                        <div className="text-sm text-slate-500 font-medium">{tab.desc}</div>
+                      </div>
+                      <i className={`fas fa-chevron-right text-lg ${isActive ? 'text-blue-500' : 'text-slate-300'}`}></i>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </header>
+
+          {/* 主要內容區塊 */}
+          <main className="pt-24 md:pt-32 px-4 md:px-6 flex justify-center w-full min-h-[80vh]">
             
-            <div className="grid md:grid-cols-2 gap-6 w-full">
-              {/* 聯絡人 1 */}
-              <div className="bg-white/80 backdrop-blur-md border border-white/60 p-6 md:p-8 rounded-3xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
-                <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center">
-                  <span className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mr-3"><Users className="w-5 h-5" /></span>
-                  企劃組
-                </h3>
-                <div className="space-y-5">
-                  <div className="flex items-center group">
-                    <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mr-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                      <User className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Contact Person</p>
-                      <p className="text-lg font-bold text-slate-800">黃秀玲 組長</p>
+            {/* 首頁 */}
+            {activeTab === 'home' && (
+              <div className="w-full max-w-4xl flex flex-col items-center justify-center text-center fade-in-up mt-10 md:mt-20">
+                <div className="relative inline-block mb-10">
+                  <div className="logo-glow"></div>
+                  <div className="float-logo w-40 h-40 md:w-56 md:h-56 bg-gradient-to-br from-green-400 to-blue-500 rounded-full flex items-center justify-center shadow-2xl mx-auto border-4 border-white">
+                    <i className="fas fa-building text-7xl md:text-8xl text-white"></i>
+                  </div>
+                </div>
+                
+                <div className="relative z-10">
+                  <p className="text-3xl md:text-5xl text-slate-700 mb-4 font-bold tracking-wider">佳里奇美醫院</p>
+                  <h1 className="text-5xl md:text-7xl font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-blue-800 via-blue-500 to-cyan-400">
+                    主管共識營
+                  </h1>
+                </div>
+
+                <div className="mt-16 bg-white/60 backdrop-blur-md border border-white/50 py-8 px-12 rounded-3xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.05)] hover:scale-105 transition-transform duration-300 cursor-default">
+                  <p className="text-4xl md:text-5xl font-black uppercase bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-teal-500 tracking-widest">
+                    115年度見
+                  </p>
+                  <div className="mt-4 text-slate-400 font-medium tracking-[0.25em] text-xs md:text-sm">SEE YOU NEXT YEAR</div>
+                </div>
+              </div>
+            )}
+
+            {/* 歷程記錄 */}
+            {activeTab === 'history' && (
+              <div className="w-full flex flex-col items-center">
+                <div className="text-center mb-10 fade-in-up">
+                  <span className="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 shadow-sm mb-4 md:mb-6 transform rotate-3">
+                    <i className="fas fa-history text-3xl"></i>
+                  </span>
+                  <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">主管共識營歷程檔案庫</h2>
+                  <div className="h-1 w-16 md:w-24 bg-gradient-to-r from-blue-500 to-teal-400 mx-auto mt-4 md:mt-6 rounded-full"></div>
+                </div>
+                <EBookApp />
+              </div>
+            )}
+
+            {/* 聯絡窗口 */}
+            {activeTab === 'notice' && (
+              <div className="w-full max-w-4xl flex flex-col items-center fade-in-up">
+                <div className="text-center mb-10">
+                  <span className="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 shadow-sm mb-4 md:mb-6 transform -rotate-3">
+                    <i className="fas fa-address-book text-3xl"></i>
+                  </span>
+                  <h2 className="text-3xl md:text-4xl font-extrabold text-slate-800 tracking-tight">聯絡窗口</h2>
+                  <p className="text-slate-500 mt-3 text-sm md:text-base">如有任何疑問，歡迎隨時聯繫企劃組同仁</p>
+                </div>
+                
+                <div className="grid md:grid-cols-2 gap-6 w-full">
+                  <div className="bg-white/80 backdrop-blur-md border border-white/60 p-6 md:p-8 rounded-3xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
+                    <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center">
+                      <span className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mr-3"><i className="fas fa-users text-lg"></i></span>
+                      企劃組
+                    </h3>
+                    <div className="space-y-5">
+                      <div className="flex items-center group">
+                        <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mr-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                          <i className="fas fa-user text-lg"></i>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Contact Person</p>
+                          <p className="text-lg font-bold text-slate-800">黃秀玲 組長</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center group">
+                        <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mr-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                          <i className="fas fa-phone text-lg"></i>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Extension</p>
+                          <p className="text-lg font-bold text-slate-800 font-mono">32005</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center group overflow-hidden">
+                        <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mr-4 shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                          <i className="fas fa-envelope text-lg"></i>
+                        </div>
+                        <div className="overflow-hidden">
+                          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Email</p>
+                          <p className="text-sm md:text-base font-medium text-slate-700 truncate font-mono">a00535@mail.chimei.org.tw</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex items-center group">
-                    <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mr-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                      <Phone className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Extension</p>
-                      <p className="text-lg font-bold text-slate-800 font-mono">32005</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center group overflow-hidden">
-                    <div className="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center mr-4 shrink-0 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                      <Mail className="w-5 h-5" />
-                    </div>
-                    <div className="overflow-hidden">
-                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Email</p>
-                      <p className="text-sm md:text-base font-medium text-slate-700 truncate font-mono">a00535@mail.chimei.org.tw</p>
+
+                  <div className="bg-white/80 backdrop-blur-md border border-white/60 p-6 md:p-8 rounded-3xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
+                    <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center">
+                      <span className="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-600 flex items-center justify-center mr-3"><i className="fas fa-users text-lg"></i></span>
+                      企劃組
+                    </h3>
+                    <div className="space-y-5">
+                      <div className="flex items-center group">
+                        <div className="w-12 h-12 rounded-full bg-cyan-50 text-cyan-500 flex items-center justify-center mr-4 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
+                          <i className="fas fa-user text-lg"></i>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Contact Person</p>
+                          <p className="text-lg font-bold text-slate-800">紀宗瀚 專員</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center group">
+                        <div className="w-12 h-12 rounded-full bg-cyan-50 text-cyan-500 flex items-center justify-center mr-4 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
+                          <i className="fas fa-phone text-lg"></i>
+                        </div>
+                        <div>
+                          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Extension</p>
+                          <p className="text-lg font-bold text-slate-800 font-mono">32911</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center group overflow-hidden">
+                        <div className="w-12 h-12 rounded-full bg-cyan-50 text-cyan-500 flex items-center justify-center mr-4 shrink-0 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
+                          <i className="fas fa-envelope text-lg"></i>
+                        </div>
+                        <div className="overflow-hidden">
+                          <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Email</p>
+                          <p className="text-sm md:text-base font-medium text-slate-700 truncate font-mono">a003c1@mail.chimei.org.tw</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
+                
+                <footer className="text-center mt-16 text-slate-400 text-xs md:text-sm font-medium">
+                  <p>© 佳里奇美醫院共識營工作小組 版權所有</p>
+                </footer>
               </div>
+            )}
+          </main>
+        </div>
+      );
+    }
 
-              {/* 聯絡人 2 */}
-              <div className="bg-white/80 backdrop-blur-md border border-white/60 p-6 md:p-8 rounded-3xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all">
-                <h3 className="text-lg font-bold text-slate-800 mb-6 flex items-center">
-                  <span className="w-10 h-10 rounded-xl bg-cyan-100 text-cyan-600 flex items-center justify-center mr-3"><Users className="w-5 h-5" /></span>
-                  企劃組
-                </h3>
-                <div className="space-y-5">
-                  <div className="flex items-center group">
-                    <div className="w-12 h-12 rounded-full bg-cyan-50 text-cyan-500 flex items-center justify-center mr-4 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
-                      <User className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Contact Person</p>
-                      <p className="text-lg font-bold text-slate-800">紀宗瀚 專員</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center group">
-                    <div className="w-12 h-12 rounded-full bg-cyan-50 text-cyan-500 flex items-center justify-center mr-4 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
-                      <Phone className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Extension</p>
-                      <p className="text-lg font-bold text-slate-800 font-mono">32911</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center group overflow-hidden">
-                    <div className="w-12 h-12 rounded-full bg-cyan-50 text-cyan-500 flex items-center justify-center mr-4 shrink-0 group-hover:bg-cyan-600 group-hover:text-white transition-colors">
-                      <Mail className="w-5 h-5" />
-                    </div>
-                    <div className="overflow-hidden">
-                      <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mb-1">Email</p>
-                      <p className="text-sm md:text-base font-medium text-slate-700 truncate font-mono">a003c1@mail.chimei.org.tw</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <footer className="text-center mt-16 text-slate-400 text-xs md:text-sm font-medium">
-              <p>© 佳里奇美醫院共識營工作小組 版權所有</p>
-            </footer>
-          </div>
-        )}
-      </main>
-    </div>
-  );
-}
+    // 啟動 React 應用
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>
