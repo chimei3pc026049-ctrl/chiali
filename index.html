@@ -1,1471 +1,216 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>佳里奇美醫院 主管共識營</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        /* --- 核心變數 --- */
-        :root {
-            --primary-color: #3B82F6;
-            --primary-dark: #1E3A8A;
-            --text-dark: #111827;
-            --text-light: #6B7280;
-            --glass-bg: rgba(255, 255, 255, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.6);
-            --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>佳里奇美醫院｜主管共識營</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --blue:#2563eb;--blue2:#60a5fa;--teal:#0f766e;--ink:#0f172a;--muted:#64748b;
+  --line:#e2e8f0;--paper:#f8fafc;--white:#fff;--shadow:0 24px 70px rgba(15,23,42,.10);
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;font-family:'Inter','Noto Sans TC',sans-serif;color:var(--ink);background:#f7f9fc;overflow-x:hidden}
+button,a{font:inherit}.hidden{display:none!important}
+body:before,body:after{content:"";position:fixed;border-radius:999px;filter:blur(20px);z-index:-2;pointer-events:none}
+body:before{width:520px;height:520px;left:-170px;top:-160px;background:radial-gradient(circle,rgba(37,99,235,.15),transparent 68%);animation:driftA 14s ease-in-out infinite alternate}
+body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial-gradient(circle,rgba(15,118,110,.12),transparent 68%);animation:driftB 16s ease-in-out infinite alternate}
+@keyframes driftA{to{transform:translate(70px,50px) scale(1.08)}}@keyframes driftB{to{transform:translate(-70px,-45px) scale(1.12)}}
+.noise{position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.25;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.045'/%3E%3C/svg%3E")}
+::-webkit-scrollbar{width:9px}::-webkit-scrollbar-track{background:#eef2f7}::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px}::-webkit-scrollbar-thumb:hover{background:#94a3b8}
 
-        /* --- 全局樣式優化 --- */
-        body {
-            font-family: 'Inter', 'Noto Sans TC', sans-serif;
-            color: var(--text-dark);
-            overflow-x: hidden;
-            background-color: #f3f4f6;
-            /* 動態流動背景 */
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.1) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.1) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(245, 158, 11, 0.05) 0px, transparent 50%);
-            background-attachment: fixed;
-            background-size: 100% 100%;
-        }
+/* Header */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 22px;transition:.35s ease}
+.nav-shell{max-width:1180px;margin:auto;height:68px;border:1px solid rgba(255,255,255,.8);background:rgba(255,255,255,.74);backdrop-filter:blur(20px) saturate(150%);border-radius:22px;box-shadow:0 12px 40px rgba(15,23,42,.07);display:flex;align-items:center;justify-content:space-between;padding:0 16px 0 20px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}.brand-mark{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#eff6ff,#ecfeff);display:grid;place-items:center;color:#2563eb;box-shadow:inset 0 0 0 1px rgba(37,99,235,.08)}
+.brand-mark img{width:34px;height:34px;object-fit:contain}.brand-copy{line-height:1.15}.brand-copy b{display:block;font-size:15px;letter-spacing:.03em}.brand-copy span{font-size:11px;color:#94a3b8;letter-spacing:.14em}
+.nav-links{display:flex;gap:6px}.nav-link{border:0;background:transparent;color:#64748b;padding:11px 16px;border-radius:14px;cursor:pointer;font-weight:700;font-size:14px;display:flex;align-items:center;gap:8px;transition:.25s}.nav-link:hover{color:#2563eb;background:#eff6ff}.nav-link.active{color:#fff;background:linear-gradient(135deg,#2563eb,#3b82f6);box-shadow:0 8px 20px rgba(37,99,235,.24)}
+.mobile-toggle{display:none;width:44px;height:44px;border:0;border-radius:14px;background:#eff6ff;color:#2563eb;cursor:pointer}
 
-        /* 滾動條美化 */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+/* Pages */
+.page{display:none;min-height:100vh;padding:118px 22px 72px}.page.active{display:block;animation:pageIn .55s cubic-bezier(.2,.8,.2,1)}@keyframes pageIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.shell{max-width:1180px;margin:auto}.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid #e2e8f0;box-shadow:0 8px 24px rgba(15,23,42,.05);font-size:12px;font-weight:800;color:#2563eb;letter-spacing:.08em}.eyebrow .dot{width:7px;height:7px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 5px rgba(34,197,94,.11);animation:pulseDot 2s infinite}@keyframes pulseDot{50%{box-shadow:0 0 0 9px rgba(34,197,94,0)}}
+.section-title{font-size:clamp(34px,5vw,62px);line-height:1.04;letter-spacing:-.035em;margin:16px 0 14px;font-weight:900}.section-sub{color:#64748b;max-width:680px;line-height:1.85;font-size:16px}
 
-        /* --- 玻璃擬態導覽列 --- */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        header.scrolled {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            background: rgba(255, 255, 255, 0.95);
-        }
+/* Home */
+#home{padding-top:128px}.hero-grid{display:grid;grid-template-columns:1.18fr .82fr;gap:22px;align-items:stretch}.hero-main{position:relative;overflow:hidden;border-radius:34px;background:linear-gradient(135deg,#0f2b63 0%,#1d4ed8 55%,#0f766e 130%);min-height:560px;color:white;padding:54px;box-shadow:0 30px 80px rgba(37,99,235,.23)}
+.hero-main:before{content:"";position:absolute;width:420px;height:420px;right:-120px;top:-130px;border-radius:50%;border:1px solid rgba(255,255,255,.14);box-shadow:0 0 0 46px rgba(255,255,255,.035),0 0 0 92px rgba(255,255,255,.02);animation:orbit 15s linear infinite}@keyframes orbit{to{transform:rotate(360deg)}}
+.hero-main:after{content:"";position:absolute;inset:auto -80px -130px auto;width:350px;height:350px;background:radial-gradient(circle,rgba(255,255,255,.14),transparent 68%);border-radius:50%}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;position:relative;z-index:2}.hero-badge{font-size:12px;font-weight:800;letter-spacing:.12em;color:#bfdbfe;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);padding:9px 12px;border-radius:999px;backdrop-filter:blur(10px)}
+.hero-logo{width:108px;height:108px;border-radius:30px;background:rgba(255,255,255,.94);display:grid;place-items:center;box-shadow:0 18px 45px rgba(0,0,0,.15);animation:float 5s ease-in-out infinite}@keyframes float{50%{transform:translateY(-9px) rotate(1deg)}}.hero-logo img{width:84px;height:84px;object-fit:contain}
+.hero-copy{position:relative;z-index:2;margin-top:78px;max-width:620px}.hero-copy small{font-size:18px;font-weight:600;color:#dbeafe;letter-spacing:.16em}.hero-copy h1{font-size:clamp(46px,7vw,82px);line-height:.98;margin:14px 0 20px;font-weight:900;letter-spacing:-.055em}.hero-copy p{font-size:17px;line-height:1.8;color:#dbeafe;max-width:560px}
+.hero-actions{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}.primary-btn,.ghost-btn{border:0;border-radius:15px;padding:14px 18px;font-weight:800;cursor:pointer;display:inline-flex;gap:10px;align-items:center;transition:.25s}.primary-btn{background:#fff;color:#1d4ed8;box-shadow:0 12px 28px rgba(0,0,0,.15)}.primary-btn:hover{transform:translateY(-3px);box-shadow:0 18px 34px rgba(0,0,0,.2)}.ghost-btn{background:rgba(255,255,255,.10);color:#fff;border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(10px)}.ghost-btn:hover{background:rgba(255,255,255,.16);transform:translateY(-3px)}
+.hero-side{display:grid;grid-template-rows:1fr 1fr;gap:22px}.side-card{position:relative;border-radius:30px;background:rgba(255,255,255,.86);border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);padding:30px;overflow:hidden;backdrop-filter:blur(18px);transition:.35s}.side-card:hover{transform:translateY(-5px)}.side-card .icon{width:52px;height:52px;border-radius:17px;display:grid;place-items:center;font-size:21px;background:#eff6ff;color:#2563eb}.side-card h3{font-size:24px;margin:26px 0 8px}.side-card p{color:#64748b;line-height:1.75;margin:0}.side-card .link-arrow{margin-top:24px;display:flex;align-items:center;justify-content:space-between;font-weight:800;color:#2563eb}.side-card.accent{background:linear-gradient(145deg,#ffffff,#f0fdfa)}.side-card.accent .icon{background:#ecfdf5;color:#0f766e}.side-card.accent .link-arrow{color:#0f766e}
+.summary-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}.metric{background:rgba(255,255,255,.88);border:1px solid #fff;border-radius:22px;padding:22px 24px;box-shadow:0 16px 42px rgba(15,23,42,.06);display:flex;align-items:center;gap:16px;transition:.3s}.metric:hover{transform:translateY(-4px)}.metric-icon{width:46px;height:46px;border-radius:15px;background:#eff6ff;color:#2563eb;display:grid;place-items:center}.metric b{font-size:24px;display:block}.metric span{font-size:12px;color:#94a3b8;font-weight:700;letter-spacing:.06em}
 
-        .desktop-nav a {
-            position: relative;
-            padding: 1.25rem 1.8rem;
-            font-size: 1.05rem;
-            text-decoration: none;
-            color: var(--text-light);
-            transition: all 0.3s ease;
-            font-weight: 500;
-            letter-spacing: 0.02em;
-        }
+/* History */
+.history-head{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:34px}.history-head .section-sub{max-width:600px}.history-count{display:flex;gap:12px}.count-chip{padding:12px 16px;border-radius:16px;background:#fff;border:1px solid #e2e8f0;box-shadow:0 8px 24px rgba(15,23,42,.05);font-size:13px;font-weight:800;color:#475569}.count-chip b{color:#2563eb;font-size:19px;margin-right:5px}
+.year-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}.year-card{--accent:#2563eb;position:relative;background:#fff;border:1px solid #e8edf4;border-radius:28px;padding:28px;box-shadow:0 16px 42px rgba(15,23,42,.055);overflow:hidden;transition:.35s cubic-bezier(.2,.8,.2,1)}.year-card:hover{transform:translateY(-7px);box-shadow:0 28px 60px rgba(15,23,42,.10);border-color:color-mix(in srgb,var(--accent) 25%,#e2e8f0)}.year-card:before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;background:linear-gradient(180deg,var(--accent),transparent)}.year-card:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;right:-90px;top:-105px;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 15%,transparent),transparent 70%);transition:.5s}.year-card:hover:after{transform:scale(1.2)}
+.year-top{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.year-label{display:flex;align-items:center;gap:13px}.year-num{font-size:38px;line-height:1;font-weight:900;letter-spacing:-.045em;color:#0f172a}.year-en{font-size:11px;color:#94a3b8;font-weight:800;letter-spacing:.13em;margin-top:4px}.year-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.mini-btn{border:1px solid #e2e8f0;background:#f8fafc;color:#475569;border-radius:12px;padding:9px 11px;font-size:12px;font-weight:800;cursor:pointer;display:flex;gap:7px;align-items:center;transition:.22s}.mini-btn:hover{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 30%,#e2e8f0);background:#fff;transform:translateY(-2px)}
+.venue-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}.venue{background:#f8fafc;border:1px solid #eef2f7;border-radius:18px;padding:16px;display:flex;gap:12px;align-items:flex-start}.venue i{width:34px;height:34px;border-radius:11px;background:#fff;display:grid;place-items:center;color:var(--accent);box-shadow:0 5px 12px rgba(15,23,42,.05);flex:0 0 auto}.venue small{display:block;color:#94a3b8;font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}.venue b{font-size:15px;line-height:1.45}.venue span{display:block;color:#64748b;font-size:12px;margin-top:3px}.activity{margin-top:12px;background:linear-gradient(135deg,#f8fafc,#f0fdfa);border:1px dashed #cbd5e1;border-radius:16px;padding:13px 15px;font-size:13px;font-weight:700;color:#475569;display:flex;gap:9px;align-items:center}.activity i{color:#0f766e}
+.pause-card{grid-column:span 2;border-radius:24px;padding:22px 26px;background:linear-gradient(135deg,#fff7ed,#fff);border:1px solid #fed7aa;display:flex;justify-content:space-between;align-items:center;gap:20px;box-shadow:0 12px 36px rgba(234,88,12,.06)}.pause-card.gray{background:linear-gradient(135deg,#f8fafc,#fff);border-color:#e2e8f0}.pause-left{display:flex;align-items:center;gap:15px}.pause-icon{width:46px;height:46px;border-radius:15px;background:#ffedd5;color:#ea580c;display:grid;place-items:center}.pause-card.gray .pause-icon{background:#f1f5f9;color:#64748b}.pause-left b{display:block;font-size:19px}.pause-left span{font-size:13px;color:#64748b}.pause-tag{font-size:11px;font-weight:800;letter-spacing:.1em;color:#c2410c;background:#fff7ed;border:1px solid #fed7aa;border-radius:999px;padding:8px 11px}.pause-card.gray .pause-tag{color:#64748b;background:#fff;border-color:#e2e8f0}
 
-        .desktop-nav a::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 12px;
-            background: rgba(59, 130, 246, 0.0);
-            transform: scale(0.8);
-            transition: all 0.3s ease;
-            z-index: -1;
-        }
+/* Contact */
+.contact-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:24px;align-items:stretch}.contact-intro{border-radius:32px;background:linear-gradient(145deg,#0f2b63,#1d4ed8 65%,#0f766e 135%);color:#fff;padding:38px;box-shadow:0 26px 70px rgba(37,99,235,.20);position:relative;overflow:hidden}.contact-intro:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;right:-90px;bottom:-110px;border:1px solid rgba(255,255,255,.13);box-shadow:0 0 0 42px rgba(255,255,255,.035)}.contact-intro .section-title{font-size:48px}.contact-intro p{color:#dbeafe;line-height:1.8}.contact-tip{position:absolute;left:38px;right:38px;bottom:36px;border-top:1px solid rgba(255,255,255,.15);padding-top:20px;color:#bfdbfe;font-size:13px;display:flex;gap:10px;align-items:center}
+.contact-stack{display:grid;gap:16px}.contact-person{background:#fff;border:1px solid #e8edf4;border-radius:26px;padding:25px;box-shadow:0 16px 42px rgba(15,23,42,.06);display:grid;grid-template-columns:auto 1fr auto;gap:18px;align-items:center;transition:.32s}.contact-person:hover{transform:translateY(-5px);box-shadow:0 24px 55px rgba(15,23,42,.1)}.avatar{width:64px;height:64px;border-radius:20px;background:linear-gradient(145deg,#eff6ff,#dbeafe);color:#2563eb;display:grid;place-items:center;font-size:24px}.avatar.teal{background:linear-gradient(145deg,#ecfdf5,#ccfbf1);color:#0f766e}.person-main small{font-size:11px;color:#94a3b8;letter-spacing:.1em;font-weight:800}.person-main h3{font-size:22px;margin:5px 0 4px}.person-main p{margin:0;color:#64748b;font-size:13px}.person-meta{text-align:right}.meta-pill{display:inline-flex;align-items:center;gap:8px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;padding:9px 11px;font-size:12px;font-weight:800;color:#475569;margin:3px 0}.meta-pill i{color:#2563eb}.meta-pill.teal i{color:#0f766e}
 
-        .desktop-nav a:hover, .desktop-nav a.active {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
+/* Modal */
+.modal{position:fixed;inset:0;z-index:300;background:rgba(2,6,23,.82);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:24px;opacity:0;transition:.3s}.modal.show{display:flex;opacity:1}.modal-box{width:min(980px,96vw);max-height:90vh;background:#fff;border-radius:26px;overflow:hidden;box-shadow:0 35px 100px rgba(0,0,0,.35);transform:translateY(18px) scale(.97);transition:.32s}.modal.show .modal-box{transform:none}.modal-head{height:70px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eef2f7}.modal-title{font-weight:900}.modal-close{width:40px;height:40px;border:0;border-radius:12px;background:#f8fafc;color:#64748b;cursor:pointer;transition:.2s}.modal-close:hover{background:#fee2e2;color:#dc2626;transform:rotate(5deg)}.modal-content{background:#f8fafc;padding:22px;max-height:calc(90vh - 70px);overflow:auto;text-align:center}.modal-content img{max-width:100%;max-height:70vh;border-radius:16px;box-shadow:0 14px 35px rgba(15,23,42,.12)}.album-wrap{position:relative;display:flex;align-items:center;justify-content:center;min-height:420px}.album-nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border:0;border-radius:50%;background:rgba(15,23,42,.78);color:white;cursor:pointer;z-index:5}.album-nav.prev{left:10px}.album-nav.next{right:10px}.counter{margin-top:13px;font-size:12px;font-weight:800;color:#64748b}
 
-        .desktop-nav a:hover::before, .desktop-nav a.active::before {
-            background: rgba(59, 130, 246, 0.08);
-            transform: scale(1);
-        }
+/* Reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .72s cubic-bezier(.2,.8,.2,1),transform .72s cubic-bezier(.2,.8,.2,1)}.reveal.visible{opacity:1;transform:none}
 
-        /* --- 頁面容器動畫 --- */
-        .page {
-            display: flex;
-            justify-content: center;
-            padding: 8rem 1rem 5rem 1rem;
-            opacity: 0;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            position: absolute;
-            width: 100%;
-            top: 0;
-            left: 0;
-            pointer-events: none;
-            transform: translateY(15px);
-        }
-        
-        .page.active {
-            opacity: 1;
-            position: relative;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
-
-        /* --- 滾動顯現動畫 (Scroll Reveal) --- */
-        .reveal-on-scroll {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .reveal-on-scroll.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* --- 首頁樣式 --- */
-        #home { 
-            min-height: 100vh; /* 佔滿全螢幕 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-top: 0; /* 移除多餘 padding，由 flex 置中 */
-            padding-bottom: 0;
-        }
-        
-        .content-container {
-            width: 100%;
-            display: flex;
-            flex-direction: column; /* 垂直排列 */
-            align-items: center;    /* 水平置中 */
-            justify-content: center; /* 垂直置中 */
-            text-align: center;
-        }
-        
-        .logo-container {
-            position: relative;
-            display: inline-block;
-        }
-        
-        /* Logo 背後的柔和光暈 */
-        .logo-glow {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(59,130,246,0.2) 0%, rgba(255,255,255,0) 70%);
-            border-radius: 50%;
-            z-index: -1;
-            animation: pulse-glow 4s infinite ease-in-out;
-        }
-        
-        @keyframes pulse-glow {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
-            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
-        }
-
-        .logo {
-            height: 16rem;
-            margin-bottom: 2rem;
-            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1));
-            animation: float-logo 6s ease-in-out infinite;
-        }
-        @keyframes float-logo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-
-        h1.main-title {
-            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 900;
-            letter-spacing: 0.05em;
-            position: relative;
-            display: inline-block;
-        }
-
-        .next-year-box {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            padding: 2rem 3rem;
-            border-radius: 24px;
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-        .next-year-box:hover { transform: scale(1.02); }
-
-        /* --- 歷程記錄 (High-End Timeline) --- */
-        .tech-timeline { 
-            position: relative; 
-            padding-left: 3.5rem; 
-            margin-top: 4rem; 
-        }
-        
-        /* 漸層光流線條 */
-        .tech-timeline::before { 
-            content: ''; 
-            position: absolute; 
-            left: 19px; 
-            top: 0; 
-            bottom: 0; 
-            width: 2px; 
-            background: linear-gradient(to bottom, 
-                transparent 0%, 
-                rgba(59, 130, 246, 0.5) 10%, 
-                rgba(59, 130, 246, 0.2) 90%, 
-                transparent 100%);
-        }
-
-        .timeline-item { 
-            position: relative; 
-            margin-bottom: 4rem; 
-            background: #ffffff;
-            padding: 0; /* Reset padding for inner layout */
-            border-radius: 20px; 
-            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            overflow: hidden; /* For hover effect */
-        }
-
-        .timeline-item:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.08);
-            border-color: rgba(59, 130, 246, 0.2);
-        }
-        
-        /* 裝飾性頂部線條 */
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--theme-color, #3b82f6), transparent);
-            opacity: 0.6;
-        }
-
-        /* 波紋節點 Dot */
-        .timeline-dot { 
-            position: absolute; 
-            left: -47px; 
-            top: 2.5rem; 
-            width: 22px; 
-            height: 22px; 
-            background: #FFFFFF; 
-            border-radius: 50%; 
-            border: 5px solid var(--theme-color, #3b82f6); 
-            z-index: 10; 
-            transition: transform 0.3s ease;
-        }
-        
-        .timeline-item:hover .timeline-dot { transform: scale(1.2); }
-
-        /* 節點波紋動畫 */
-        .timeline-dot::before {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%; height: 100%;
-            border-radius: 50%;
-            border: 1px solid var(--theme-color, #3b82f6);
-            animation: ripple 2s infinite cubic-bezier(0, 0.2, 0.8, 1);
-            z-index: -1;
-        }
-        @keyframes ripple {
-            0% { width: 0; height: 0; opacity: 0; }
-            50% { opacity: 1; }
-            100% { width: 300%; height: 300%; opacity: 0; }
-        }
-
-        /* 年份主題色定義 */
-        .year-114 { --theme-color: #3B82F6; } /* 藍 */
-        .year-113 { --theme-color: #10B981; } /* 綠 */
-        .year-112 { --theme-color: #F59E0B; } /* 橘 */
-        .year-covid { --theme-color: #EF4444; } /* 紅 (疫情) */
-        .year-108 { --theme-color: #06B6D4; } /* 靛青 */
-        .year-107 { --theme-color: #8B5CF6; } /* 紫 */
-        .year-106 { --theme-color: #9CA3AF; } /* 灰 */
-        .year-105 { --theme-color: #EC4899; } /* 粉紅 */
-        .year-104 { --theme-color: #6366F1; } /* 靛藍 */
-        .year-103 { --theme-color: #D97706; } /* 琥珀 */
-        .year-102 { --theme-color: #84CC16; } /* 萊姆綠 */
-        .year-101 { --theme-color: #3B82F6; } /* 藍 */
-
-        .timeline-content-inner { padding: 2.5rem; }
-
-        .timeline-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px dashed rgba(0,0,0,0.08);
-        }
-
-        .timeline-year { 
-            font-size: 2.5rem; 
-            font-weight: 900; 
-            line-height: 1;
-            background: linear-gradient(120deg, var(--theme-color) 0%, #1f2937 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.02em;
-        }
-        
-        /* 互動式議程按鈕 */
-        .agenda-btn {
-            position: relative;
-            padding: 0.6rem 1.2rem;
-            background: #fff;
-            color: var(--text-light);
-            border: 1px solid #e5e7eb;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-        }
-        
-        .agenda-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .agenda-btn:hover {
-            border-color: var(--theme-color);
-            color: var(--theme-color);
-            box-shadow: 0 5px 15px -3px rgba(0, 0, 0, 0.1);
-            transform: translateY(-2px);
-        }
-        .agenda-btn:hover::before { left: 100%; }
-
-        .history-detail { 
-            display: flex; 
-            align-items: flex-start; 
-            gap: 1.2rem; 
-            margin-bottom: 1.5rem;
-        }
-        
-        .history-icon-box { 
-            width: 50px; 
-            height: 50px; 
-            border-radius: 16px;
-            background: rgba(255,255,255,0.8);
-            border: 1px solid rgba(0,0,0,0.05);
-            color: var(--theme-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        
-        .timeline-item:hover .history-icon-box { transform: scale(1.1) rotate(5deg); }
-
-        .history-content h4 { 
-            font-size: 0.75rem; 
-            font-weight: 800; 
-            text-transform: uppercase; 
-            letter-spacing: 0.1em; 
-            color: #9ca3af; 
-            margin-bottom: 0.3rem;
-        }
-        
-        .history-content p { 
-            font-size: 1.15rem; 
-            font-weight: 700; 
-            color: #374151;
-            line-height: 1.3;
-        }
-        .history-content span {
-            font-weight: 400;
-            font-size: 0.95rem;
-            color: #6b7280;
-            display: block;
-            margin-top: 0.2rem;
-        }
-
-        /* --- 聯絡窗口 (更緊湊的樣式) --- */
-        .contact-card {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            border-radius: 20px;
-            padding: 1.8rem; /* 縮小 padding */
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .contact-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 5px; height: 100%;
-            background: var(--accent-color, #3b82f6);
-        }
-        
-        .contact-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px -8px rgba(0,0,0,0.08);
-            background: rgba(255, 255, 255, 0.95);
-        }
-
-        /* --- 手機版優化 --- */
-        .mobile-menu-toggle { display: none; }
-        .mobile-dropdown { display: none; }
-
-        @media (max-width: 768px) {
-            .desktop-nav { display: none; }
-            .mobile-menu-toggle { 
-                display: flex; 
-                align-items: center;
-                justify-content: center;
-            }
-            
-            /* 手機版選單容器 - 重新設計 */
-            .mobile-dropdown { 
-                position: absolute; 
-                top: 100%; 
-                left: 0; 
-                right: 0; 
-                background: rgba(255, 255, 255, 0.98);
-                backdrop-filter: blur(20px);
-                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-                display: none; 
-                flex-direction: column;
-                padding: 1.5rem;
-                border-radius: 0 0 24px 24px;
-                gap: 0.8rem;
-            }
-            
-            .mobile-dropdown.open { display: flex; animation: slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-            @keyframes slideDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
-            
-            /* 手機版選項按鈕 */
-            .mobile-nav-item {
-                display: flex;
-                align-items: center;
-                padding: 1.2rem 1.2rem;
-                background-color: #fff;
-                border: 1px solid #f3f4f6;
-                border-radius: 16px;
-                text-decoration: none;
-                transition: all 0.2s ease;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-            }
-            
-            .mobile-nav-item:active {
-                background-color: #eff6ff;
-                border-color: #3b82f6;
-                transform: scale(0.98);
-            }
-            
-            .mobile-nav-item.active {
-                background-color: #eff6ff;
-                border-color: #3b82f6;
-                box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
-            }
-            
-            /* 手機版圖示區塊 */
-            .nav-icon-box {
-                width: 56px;
-                height: 56px;
-                border-radius: 14px;
-                background: #eff6ff;
-                color: #3b82f6;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 1.5rem;
-                margin-right: 1.2rem;
-                flex-shrink: 0;
-            }
-            
-            .mobile-nav-item.active .nav-icon-box {
-                background: #3b82f6;
-                color: #fff;
-            }
-            
-            /* 手機版文字區塊 */
-            .nav-text-content {
-                flex-grow: 1;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-            
-            .nav-main-text {
-                font-size: 1.25rem;
-                font-weight: 700;
-                color: #1f2937;
-                line-height: 1.2;
-                margin-bottom: 0.25rem;
-            }
-            
-            .nav-sub-text {
-                font-size: 0.85rem;
-                color: #6b7280;
-                font-weight: 500;
-            }
-            
-            .nav-arrow {
-                color: #d1d5db;
-                font-size: 1.2rem;
-                margin-left: 0.5rem;
-            }
-            
-            .mobile-nav-item.active .nav-arrow {
-                color: #3b82f6;
-            }
-            
-            /* 時間軸修正 */
-            .tech-timeline { padding-left: 2.5rem; }
-            .timeline-dot { left: -33px; width: 18px; height: 18px; top: 2.8rem; }
-            .tech-timeline::before { left: 10px; }
-            
-            .page { padding-top: 6rem; }
-            #home { padding-top: 0; } /* 手機版首頁也移除 padding */
-            .timeline-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-            .agenda-btn { width: 100%; justify-content: center; }
-        }
-    </style>
+@media(max-width:980px){.hero-grid{grid-template-columns:1fr}.hero-side{grid-template-columns:1fr 1fr;grid-template-rows:none}.summary-strip{grid-template-columns:repeat(2,1fr)}.contact-layout{grid-template-columns:1fr}.contact-intro{min-height:390px}.year-grid{grid-template-columns:1fr}.pause-card{grid-column:auto}}
+@media(max-width:720px){.site-header{padding:10px}.nav-shell{height:62px;border-radius:18px}.brand-copy span{display:none}.nav-links{display:none;position:absolute;top:80px;left:10px;right:10px;padding:10px;background:rgba(255,255,255,.97);border:1px solid #e2e8f0;border-radius:18px;box-shadow:0 18px 50px rgba(15,23,42,.13);flex-direction:column}.nav-links.open{display:flex}.mobile-toggle{display:block}.page{padding:96px 14px 50px}.hero-main{padding:30px;min-height:530px;border-radius:28px}.hero-logo{width:82px;height:82px;border-radius:24px}.hero-logo img{width:64px;height:64px}.hero-copy{margin-top:80px}.hero-copy h1{font-size:52px}.hero-side{grid-template-columns:1fr}.summary-strip{grid-template-columns:1fr 1fr}.metric{padding:17px}.metric b{font-size:20px}.history-head{align-items:flex-start;flex-direction:column}.history-count{width:100%}.count-chip{flex:1}.year-card{padding:22px}.year-top{flex-direction:column}.year-actions{justify-content:flex-start}.venue-grid{grid-template-columns:1fr}.pause-card{align-items:flex-start;flex-direction:column}.contact-intro{padding:30px;min-height:430px}.contact-tip{left:30px;right:30px}.contact-person{grid-template-columns:auto 1fr}.person-meta{grid-column:1/-1;text-align:left;padding-left:82px}.meta-pill{display:flex;width:max-content;max-width:100%}.brand-mark{width:38px;height:38px}.brand-copy b{font-size:13px}}
+@media(max-width:470px){.summary-strip{grid-template-columns:1fr}.hero-top{align-items:center}.hero-badge{font-size:10px}.hero-copy small{font-size:14px}.hero-copy h1{font-size:46px}.section-title{font-size:38px}.contact-intro .section-title{font-size:42px}.person-meta{padding-left:0}.contact-person{grid-template-columns:auto 1fr}.meta-pill{font-size:11px;word-break:break-all}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
 </head>
 <body>
-
-    <!-- 裝置選擇 -->
-    <div id="device-selection-overlay" class="fixed inset-0 bg-slate-900/80 backdrop-blur-md flex items-center justify-center z-[9999] transition-opacity duration-300">
-        <div class="text-center bg-white p-8 md:p-12 rounded-3xl shadow-2xl max-w-md w-full mx-4 border border-white/20 transform scale-100 transition-transform duration-300">
-            <div class="mb-8">
-                <div class="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-600 text-2xl">
-                    <i class="fas fa-mobile-screen-button"></i>
-                </div>
-                <h2 class="text-2xl font-bold text-slate-800">請選擇瀏覽模式</h2>
-                <p class="text-slate-500 mt-2">為了提供最佳的體驗，請選擇您的裝置類型</p>
-            </div>
-            <div class="flex flex-col gap-3">
-                <button id="mobile-btn" class="group w-full bg-blue-600 text-white px-6 py-4 rounded-xl hover:bg-blue-700 transition-all shadow-lg hover:shadow-blue-500/30 flex items-center justify-center gap-3 font-bold">
-                    <i class="fas fa-mobile-alt group-hover:scale-110 transition-transform"></i> 手機版
-                </button>
-                <button id="desktop-btn" class="group w-full bg-white border border-slate-200 text-slate-700 px-6 py-4 rounded-xl hover:border-blue-500 hover:text-blue-600 transition-all flex items-center justify-center gap-3 font-bold">
-                    <i class="fas fa-desktop group-hover:scale-110 transition-transform"></i> 電腦版
-                </button>
-            </div>
-        </div>
+<div class="noise"></div>
+<header class="site-header">
+  <div class="nav-shell">
+    <div class="brand">
+      <div class="brand-mark"><img src="logo-green.png" alt="Logo" onerror="this.style.display='none';this.parentNode.innerHTML='<i class=\'fas fa-hospital\'></i>'"></div>
+      <div class="brand-copy"><b>佳里奇美醫院｜主管共識營</b><span>LEADERSHIP CONSENSUS CAMP</span></div>
     </div>
+    <nav class="nav-links" id="navLinks">
+      <button class="nav-link active" data-page="home"><i class="fas fa-house"></i>首頁</button>
+      <button class="nav-link" data-page="history"><i class="fas fa-timeline"></i>歷程足跡</button>
+      <button class="nav-link" data-page="contact"><i class="fas fa-address-book"></i>聯絡窗口</button>
+    </nav>
+    <button class="mobile-toggle" id="mobileToggle" aria-label="開啟選單"><i class="fas fa-bars"></i></button>
+  </div>
+</header>
 
-    <!-- 圖片彈窗 (Modal) -->
-    <div id="imageModal" class="fixed inset-0 bg-slate-900/90 backdrop-blur-sm flex items-center justify-center p-4 z-[200] hidden transition-all duration-300 opacity-0 scale-95" onclick="closeImageModal()">
-        <div class="bg-white rounded-2xl overflow-hidden shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-all duration-300" onclick="event.stopPropagation()">
-            <div class="flex justify-between items-center p-5 border-b border-slate-100 bg-white/95 backdrop-blur sticky top-0 z-10">
-                <h3 id="modalTitle" class="text-lg font-bold text-slate-800 pl-2 border-l-4 border-blue-500"></h3>
-                <button onclick="closeImageModal()" class="w-10 h-10 rounded-full bg-slate-50 hover:bg-red-50 hover:text-red-500 text-slate-400 transition-colors flex items-center justify-center text-xl">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="overflow-y-auto p-6 bg-slate-50 flex-grow">
-                <img id="modalImage" src="" alt="Agenda" class="w-full h-auto max-w-full object-contain rounded-lg shadow-sm mx-auto">
-            </div>
+<section class="page active" id="home">
+  <div class="shell">
+    <div class="hero-grid">
+      <article class="hero-main reveal visible">
+        <div class="hero-top">
+          <span class="hero-badge">CHI MEI HOSPITAL, CHIALI</span>
+          <div class="hero-logo"><img src="logo-green.png" alt="奇美醫院 Logo" onerror="this.src='https://placehold.co/180x180/ffffff/2563eb?text=CMH'"></div>
         </div>
+        <div class="hero-copy">
+          <small>凝聚共識・共創未來</small>
+          <h1>主管<br>共識營</h1>
+          <p>回顧歷屆主管共識營足跡，串聯年度活動資訊與珍貴合影，持續累積組織共識與前進的力量。</p>
+          <div class="hero-actions">
+            <button class="primary-btn" onclick="goPage('history')"><i class="fas fa-arrow-right"></i>瀏覽歷年足跡</button>
+            <button class="ghost-btn" onclick="goPage('contact')"><i class="fas fa-headset"></i>聯絡窗口</button>
+          </div>
+        </div>
+      </article>
+      <aside class="hero-side">
+        <article class="side-card reveal" onclick="goPage('history')" style="cursor:pointer">
+          <div class="icon"><i class="fas fa-route"></i></div>
+          <h3>歷程足跡</h3>
+          <p>從 101 年一路回顧至今，快速瀏覽每一年度的活動地點、議程與大合照。</p>
+          <div class="link-arrow"><span>開始回顧</span><i class="fas fa-arrow-right-long"></i></div>
+        </article>
+        <article class="side-card accent reveal" onclick="goPage('contact')" style="cursor:pointer">
+          <div class="icon"><i class="fas fa-comments"></i></div>
+          <h3>聯絡窗口</h3>
+          <p>需要補充資料、更新照片或詢問共識營資訊，可直接查看企劃組聯絡方式。</p>
+          <div class="link-arrow"><span>查看窗口</span><i class="fas fa-arrow-right-long"></i></div>
+        </article>
+      </aside>
     </div>
+    <div class="summary-strip">
+      <div class="metric reveal"><div class="metric-icon"><i class="fas fa-calendar-check"></i></div><div><b>11+</b><span>YEARS OF HISTORY</span></div></div>
+      <div class="metric reveal"><div class="metric-icon"><i class="fas fa-location-dot"></i></div><div><b>多元</b><span>ACTIVITY VENUES</span></div></div>
+      <div class="metric reveal"><div class="metric-icon"><i class="fas fa-camera-retro"></i></div><div><b>珍藏</b><span>PHOTO ARCHIVE</span></div></div>
+      <div class="metric reveal"><div class="metric-icon"><i class="fas fa-forward"></i></div><div><b>115</b><span>SEE YOU NEXT YEAR</span></div></div>
+    </div>
+  </div>
+</section>
 
-    <!-- Header -->
-    <header class="hidden" id="main-header">
-        <div class="container mx-auto flex items-center justify-end md:justify-center h-16 md:h-20 max-w-7xl px-6">
-            <!-- Mobile Hamburger -->
-            <button id="mobile-menu-btn" class="mobile-menu-toggle">
-                <span class="text-base font-bold text-slate-600 mr-2">選單</span>
-                <i class="fas fa-bars"></i>
-            </button>
+<section class="page" id="history">
+  <div class="shell">
+    <div class="history-head reveal">
+      <div><span class="eyebrow"><span class="dot"></span>HISTORY ARCHIVE</span><h2 class="section-title">主管共識營<br>歷程足跡</h2><p class="section-sub">用更清楚的卡片式資訊架構呈現歷年活動。每個年度可直接查看議程表與大合照，場地資訊也能一眼掌握。</p></div>
+      <div class="history-count"><div class="count-chip"><b>12</b>年度節點</div><div class="count-chip"><b>2</b>停辦區間</div></div>
+    </div>
+    <div class="year-grid" id="yearGrid"></div>
+  </div>
+</section>
 
-            <!-- Mobile Menu -->
-            <div id="mobile-dropdown" class="mobile-dropdown">
-                <a href="#" data-target="home" class="mobile-nav-item">
-                    <div class="nav-icon-box">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <div class="nav-text-content">
-                        <span class="nav-main-text">首頁</span>
-                        <span class="nav-sub-text">回到活動主視覺</span>
-                    </div>
-                    <i class="fas fa-chevron-right nav-arrow"></i>
-                </a>
-                
-                <a href="#" data-target="notice" class="mobile-nav-item">
-                    <div class="nav-icon-box">
-                        <i class="fas fa-address-book"></i>
-                    </div>
-                    <div class="nav-text-content">
-                        <span class="nav-main-text">聯絡窗口</span>
-                        <span class="nav-sub-text">各組企劃聯繫資訊</span>
-                    </div>
-                    <i class="fas fa-chevron-right nav-arrow"></i>
-                </a>
-                
-                <a href="#" data-target="history" class="mobile-nav-item">
-                    <div class="nav-icon-box">
-                        <i class="fas fa-history"></i>
-                    </div>
-                    <div class="nav-text-content">
-                        <span class="nav-main-text">歷程記錄</span>
-                        <span class="nav-sub-text">回顧過往共識營足跡</span>
-                    </div>
-                    <i class="fas fa-chevron-right nav-arrow"></i>
-                </a>
-            </div>
+<section class="page" id="contact">
+  <div class="shell">
+    <div class="contact-layout">
+      <article class="contact-intro reveal">
+        <span class="eyebrow" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.15);color:#dbeafe"><span class="dot"></span>CONTACT</span>
+        <h2 class="section-title">聯絡<br>窗口</h2>
+        <p>如有主管共識營相關問題、歷史資料補充、議程或照片更新需求，歡迎聯繫企劃組。</p>
+        <div class="contact-tip"><i class="fas fa-circle-info"></i><span>建議來信時註明年度與需求內容，以利快速協助。</span></div>
+      </article>
+      <div class="contact-stack">
+        <article class="contact-person reveal">
+          <div class="avatar"><i class="fas fa-user-tie"></i></div>
+          <div class="person-main"><small>PLANNING DEPARTMENT</small><h3>黃秀玲 組長</h3><p>企劃組｜主管共識營聯絡窗口</p></div>
+          <div class="person-meta"><div class="meta-pill"><i class="fas fa-phone"></i>分機 32910</div><div class="meta-pill"><i class="fas fa-envelope"></i>a00535@mail.chimei.org.tw</div></div>
+        </article>
+        <article class="contact-person reveal">
+          <div class="avatar teal"><i class="fas fa-user"></i></div>
+          <div class="person-main"><small>PLANNING DEPARTMENT</small><h3>紀宗瀚 專員</h3><p>企劃組｜主管共識營聯絡窗口</p></div>
+          <div class="person-meta"><div class="meta-pill teal"><i class="fas fa-phone"></i>分機 32911</div><div class="meta-pill teal"><i class="fas fa-envelope"></i>a003c1@mail.chimei.org.tw</div></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
 
-            <!-- Desktop Nav -->
-            <nav class="desktop-nav">
-                <a href="#" data-target="home" class="active">首頁</a>
-                <a href="#" data-target="notice">聯絡窗口</a>
-                <a href="#" data-target="history">歷程記錄</a>
-            </nav>
-        </div>
-    </header>
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <div class="modal-head"><div class="modal-title" id="modalTitle">圖片預覽</div><button class="modal-close" onclick="closeModal()"><i class="fas fa-xmark"></i></button></div>
+    <div class="modal-content" id="modalContent"></div>
+  </div>
+</div>
 
-    <!-- 1. 首頁 Section -->
-    <section id="home" class="page active">
-        <main class="content-container reveal-on-scroll is-visible">
-            <!-- Logo Area -->
-            <div class="logo-container">
-                <div class="logo-glow"></div>
-                <img src="logo-green.png" alt="奇美醫院 Logo" class="logo mx-auto" onerror="this.src='https://placehold.co/400x400/transparent/22c55e?text=Logo'">
-            </div>
-            
-            <div class="mb-8 -mt-12 relative z-10">
-                <p class="subtitle text-4xl md:text-5xl text-slate-700 mb-4 font-bold tracking-wider">佳里奇美醫院</p>
-                <h1 class="main-title text-5xl md:text-7xl mt-2">主管共識營</h1>
-            </div>
+<script>
+const years=[
+ {year:'114',accent:'#2563eb',conference:['國立臺灣史前文化博物館','南科考古館・4F國際會議廳'],banquet:['南科總理大餐廳','晚宴會場'],agenda:[['議程表','114.png']],album:['11401.jpg']},
+ {year:'113',accent:'#0f766e',conference:['奇美博物館','奇美廳'],banquet:['大象寬庭宴會廳','晚宴會場'],agenda:[['議程表','113.jpg']],album:['11301.jpeg','11302.jpeg','11303.jpeg','11304.jpeg','11305.jpeg']},
+ {year:'112',accent:'#d97706',conference:['遠東香格里拉','9F國際會議廳'],banquet:['遠東香格里拉','3F成功廳'],agenda:[['議程表','112.png']],album:['11201.jpeg','11202.jpeg']},
+ {pause:true,year:'109–111',reason:'因 COVID-19 疫情停辦',icon:'fa-virus'},
+ {year:'108',accent:'#0891b2',conference:['嘉義縣仁義潭・仁義湖岸大酒店',''],banquet:['仁義潭庭園餐廳',''],activity:'Day 2｜嘉義樹木園、綠盈牧場',agenda:[['Day 1 議程','108.jpg'],['Day 2 議程','108-2.jpg']],album:['10801.jpg']},
+ {year:'107',accent:'#7c3aed',conference:['南鯤鯓代天府','祥麟樓2F'],banquet:['南鯤鯓代天府','鯤海樓1F'],agenda:[['議程表','107.jpg']],album:['10701.jpg','10702.jpg']},
+ {pause:true,gray:true,year:'106',reason:'因調整共識營日期停辦',icon:'fa-calendar-xmark'},
+ {year:'105',accent:'#db2777',conference:['十鼓文化園區','影音館'],banquet:['永不出軌宴會廳',''],agenda:[['議程表','105.jpg']],album:['10501.jpg','10502.jpg']},
+ {year:'104',accent:'#4f46e5',conference:['台糖長榮酒店','B1桂冠廳'],banquet:['台糖長榮酒店','B1桂冠廳'],agenda:[['議程表','104.jpg']],album:['10401.jpg']},
+ {year:'103',accent:'#b45309',conference:['台南善化大成庭園餐廳','玉山廳二館'],banquet:['台南善化大成庭園餐廳','紅樓廳'],agenda:[['議程表','103.jpg']],album:['10301.jpg']},
+ {year:'102',accent:'#65a30d',conference:['台南樹谷科學園區・生活科學館','2F多媒體室'],banquet:['樹谷懷舊餐廳',''],agenda:[['議程表','102.jpg']],album:['10201.jpg','10202.jpg']},
+ {year:'101',accent:'#2563eb',conference:['柳營奇美醫院','大講堂'],banquet:['柳營奇美醫院宿舍大樓','2樓'],agenda:[['議程表','101.jpg']],album:['10101.jpg']}
+];
+const grid=document.getElementById('yearGrid');
+function venueHTML(icon,label,data){return `<div class="venue"><i class="fas ${icon}"></i><div><small>${label}</small><b>${data[0]}</b>${data[1]?`<span>${data[1]}</span>`:''}</div></div>`}
+years.forEach(y=>{
+ if(y.pause){grid.insertAdjacentHTML('beforeend',`<div class="pause-card ${y.gray?'gray':''} reveal"><div class="pause-left"><div class="pause-icon"><i class="fas ${y.icon}"></i></div><div><b>${y.year}年</b><span>${y.reason}</span></div></div><span class="pause-tag">EVENT PAUSED</span></div>`);return}
+ const agendas=(y.agenda||[]).map(a=>`<button class="mini-btn" onclick="openImage('${y.year}年 ${a[0]}','${a[1]}')"><i class="far fa-file-image"></i>${a[0]}</button>`).join('');
+ const album=y.album?.length?`<button class="mini-btn" onclick='openAlbum("${y.year}年大合照",${JSON.stringify(y.album)})'><i class="fas fa-camera"></i>大合照</button>`:'';
+ grid.insertAdjacentHTML('beforeend',`<article class="year-card reveal" style="--accent:${y.accent}"><div class="year-top"><div class="year-label"><div><div class="year-num">${y.year}年</div><div class="year-en">ANNUAL CONSENSUS CAMP</div></div></div><div class="year-actions">${agendas}${album}</div></div><div class="venue-grid">${venueHTML('fa-chalkboard-user','CONFERENCE VENUE',y.conference)}${venueHTML('fa-utensils','BANQUET VENUE',y.banquet)}</div>${y.activity?`<div class="activity"><i class="fas fa-tree"></i>${y.activity}</div>`:''}</article>`);
+});
 
-            <div class="next-year-box mt-16 inline-block mx-auto animate-bounce-slow">
-                <p class="text-4xl md:text-5xl font-black text-blue-600 tracking-widest uppercase bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-teal-500" style="text-shadow: 0px 2px 4px rgba(0,0,0,0.1);">
-                    115年度見
-                </p>
-                <div class="mt-3 text-slate-400 font-medium tracking-[0.2em] text-sm">SEE YOU NEXT YEAR</div>
-            </div>
-        </main>
-    </section>
-
-    <!-- 2. 歷程記錄 Section -->
-    <section id="history" class="page hidden">
-        <div class="page-content-wrapper w-full max-w-4xl">
-            <div class="text-center mb-16 reveal-on-scroll">
-                <span class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 text-3xl shadow-sm mb-6 transform rotate-3">
-                    <i class="fas fa-history"></i>
-                </span>
-                <h2 class="text-4xl font-extrabold text-slate-800 tracking-tight">主管共識營歷程</h2>
-                <div class="h-1 w-24 bg-gradient-to-r from-blue-500 to-teal-400 mx-auto mt-6 rounded-full"></div>
-            </div>
-            
-            <div class="tech-timeline">
-                <!-- 114年 -->
-                <div class="timeline-item year-114 reveal-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content-inner">
-                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
-                            <span class="timeline-year">114年</span>
-                            <div class="flex flex-wrap gap-3">
-                                <button onclick="openImageModal('114年議程表', '114.png')" class="agenda-btn">
-                                    <i class="far fa-file-image"></i> 議程表
-                                </button>
-                                <button onclick="openAlbumModal('114年大合照', '114')" class="agenda-btn">
-                                    <i class="fas fa-camera"></i> 大合照
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-chalkboard-teacher"></i></div>
-                                <div class="history-content">
-                                    <h4>Conference Venue</h4>
-                                    <p>國立臺灣史前文化博物館<br>南科考古館</p>
-                                    <span>4F國際會議廳</span>
-                                </div>
-                            </div>
-                            
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
-                                <div class="history-content">
-                                    <h4>Banquet Venue</h4>
-                                    <p>南科總理大餐廳</p>
-                                    <span>晚宴會場</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 113年 -->
-                <div class="timeline-item year-113 reveal-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content-inner">
-                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
-                            <span class="timeline-year">113年</span>
-                            <div class="flex flex-wrap gap-3">
-                                <button onclick="openImageModal('113年議程表', '113.jpg')" class="agenda-btn">
-                                    <i class="far fa-file-image"></i> 議程表
-                                </button>
-                                <button onclick="openAlbumModal('113年大合照', '113')" class="agenda-btn">
-                                    <i class="fas fa-camera"></i> 大合照
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-landmark"></i></div>
-                                <div class="history-content">
-                                    <h4>Conference Venue</h4>
-                                    <p>奇美博物館</p>
-                                    <span>奇美廳</span>
-                                </div>
-                            </div>
-
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-wine-glass-alt"></i></div>
-                                <div class="history-content">
-                                    <h4>Banquet Venue</h4>
-                                    <p>大象寬庭宴會廳</p>
-                                    <span>晚宴會場</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 112年 -->
-                <div class="timeline-item year-112 reveal-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content-inner">
-                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
-                            <span class="timeline-year">112年</span>
-                            <div class="flex flex-wrap gap-3">
-                                <button onclick="openImageModal('112年議程表', '112.png')" class="agenda-btn">
-                                    <i class="far fa-file-image"></i> 議程表
-                                </button>
-                                <button onclick="openAlbumModal('112年大合照', '112')" class="agenda-btn">
-                                    <i class="fas fa-camera"></i> 大合照
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-hotel"></i></div>
-                                <div class="history-content">
-                                    <h4>Conference Venue</h4>
-                                    <p>遠東香格里拉</p>
-                                    <span>9F國際會議廳</span>
-                                </div>
-                            </div>
-
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-glass-cheers"></i></div>
-                                <div class="history-content">
-                                    <h4>Banquet Venue</h4>
-                                    <p>遠東香格里拉</p>
-                                    <span>3F成功廳</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 109-111年 -->
-                <div class="timeline-item year-covid reveal-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content-inner">
-                        <div class="timeline-header !mb-0 !pb-0 !border-0 flex-col md:flex-row gap-4">
-                            <span class="timeline-year">109-111年</span>
-                            <span class="px-6 py-2 rounded-full bg-red-100 text-red-600 font-bold text-sm tracking-wider shadow-sm">
-                                <i class="fas fa-virus mr-2"></i> 因 COVID-19 疫情停辦
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 108年 -->
-                <div class="timeline-item year-108 reveal-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content-inner">
-                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
-                            <span class="timeline-year">108年</span>
-                            <div class="flex flex-wrap gap-3">
-                                <button onclick="openImageModal('108年 Day1 議程表', '108.jpg')" class="agenda-btn">
-                                    <i class="108.jpg"></i> Day 1 議程
-                                </button>
-                                <button onclick="openImageModal('108年 Day2 議程表', '108-2.jpg')" class="agenda-btn">
-                                    <i class="108-2.jpg"></i> Day 2 議程
-                                </button>
-                                <button onclick="openAlbumModal('108年大合照', '108')" class="agenda-btn">
-                                    <i class="fas fa-camera"></i> 大合照
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-hotel"></i></div>
-                                <div class="history-content">
-                                    <h4>Conference Venue</h4>
-                                    <p>嘉義縣仁義潭<br>仁義湖岸大酒店</p>
-                                </div>
-                            </div>
-                            
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
-                                <div class="history-content">
-                                    <h4>Banquet Venue</h4>
-                                    <p>仁義潭庭園餐廳</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mt-8 pt-6 border-t border-dashed border-gray-200">
-                            <div class="history-detail">
-                                <div class="history-icon-box" style="background-color: #ECFEFF; color: #06B6D4;"><i class="fas fa-tree"></i></div>
-                                <div class="history-content">
-                                    <h4>Day 2 Activity</h4>
-                                    <p>嘉義樹木園、綠盈牧場</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 107年 -->
-                <div class="timeline-item year-107 reveal-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content-inner">
-                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
-                            <span class="timeline-year">107年</span>
-                            <div class="flex flex-wrap gap-3">
-                                <button onclick="openImageModal('107年議程表', '107.jpg')" class="agenda-btn">
-                                    <i class="107.jpg"></i> 議程表
-                                </button>
-                                <button onclick="openAlbumModal('107年大合照', '107')" class="agenda-btn">
-                                    <i class="fas fa-camera"></i> 大合照
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-gopuram"></i></div>
-                                <div class="history-content">
-                                    <h4>Conference Venue</h4>
-                                    <p>南鯤鯓代天府</p>
-                                    <span>祥麟樓2F</span>
-                                </div>
-                            </div>
-                            
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
-                                <div class="history-content">
-                                    <h4>Banquet Venue</h4>
-                                    <p>南鯤鯓代天府</p>
-                                    <span>鯤海樓1F</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 106年 -->
-                <div class="timeline-item year-106 reveal-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content-inner">
-                        <div class="timeline-header !mb-0 !pb-0 !border-0 flex-col md:flex-row gap-4">
-                            <span class="timeline-year">106年</span>
-                            <span class="px-6 py-2 rounded-full bg-gray-100 text-gray-600 font-bold text-sm tracking-wider shadow-sm">
-                                <i class="fas fa-calendar-times mr-2"></i> 因調整共識營日期停辦
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 105年 -->
-                <div class="timeline-item year-105 reveal-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content-inner">
-                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
-                            <span class="timeline-year">105年</span>
-                            <div class="flex flex-wrap gap-3">
-                                <button onclick="openImageModal('105年議程表', '105.jpg')" class="agenda-btn">
-                                    <i class="105.jpg"></i> 議程表
-                                </button>
-                                <button onclick="openAlbumModal('105年大合照', '105')" class="agenda-btn">
-                                    <i class="fas fa-camera"></i> 大合照
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-drum"></i></div>
-                                <div class="history-content">
-                                    <h4>Conference Venue</h4>
-                                    <p>十鼓文化園區</p>
-                                    <span>影音館</span>
-                                </div>
-                            </div>
-                            
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
-                                <div class="history-content">
-                                    <h4>Banquet Venue</h4>
-                                    <p>永不出軌宴會廳</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 104年 -->
-                <div class="timeline-item year-104 reveal-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content-inner">
-                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
-                            <span class="timeline-year">104年</span>
-                            <div class="flex flex-wrap gap-3">
-                                <button onclick="openImageModal('104年議程表', '104.jpg')" class="agenda-btn">
-                                    <i class="104.jpg"></i> 議程表
-                                </button>
-                                <button onclick="openAlbumModal('104年大合照', '104')" class="agenda-btn">
-                                    <i class="fas fa-camera"></i> 大合照
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-hotel"></i></div>
-                                <div class="history-content">
-                                    <h4>Conference Venue</h4>
-                                    <p>台糖長榮酒店</p>
-                                    <span>B1桂冠廳</span>
-                                </div>
-                            </div>
-                            
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-glass-cheers"></i></div>
-                                <div class="history-content">
-                                    <h4>Banquet Venue</h4>
-                                    <p>台糖長榮酒店</p>
-                                    <span>B1桂冠廳</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 103年 -->
-                <div class="timeline-item year-103 reveal-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content-inner">
-                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
-                            <span class="timeline-year">103年</span>
-                            <div class="flex flex-wrap gap-3">
-                                <button onclick="openImageModal('103年議程表', '103.jpg')" class="agenda-btn">
-                                    <i class="103.jpg"></i> 議程表
-                                </button>
-                                <button onclick="openAlbumModal('103年大合照', '103')" class="agenda-btn">
-                                    <i class="fas fa-camera"></i> 大合照
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
-                                <div class="history-content">
-                                    <h4>Conference Venue</h4>
-                                    <p>台南善化大成庭園餐廳</p>
-                                    <span>玉山廳二館</span>
-                                </div>
-                            </div>
-                            
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-glass-cheers"></i></div>
-                                <div class="history-content">
-                                    <h4>Banquet Venue</h4>
-                                    <p>台南善化大成庭園餐廳</p>
-                                    <span>紅樓廳</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 102年 -->
-                <div class="timeline-item year-102 reveal-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content-inner">
-                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
-                            <span class="timeline-year">102年</span>
-                            <div class="flex flex-wrap gap-3">
-                                <button onclick="openImageModal('102年議程表', '102.jpg')" class="agenda-btn">
-                                    <i class="102.jpg"></i> 議程表
-                                </button>
-                                <button onclick="openAlbumModal('102年大合照', '102')" class="agenda-btn">
-                                    <i class="fas fa-camera"></i> 大合照
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-microscope"></i></div>
-                                <div class="history-content">
-                                    <h4>Conference Venue</h4>
-                                    <p>台南樹谷科學園區<br>生活科學館</p>
-                                    <span>2F多媒體室</span>
-                                </div>
-                            </div>
-                            
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-utensils"></i></div>
-                                <div class="history-content">
-                                    <h4>Banquet Venue</h4>
-                                    <p>樹谷懷舊餐廳</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 101年 -->
-                <div class="timeline-item year-101 reveal-on-scroll">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content-inner">
-                        <div class="timeline-header flex-col md:flex-row items-start md:items-center gap-4">
-                            <span class="timeline-year">101年</span>
-                            <div class="flex flex-wrap gap-3">
-                                <button onclick="openImageModal('101年議程表', '101.jpg')" class="agenda-btn">
-                                    <i class="101.jpg"></i> 議程表
-                                </button>
-                                <button onclick="openAlbumModal('101年大合照', '101')" class="agenda-btn">
-                                    <i class="fas fa-camera"></i> 大合照
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="grid md:grid-cols-2 gap-8">
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-hospital-alt"></i></div>
-                                <div class="history-content">
-                                    <h4>Conference Venue</h4>
-                                    <p>柳營奇美醫院</p>
-                                    <span>大講堂</span>
-                                </div>
-                            </div>
-                            
-                            <div class="history-detail">
-                                <div class="history-icon-box"><i class="fas fa-building"></i></div>
-                                <div class="history-content">
-                                    <h4>Banquet Venue</h4>
-                                    <p>柳營奇美醫院宿舍大樓</p>
-                                    <span>2樓</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            
-            <div class="text-center mt-20 reveal-on-scroll">
-                <p class="text-slate-400 font-bold tracking-[0.3em] text-sm uppercase opacity-70">To Be Continued</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- 3. 聯絡窗口 Section -->
-    <section id="notice" class="page hidden">
-        <div class="page-content-wrapper w-full max-w-4xl">
-            <div class="text-center mb-10 reveal-on-scroll">
-                <span class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 text-2xl shadow-sm mb-4 transform -rotate-3">
-                    <i class="fas fa-address-book"></i>
-                </span>
-                <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">聯絡窗口</h2>
-                <p class="text-slate-500 mt-2 text-base">如有任何疑問，歡迎隨時聯繫企劃組同仁</p>
-            </div>
-            
-            <div class="contact-grid">
-                <div class="contact-card reveal-on-scroll" style="--accent-color: #3B82F6;">
-                    <h3 class="text-lg font-bold text-slate-800 mb-5 flex items-center">
-                        <span class="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center mr-3 text-base"><i class="fas fa-users"></i></span>
-                        企劃組
-                    </h3>
-                    <div class="space-y-4">
-                        <div class="flex items-center group">
-                            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 mr-3 flex-shrink-0 transition-colors group-hover:bg-blue-600 group-hover:text-white text-lg">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">Contact Person</p>
-                                <p class="text-base font-bold text-slate-800">黃秀玲 組長</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center group">
-                            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 mr-3 flex-shrink-0 transition-colors group-hover:bg-blue-600 group-hover:text-white text-lg">
-                                <i class="fas fa-phone-alt"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">Extension</p>
-                                <p class="text-base font-bold text-slate-800 font-mono">32910</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center group">
-                            <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500 mr-3 flex-shrink-0 transition-colors group-hover:bg-blue-600 group-hover:text-white text-lg">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="overflow-hidden">
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">Email</p>
-                                <p class="text-sm font-medium text-slate-700 truncate font-mono">a00535@mail.chimei.org.tw</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="contact-card reveal-on-scroll" style="--accent-color: #06b6d4;">
-                    <h3 class="text-lg font-bold text-slate-800 mb-5 flex items-center">
-                        <span class="w-8 h-8 rounded-lg bg-cyan-100 text-cyan-600 flex items-center justify-center mr-3 text-base"><i class="fas fa-users"></i></span>
-                        企劃組
-                    </h3>
-                    <div class="space-y-4">
-                        <div class="flex items-center group">
-                            <div class="w-10 h-10 rounded-full bg-cyan-50 flex items-center justify-center text-cyan-500 mr-3 flex-shrink-0 transition-colors group-hover:bg-cyan-600 group-hover:text-white text-lg">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">Contact Person</p>
-                                <p class="text-base font-bold text-slate-800">紀宗瀚 專員</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center group">
-                            <div class="w-10 h-10 rounded-full bg-cyan-50 flex items-center justify-center text-cyan-500 mr-3 flex-shrink-0 transition-colors group-hover:bg-cyan-600 group-hover:text-white text-lg">
-                                <i class="fas fa-phone-alt"></i>
-                            </div>
-                            <div>
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">Extension</p>
-                                <p class="text-base font-bold text-slate-800 font-mono">32911</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center group">
-                            <div class="w-10 h-10 rounded-full bg-cyan-50 flex items-center justify-center text-cyan-500 mr-3 flex-shrink-0 transition-colors group-hover:bg-cyan-600 group-hover:text-white text-lg">
-                                <i class="fas fa-envelope"></i>
-                            </div>
-                            <div class="overflow-hidden">
-                                <p class="text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">Email</p>
-                                <p class="text-sm font-medium text-slate-700 truncate font-mono">a003c1@mail.chimei.org.tw</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <footer class="text-center mt-16 text-slate-400 text-sm font-medium">
-                <p>© 佳里奇美醫院共識營工作小組 版權所有</p>
-            </footer>
-        </div>
-    </section>
-
-    <script>
-        // Data for albums
-        const albumData = {
-            '114': ['11401.jpg'],
-            '113': ['11301.jpeg', '11302.jpeg','11303.jpeg','11304.jpeg','11305.jpeg'],
-            '112': ['11201.jpeg', '11202.jpeg'],
-            '108': ['10801.jpg'],
-            '107': ['10701.jpg', '10702.jpg'],
-            '105': ['10501.jpg', '10502.jpg'],
-            '104': ['10401.jpg'],
-            '103': ['10301.jpg'],
-            '102': ['10201.jpg','10202.jpg'],
-            '101': ['10101.jpg'],
-        };
-
-        let currentAlbumPhotos = [];
-        let currentPhotoIndex = 0;
-
-        // --- Modal Logic ---
-        const modal = document.getElementById('imageModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalContent = document.querySelector('#imageModal .overflow-y-auto'); // Select the content container directly
-
-        // Open Image Modal (Single Image like Agenda)
-        function openImageModal(title, imageUrl) {
-            modalTitle.textContent = title;
-            // Reset modal content for single image
-            modalContent.innerHTML = `<img src="${imageUrl}" class="w-full h-auto max-w-full object-contain rounded-lg shadow-sm mx-auto" onerror="this.src='https://placehold.co/800x600/e2e8f0/1e293b?text=Image+Not+Found'">`;
-            showModal();
-        }
-
-        // Open Album Modal (Carousel)
-        function openAlbumModal(title, year) {
-            modalTitle.textContent = title;
-            currentAlbumPhotos = albumData[year] || [];
-            currentPhotoIndex = 0;
-
-            if (currentAlbumPhotos.length === 0) {
-                modalContent.innerHTML = `<div class="text-center text-gray-500 py-10 font-bold text-lg">暫無照片</div>`;
-            } else {
-                renderAlbumView();
-            }
-            showModal();
-        }
-
-        function renderAlbumView() {
-            const total = currentAlbumPhotos.length;
-            const currentSrc = currentAlbumPhotos[currentPhotoIndex];
-            
-            // Generate HTML for Carousel
-            let html = `
-                <div class="relative w-full h-full flex flex-col items-center justify-center min-h-[50vh]">
-                    <!-- Main Image Area -->
-                    <div class="relative w-full flex-grow flex items-center justify-center group">
-                        <img id="album-img" src="${currentSrc}" class="max-h-[70vh] w-auto object-contain rounded-lg shadow-lg transition-all duration-500 ease-in-out transform" style="backface-visibility: hidden;" onerror="this.src='https://placehold.co/800x600/e2e8f0/1e293b?text=Photo+Placeholder'">
-                        
-                        ${total > 1 ? `
-                        <!-- Navigation Buttons -->
-                        <button onclick="prevPhoto()" class="absolute left-0 top-1/2 -translate-y-1/2 -ml-2 md:ml-2 w-10 h-10 md:w-12 md:h-12 bg-white/80 hover:bg-white text-slate-800 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-110 z-10 focus:outline-none backdrop-blur-sm border border-gray-100">
-                            <i class="fas fa-chevron-left text-lg"></i>
-                        </button>
-                        <button onclick="nextPhoto()" class="absolute right-0 top-1/2 -translate-y-1/2 -mr-2 md:mr-2 w-10 h-10 md:w-12 md:h-12 bg-white/80 hover:bg-white text-slate-800 rounded-full shadow-lg flex items-center justify-center transition-all hover:scale-110 z-10 focus:outline-none backdrop-blur-sm border border-gray-100">
-                            <i class="fas fa-chevron-right text-lg"></i>
-                        </button>
-                        ` : ''}
-                    </div>
-                    
-                    <!-- Counter -->
-                    <div class="mt-6 px-4 py-1.5 bg-slate-200/80 backdrop-blur rounded-full text-sm font-bold text-slate-600 tracking-wider shadow-sm border border-white/50">
-                        ${currentPhotoIndex + 1} / ${total}
-                    </div>
-                </div>
-            `;
-            
-            modalContent.innerHTML = html;
-        }
-
-        function nextPhoto() {
-            if (currentAlbumPhotos.length <= 1) return;
-            
-            const imgEl = document.getElementById('album-img');
-            // Flip out animation
-            imgEl.style.transform = "rotateY(-90deg)";
-            imgEl.style.opacity = "0";
-            
-            setTimeout(() => {
-                currentPhotoIndex = (currentPhotoIndex + 1) % currentAlbumPhotos.length;
-                renderAlbumView(); // Re-render to update image and counter
-                
-                // The new image will be rendered with default style. 
-                // We need to set initial state for flip in animation.
-                const newImgEl = document.getElementById('album-img');
-                newImgEl.style.transform = "rotateY(90deg)";
-                newImgEl.style.opacity = "0";
-                
-                // Trigger reflow
-                void newImgEl.offsetWidth;
-                
-                // Flip in animation
-                newImgEl.style.transform = "rotateY(0)";
-                newImgEl.style.opacity = "1";
-            }, 300);
-        }
-
-        function prevPhoto() {
-            if (currentAlbumPhotos.length <= 1) return;
-            
-            const imgEl = document.getElementById('album-img');
-            // Flip out animation
-            imgEl.style.transform = "rotateY(90deg)";
-            imgEl.style.opacity = "0";
-            
-            setTimeout(() => {
-                currentPhotoIndex = (currentPhotoIndex - 1 + currentAlbumPhotos.length) % currentAlbumPhotos.length;
-                renderAlbumView();
-                
-                const newImgEl = document.getElementById('album-img');
-                newImgEl.style.transform = "rotateY(-90deg)";
-                newImgEl.style.opacity = "0";
-                
-                void newImgEl.offsetWidth;
-                
-                newImgEl.style.transform = "rotateY(0)";
-                newImgEl.style.opacity = "1";
-            }, 300);
-        }
-
-        function showModal() {
-            modal.classList.remove('hidden');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0', 'scale-95');
-                modal.classList.add('opacity-100', 'scale-100');
-            }, 10);
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeImageModal() {
-            modal.classList.remove('opacity-100', 'scale-100');
-            modal.classList.add('opacity-0', 'scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            }, 300);
-        }
-
-        document.addEventListener('keydown', function(event) {
-            if (event.key === "Escape") {
-                closeImageModal();
-            }
-            // Add keyboard navigation for album
-            if (!modal.classList.contains('hidden') && currentAlbumPhotos.length > 1) {
-                if (event.key === "ArrowLeft") prevPhoto();
-                if (event.key === "ArrowRight") nextPhoto();
-            }
-        });
-
-        // --- Scroll Reveal Logic ---
-        function handleScrollReveal() {
-            const reveals = document.querySelectorAll('.reveal-on-scroll');
-            const windowHeight = window.innerHeight;
-            const elementVisible = 100;
-
-            reveals.forEach(reveal => {
-                const elementTop = reveal.getBoundingClientRect().top;
-                if (elementTop < windowHeight - elementVisible) {
-                    reveal.classList.add('is-visible');
-                }
-            });
-        }
-
-        window.addEventListener('scroll', handleScrollReveal);
-
-        // --- Main Initialization ---
-        document.addEventListener('DOMContentLoaded', function() {
-            const overlay = document.getElementById('device-selection-overlay');
-            const mobileBtn = document.getElementById('mobile-btn');
-            const desktopBtn = document.getElementById('desktop-btn');
-            const mainContent = document.querySelectorAll('header, .page');
-            const body = document.body;
-            const header = document.getElementById('main-header');
-
-            // 裝置選擇
-            function initializeView(isMobile) {
-                if (isMobile) {
-                    body.classList.add('mobile-view');
-                }
-                overlay.style.opacity = '0';
-                setTimeout(() => {
-                    overlay.style.display = 'none';
-                    mainContent.forEach(el => el.classList.remove('hidden'));
-                    // 初始化 Scroll Reveal (針對首頁)
-                    handleScrollReveal();
-                }, 300);
-            }
-
-            mobileBtn.addEventListener('click', () => initializeView(true));
-            desktopBtn.addEventListener('click', () => initializeView(false));
-            
-            // Header Scroll Effect
-            window.addEventListener('scroll', () => {
-                if (window.scrollY > 50) {
-                    header.classList.add('scrolled');
-                } else {
-                    header.classList.remove('scrolled');
-                }
-                handleScrollReveal(); // 確保滾動時檢查動畫
-            });
-
-            // Mobile Menu Logic
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const mobileDropdown = document.getElementById('mobile-dropdown');
-            
-            if (mobileMenuBtn && mobileDropdown) {
-                mobileMenuBtn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    mobileDropdown.classList.toggle('open');
-                });
-
-                const mobileLinks = mobileDropdown.querySelectorAll('a');
-                mobileLinks.forEach(link => {
-                    link.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const targetId = link.dataset.target;
-                        showPage(targetId);
-                        mobileDropdown.classList.remove('open');
-                    });
-                });
-
-                document.addEventListener('click', (e) => {
-                    if (!mobileDropdown.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                        mobileDropdown.classList.remove('open');
-                    }
-                });
-            }
-
-            // Page Navigation Logic
-            const navLinks = document.querySelectorAll('.desktop-nav a');
-            const pages = document.querySelectorAll('.page');
-
-            function showPage(targetId) {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-                pages.forEach(page => {
-                    if (page.id === targetId) {
-                        page.classList.add('active');
-                        // 切換頁面後重置動畫狀態
-                        setTimeout(() => {
-                            const reveals = page.querySelectorAll('.reveal-on-scroll');
-                            reveals.forEach(el => el.classList.add('is-visible'));
-                        }, 100);
-                    } else {
-                        page.classList.remove('active');
-                    }
-                });
-                
-                navLinks.forEach(link => {
-                    link.classList.toggle('active', link.dataset.target === targetId);
-                });
-                
-                if (mobileDropdown) {
-                    const mobileLinks = mobileDropdown.querySelectorAll('a');
-                    mobileLinks.forEach(link => {
-                        link.classList.toggle('active', link.dataset.target === targetId);
-                    });
-                }
-            }
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.dataset.target;
-                    showPage(targetId);
-                });
-            });
-
-            // 預設顯示
-            showPage('home');
-        });
-    </script>
+function goPage(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));
+ document.querySelectorAll('.nav-link').forEach(b=>b.classList.toggle('active',b.dataset.page===id));
+ document.getElementById('navLinks').classList.remove('open');window.scrollTo({top:0,behavior:'smooth'});setTimeout(runReveal,80)
+}
+document.querySelectorAll('.nav-link').forEach(b=>b.onclick=()=>goPage(b.dataset.page));
+document.getElementById('mobileToggle').onclick=()=>document.getElementById('navLinks').classList.toggle('open');
+function openImage(title,url){document.getElementById('modalTitle').textContent=title;document.getElementById('modalContent').innerHTML=`<img src="${url}" alt="${title}" onerror="this.src='https://placehold.co/900x620/e2e8f0/475569?text=Image+Not+Found'">`;showModal()}
+let album=[],idx=0;
+function openAlbum(title,photos){album=photos;idx=0;document.getElementById('modalTitle').textContent=title;renderAlbum();showModal()}
+function renderAlbum(){const c=document.getElementById('modalContent');const nav=album.length>1?`<button class="album-nav prev" onclick="prevPhoto()"><i class="fas fa-chevron-left"></i></button><button class="album-nav next" onclick="nextPhoto()"><i class="fas fa-chevron-right"></i></button>`:'';c.innerHTML=`<div class="album-wrap">${nav}<img id="albumImg" src="${album[idx]}" onerror="this.src='https://placehold.co/900x620/e2e8f0/475569?text=Image+Not+Found'"></div><div class="counter">${idx+1} / ${album.length}</div>`}
+function nextPhoto(){idx=(idx+1)%album.length;renderAlbum()}function prevPhoto(){idx=(idx-1+album.length)%album.length;renderAlbum()}
+function showModal(){document.getElementById('modal').classList.add('show');document.body.style.overflow='hidden'}function closeModal(){document.getElementById('modal').classList.remove('show');document.body.style.overflow=''}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if(document.getElementById('modal').classList.contains('show')&&album.length>1){if(e.key==='ArrowRight')nextPhoto();if(e.key==='ArrowLeft')prevPhoto()}});
+const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}}),{threshold:.12});
+function runReveal(){document.querySelectorAll('.page.active .reveal:not(.visible)').forEach((el,i)=>{el.style.transitionDelay=`${Math.min(i*45,260)}ms`;observer.observe(el)})}runReveal();
+</script>
 </body>
 </html>
