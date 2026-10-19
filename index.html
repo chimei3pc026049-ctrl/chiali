@@ -140,7 +140,7 @@ body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial
 .event-hero-top{display:flex;justify-content:space-between;align-items:center;gap:20px}
 .event-brand{display:flex;align-items:center;gap:12px;min-width:0}
 .event-brand-logo{position:relative;width:64px;height:64px;flex:0 0 64px;border-radius:19px;background:rgba(255,255,255,.96);display:grid;place-items:center;box-shadow:0 12px 32px rgba(0,0,0,.14)}
-.event-brand-logo img{width:52px;height:52px;object-fit:contain;position:relative;z-index:1}.event-logo-fallback{position:absolute;color:#0e7d65;font-size:20px;font-weight:900;letter-spacing:-.08em}.brand-mark{position:relative}.brand-mark .nav-logo-fallback{color:#177c6e;font-weight:900;font-size:12px}.brand-mark img{position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px)}
+.event-brand-logo img{width:52px;height:52px;object-fit:contain;position:relative;z-index:1}.brand-mark{position:relative}.brand-mark img{position:absolute;inset:4px;width:calc(100% - 8px);height:calc(100% - 8px)}
 .event-brand-copy b{display:block;font-size:16px;font-weight:800;letter-spacing:.06em}
 .event-brand-copy small{display:block;color:#b9cbd6;font-size:9px;letter-spacing:.13em;margin-top:5px;font-weight:700}
 .event-status{white-space:nowrap;display:inline-flex;align-items:center;gap:9px;padding:9px 12px;border:1px solid rgba(220,199,158,.36);border-radius:999px;color:#f0dcc1;background:rgba(235,219,186,.075);font-weight:800;font-size:11px;letter-spacing:.045em}
@@ -213,6 +213,18 @@ body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial
 @media(max-width:380px){.event-brand-copy small{display:none}.event-hero{padding:20px 18px;min-height:620px}.event-heading .heading-year{font-size:73px}.event-heading .heading-name{font-size:24px}.event-heading .heading-name em{font-size:21px}.event-timing-date{font-size:30px}.event-hero-bottom{gap:8px}}
 @media(prefers-reduced-motion:reduce){.event-btn,.event-link-tile{transition:none}}
 
+
+/* === 2026-10-19：Logo 與歷程足跡位置修正 === */
+/* logo-green.png 已包含院徽字樣，導覽列及封面只顯示圖片 */
+.brand, .event-brand{gap:0}
+/* 高雄置於左上、嘉義沿左側往下、台南在右下，三個節點不互相遮擋 */
+.region-orbit{height:340px}
+.region-node[data-region='高雄']{left:0;top:7px}
+.region-node[data-region='嘉義']{left:5px;top:114px}
+.region-node[data-region='台南']{right:0;bottom:8px}
+.orbit-center{left:56%;top:53%}
+@media(max-width:980px){.region-orbit{height:330px}}
+@media(max-width:720px){.region-orbit{width:min(240px,100%);height:330px}}
 </style>
 </head>
 <body>
@@ -220,8 +232,7 @@ body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial
 <header class="site-header">
   <div class="nav-shell">
     <div class="brand">
-      <div class="brand-mark"><span class="nav-logo-fallback" aria-hidden="true">奇美</span><img src="logo-green.png" alt="佳里奇美醫院院徽" onerror="this.style.display='none'"></div>
-      <div class="brand-copy"><b>佳里奇美醫院｜主管共識營</b><span>LEADERSHIP CONSENSUS CAMP</span></div>
+      <div class="brand-mark"><img src="logo-green.png" alt="佳里奇美醫院院徽"></div>
     </div>
     <nav class="nav-links" id="navLinks">
       <button class="nav-link active" data-page="home"><i class="fas fa-house"></i>首頁</button>
@@ -246,8 +257,7 @@ body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial
         </svg>
         <div class="event-hero-top">
           <div class="event-brand">
-            <div class="event-brand-logo"><span class="event-logo-fallback" aria-hidden="true">奇美</span><img src="logo-green.png" alt="佳里奇美醫院院徽" onerror="this.style.display='none'"></div>
-            <div class="event-brand-copy"><b>佳里奇美醫院</b><small>CHI MEI HOSPITAL · CHIALI</small></div>
+            <div class="event-brand-logo"><img src="logo-green.png" alt="佳里奇美醫院院徽"></div>
           </div>
           <span class="event-status">115年度 · 活動規劃資訊</span>
         </div>
@@ -330,10 +340,9 @@ body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial
         <h3>從曾舉辦過的地點切入<br>探索歷年足跡</h3>
         <div class="region-orbit" id="regionOrbit">
           <div class="orbit-ring ring-a"></div><div class="orbit-ring ring-b"></div>
+          <button class="region-node" data-region="高雄"><i class="fas fa-location-dot"></i><b>高雄</b><span>Kaohsiung</span></button>
           <button class="region-node" data-region="嘉義"><i class="fas fa-location-dot"></i><b>嘉義</b><span>CHIAYI</span></button>
           <button class="region-node" data-region="台南"><i class="fas fa-location-dot"></i><b>台南</b><span>TAINAN</span></button>
-          <button class="region-node" data-region="高雄"><i class="fas fa-location-dot"></i><b>高雄</b><span>
-Kaohsiung</span></button>
           <div class="orbit-center"><i class="fas fa-route"></i><span>共識營<br>足跡</span></div>
         </div>
         <div class="region-status" id="regionStatus"></div>
