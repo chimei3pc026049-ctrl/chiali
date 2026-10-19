@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>115年度主管共識營暨主管健康促進日｜佳里奇美醫院</title>
-<meta name="description" content="佳里奇美醫院115年度主管共識營暨主管健康促進日，12月12日於高雄義大舉行共識營，12月13日至高雄果嶺自然公園、美濃農村及客家民俗村。">
+<meta name="description" content="佳里奇美醫院115年度主管共識營暨主管健康促進日，12月12日於高雄義大舉行共識營，12月13日至高雄果嶺自然公園及美濃民俗村。">
 <meta name="theme-color" content="#10273d">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -215,8 +215,8 @@ body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial
 
 
 /* === 2026-10-19：Logo 與歷程足跡位置修正 === */
-/* logo-green.png 已包含院徽字樣，導覽列及封面只顯示圖片 */
-.brand, .event-brand{gap:0}
+/* 導覽列與封面皆保留 Logo 右側文字 */
+.brand, .event-brand{gap:12px}
 /* 高雄置於左上、嘉義沿左側往下、台南在右下，三個節點不互相遮擋 */
 .region-orbit{height:340px}
 .region-node[data-region='高雄']{left:0;top:7px}
@@ -233,6 +233,7 @@ body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial
   <div class="nav-shell">
     <div class="brand">
       <div class="brand-mark"><img src="logo-green.png" alt="佳里奇美醫院院徽"></div>
+      <div class="brand-copy"><b>奇美醫療財團法人</b></div>
     </div>
     <nav class="nav-links" id="navLinks">
       <button class="nav-link active" data-page="home"><i class="fas fa-house"></i>首頁</button>
@@ -258,6 +259,7 @@ body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial
         <div class="event-hero-top">
           <div class="event-brand">
             <div class="event-brand-logo"><img src="logo-green.png" alt="佳里奇美醫院院徽"></div>
+            <div class="event-brand-copy"><b>佳里奇美醫院</b></div>
           </div>
           <span class="event-status">115年度 · 活動規劃資訊</span>
         </div>
@@ -296,7 +298,7 @@ body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial
               <div class="event-day-top"><span class="event-day-chip">DAY 02 · SUNDAY</span><span class="event-day-date">12.13<small>日</small></span></div>
               <h3>主管健康促進日</h3>
               <div class="event-day-time"><i class="far fa-clock"></i>115年12月13日（日）</div>
-              <div class="event-day-place"><i class="fas fa-location-dot"></i><span>高雄果嶺自然公園<br>美濃農村及客家民俗村</span></div>
+              <div class="event-day-place"><i class="fas fa-location-dot"></i><span>高雄果嶺自然公園<br>美濃民俗村</span></div>
             </section>
           </div>
           <div class="event-program-note"><i class="fas fa-circle-info"></i><span>以上為目前規劃內容，實際行程與時間安排依院內後續通知為準。</span></div>
