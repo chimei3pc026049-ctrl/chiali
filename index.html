@@ -215,8 +215,13 @@ body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial
 
 
 /* === 2026-10-19：Logo 與歷程足跡位置修正 === */
-/* 導覽列與封面皆保留 Logo 右側文字 */
-.brand, .event-brand{gap:12px}
+/* 導覽列與封面皆保留 Logo 右側文字，並強制可見 */
+.brand, .event-brand{gap:12px;align-items:center}
+.brand-copy,.event-brand-copy{display:flex;align-items:center;min-width:max-content;flex:0 0 auto}
+.brand-copy b{display:block;font-size:16px;line-height:1.2;font-weight:800;color:#334155;white-space:nowrap}
+.event-brand-copy b{display:block;font-size:18px;line-height:1.2;font-weight:800;color:#ffffff;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,.18)}
+@media(max-width:720px){.brand-copy b{font-size:14px}}
+@media(max-width:690px){.event-brand-copy b{font-size:14px}}
 /* 高雄置於左上、嘉義沿左側往下、台南在右下，三個節點不互相遮擋 */
 .region-orbit{height:340px}
 .region-node[data-region='高雄']{left:0;top:7px}
