@@ -232,6 +232,7 @@ body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial
 .orbit-center{left:56%;top:53%}
 @media(max-width:980px){.region-orbit{height:330px}}
 @media(max-width:720px){.region-orbit{width:min(240px,100%);height:330px}}
+
 </style>
 </head>
 <body>
@@ -281,9 +282,9 @@ body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial
             <span class="event-timing-date">12/12 <i>—</i> 12/13</span>
             <span class="event-timing-week">SAT<br>SUN</span>
           </div>
-          <p class="event-hero-summary">兩日活動於高雄展開。12月12日下午舉行主管共識營，12月13日接續主管健康促進日，詳細流程與集合資訊將陸續更新。</p>
+          <p class="event-hero-summary">兩日活動於高雄展開。12月12日下午舉行主管共識營，12月13日接續主管健康促進日，點選「查看兩日行程」即可另開 PDF，閱讀詳細議程與活動資訊。</p>
           <div class="event-hero-actions">
-            <button type="button" class="event-btn event-btn-primary" onclick="document.getElementById('eventAgenda').scrollIntoView({behavior:'smooth',block:'nearest'})"><i class="fas fa-calendar-days"></i>查看兩日行程</button>
+            <a class="event-btn event-btn-primary" href="115-leadership-event-schedule.pdf" target="_blank" rel="noopener noreferrer" type="application/pdf" style="text-decoration:none" aria-label="查看兩日行程 PDF（另開新分頁）"><i class="fas fa-file-pdf" aria-hidden="true"></i>查看兩日行程</a>
             <button type="button" class="event-btn event-btn-outline" onclick="goPage('history')"><i class="fas fa-clock-rotate-left"></i>歷年活動足跡</button>
           </div>
         </div>
@@ -291,29 +292,29 @@ body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial
       </article>
       <aside class="event-sidebar" aria-label="活動行程資訊">
         <article class="event-program" id="eventAgenda">
-          <div class="event-program-top"><span class="event-program-kicker">PROGRAM PREVIEW / 2026</span><span class="event-program-pill">規劃中</span></div>
+          <div class="event-program-top"><span class="event-program-kicker">PROGRAM PREVIEW / 2026</span><span class="event-program-pill">議程已整理</span></div>
           <h2>兩日行程一覽</h2>
-          <p class="event-program-intro">已提供活動日期與預計場域，完整議程及活動細節將另行公布。</p>
+          <p class="event-program-intro">以下為兩日活動概要；完整時程與主講人資訊請參閱 PDF。</p>
           <div class="event-days">
             <section class="event-day" aria-label="12月12日主管共識營">
               <div class="event-day-top"><span class="event-day-chip">DAY 01 · SATURDAY</span><span class="event-day-date">12.12<small>六</small></span></div>
               <h3>主管共識營</h3>
-              <div class="event-day-time"><i class="far fa-clock"></i>115年12月12日（六）· 下午</div>
-              <div class="event-day-place"><i class="fas fa-location-dot"></i><span>高雄義大<br><span style="font-weight:500;color:#88939a">詳細場地待後續公告</span></span></div>
+              <div class="event-day-time"><i class="far fa-clock"></i>115年12月12日（六）· 13:40–20:30</div>
+              <div class="event-day-place"><i class="fas fa-location-dot"></i><span>義大皇家酒店<br><span style="font-weight:500;color:#88939a">6樓演講廳；晚宴於宴會廳</span></span></div>
             </section>
             <section class="event-day" aria-label="12月13日主管健康促進日">
               <div class="event-day-top"><span class="event-day-chip">DAY 02 · SUNDAY</span><span class="event-day-date">12.13<small>日</small></span></div>
               <h3>主管健康促進日</h3>
-              <div class="event-day-time"><i class="far fa-clock"></i>115年12月13日（日）</div>
+              <div class="event-day-time"><i class="far fa-clock"></i>115年12月13日（日）· 07:00–18:00</div>
               <div class="event-day-place"><i class="fas fa-location-dot"></i><span>高雄果嶺自然公園<br>美濃農村及客家民俗村</span></div>
             </section>
           </div>
-          <div class="event-program-note"><i class="fas fa-circle-info"></i><span>以上為目前規劃內容，實際行程與時間安排依院內後續通知為準。</span></div>
+          <div class="event-program-note"><i class="fas fa-circle-info"></i><span>本頁為活動摘要，完整議程請參閱 PDF；實際流程仍以院內最新通知為準。</span></div>
         </article>
         <article class="event-progress">
           <div class="event-progress-header"><i class="fas fa-clipboard-list"></i>活動籌備進度</div>
-          <p>日期與活動地點已有初步安排，其餘詳細議程、交通及集合方式將持續更新。</p>
-          <div class="event-progress-tag"><i class="far fa-calendar-check"></i>活動日期｜12月12日至13日</div>
+          <p>兩日詳細行程與場地資訊已提供 PDF；競賽得獎名單及部分活動細節仍待後續確認。</p>
+          <div class="event-progress-tag"><i class="far fa-calendar-check"></i>活動日期｜12月12日至13日 · 詳細議程已提供</div>
         </article>
       </aside>
     </div>
@@ -323,6 +324,7 @@ body:after{width:620px;height:620px;right:-240px;bottom:-220px;background:radial
     </div>
   </div>
 </section>
+
 
 <section class="page" id="history">
   <div class="shell history-shell">
@@ -464,6 +466,8 @@ years.forEach(y=>{
 
 const toggleYearList=document.getElementById('toggleYearList');
 toggleYearList.addEventListener('click',()=>{const hidden=grid.classList.toggle('map-hidden');toggleYearList.innerHTML=hidden?'<i class="fas fa-grip"></i> 顯示完整年度卡片':'<i class="fas fa-map"></i> 收合年度卡片';if(!hidden)runReveal();});
+
+
 
 function goPage(id){
  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));
